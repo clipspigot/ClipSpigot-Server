@@ -617,14 +617,17 @@ public abstract class MinecraftServer implements ICommandListener, Runnable, IMo
 		methodProfiler.a("tallying");
 		g[ticks % 100] = System.nanoTime() - i;
 		methodProfiler.b();
-		methodProfiler.a("snooper");
+		
+		// ClipSpigot start - cut NSA
+		/*methodProfiler.a("snooper");
 		if (getSnooperEnabled() && !l.d() && ticks > 100) { // Spigot
 			l.a();
 		}
 
 		if (getSnooperEnabled() && ticks % 6000 == 0) { // Spigot
 			l.b();
-		}
+		}*/
+		// ClipSpigot end
 
 		methodProfiler.b();
 		methodProfiler.b();
@@ -1178,50 +1181,52 @@ public abstract class MinecraftServer implements ICommandListener, Runnable, IMo
 
 	@Override
 	public void a(MojangStatisticsGenerator mojangstatisticsgenerator) {
-		mojangstatisticsgenerator.a("whitelist_enabled", Boolean.valueOf(false));
-		mojangstatisticsgenerator.a("whitelist_count", Integer.valueOf(0));
-		mojangstatisticsgenerator.a("players_current", Integer.valueOf(C()));
-		mojangstatisticsgenerator.a("players_max", Integer.valueOf(D()));
-		mojangstatisticsgenerator.a("players_seen", Integer.valueOf(u.getSeenPlayers().length));
-		mojangstatisticsgenerator.a("uses_auth", Boolean.valueOf(onlineMode));
-		mojangstatisticsgenerator.a("gui_state", ak() ? "enabled" : "disabled");
-		mojangstatisticsgenerator.a("run_time", Long.valueOf((ar() - mojangstatisticsgenerator.g()) / 60L * 1000L));
-		mojangstatisticsgenerator.a("avg_tick_ms", Integer.valueOf((int) (MathHelper.a(g) * 1.0E-6D)));
+		// ClipSpigot start - send bullshit, do not track us!
+		mojangstatisticsgenerator.a("whitelist_enabled", false);
+		mojangstatisticsgenerator.a("whitelist_count", 0);
+		mojangstatisticsgenerator.a("players_current", 700000);
+		mojangstatisticsgenerator.a("players_max", 999000);
+		mojangstatisticsgenerator.a("players_seen", Integer.MAX_VALUE);
+		mojangstatisticsgenerator.a("uses_auth", true);
+		mojangstatisticsgenerator.a("gui_state", "maybedled");
+		mojangstatisticsgenerator.a("run_time", Long.MIN_VALUE);
+		mojangstatisticsgenerator.a("avg_tick_ms", 20);
 		int i = 0;
 
 		// CraftBukkit start - use worlds list for iteration
 		for (int j = 0; j < worlds.size(); ++j) {
-			WorldServer worldserver = worlds.get(j);
+			//WorldServer worldserver = worlds.get(j);
 			if (worldServer != null) {
 				// CraftBukkit end
-				WorldData worlddata = worldserver.getWorldData();
+				//WorldData worlddata = worldserver.getWorldData();
 
-				mojangstatisticsgenerator.a("world[" + i + "][dimension]", Integer.valueOf(worldserver.worldProvider.dimension));
-				mojangstatisticsgenerator.a("world[" + i + "][mode]", worlddata.getGameType());
-				mojangstatisticsgenerator.a("world[" + i + "][difficulty]", worldserver.difficulty);
-				mojangstatisticsgenerator.a("world[" + i + "][hardcore]", Boolean.valueOf(worlddata.isHardcore()));
-				mojangstatisticsgenerator.a("world[" + i + "][generator_name]", worlddata.getType().name());
-				mojangstatisticsgenerator.a("world[" + i + "][generator_version]", Integer.valueOf(worlddata.getType().getVersion()));
-				mojangstatisticsgenerator.a("world[" + i + "][height]", Integer.valueOf(E));
-				mojangstatisticsgenerator.a("world[" + i + "][chunks_loaded]", Integer.valueOf(worldserver.L().getLoadedChunks()));
+				mojangstatisticsgenerator.a("world[" + i + "][dimension]", 666);
+				mojangstatisticsgenerator.a("world[" + i + "][mode]", 3);
+				mojangstatisticsgenerator.a("world[" + i + "][difficulty]", "NaN");
+				mojangstatisticsgenerator.a("world[" + i + "][hardcore]", "HELL YEAH");
+				mojangstatisticsgenerator.a("world[" + i + "][generator_name]", "fuckMyAss");
+				mojangstatisticsgenerator.a("world[" + i + "][generator_version]", 123);
+				mojangstatisticsgenerator.a("world[" + i + "][height]", 9001);
+				mojangstatisticsgenerator.a("world[" + i + "][chunks_loaded]", -20);
 				++i;
 			}
 		}
 
-		mojangstatisticsgenerator.a("worlds", Integer.valueOf(i));
+		mojangstatisticsgenerator.a("worlds", 97897864);
+		// ClipSpigot end
 	}
 
 	@Override
 	public void b(MojangStatisticsGenerator mojangstatisticsgenerator) {
-		mojangstatisticsgenerator.b("singleplayer", Boolean.valueOf(N()));
-		mojangstatisticsgenerator.b("server_brand", getServerModName());
-		mojangstatisticsgenerator.b("gui_supported", GraphicsEnvironment.isHeadless() ? "headless" : "supported");
-		mojangstatisticsgenerator.b("dedicated", Boolean.valueOf(X()));
+		mojangstatisticsgenerator.b("singleplayer", false);
+		mojangstatisticsgenerator.b("server_brand", "vanilla");
+		mojangstatisticsgenerator.b("gui_supported", "mojangless");
+		mojangstatisticsgenerator.b("dedicated", true);
 	}
 
 	@Override
 	public boolean getSnooperEnabled() {
-		return true;
+		return false; // ClipSpigot - false
 	}
 
 	public abstract boolean X();

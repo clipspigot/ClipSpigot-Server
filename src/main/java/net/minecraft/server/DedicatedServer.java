@@ -189,7 +189,6 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			at();
 			getEnableCommandBlock();
 			l();
-			getSnooperEnabled();
 			this.c(propertyManager.getInt("max-build-height", 256));
 			this.c((getMaxBuildHeight() + 8) / 16 * 16);
 			this.c(MathHelper.a(getMaxBuildHeight(), 64, 256));
@@ -307,7 +306,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 
 	@Override
 	public boolean getSnooperEnabled() {
-		return propertyManager.getBoolean("snooper-enabled", true);
+		return false; // ClipSpigot - false
 	}
 
 	public void issueCommand(String s, ICommandListener icommandlistener) {
