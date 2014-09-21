@@ -41,13 +41,12 @@ import org.bukkit.event.world.WorldSaveEvent;
 
 // CraftBukkit end
 
-public abstract class MinecraftServer implements ICommandListener, Runnable, IMojangStatistics {
+public abstract class MinecraftServer implements ICommandListener, Runnable {
 
 	private static final Logger i = LogManager.getLogger();
 	private static final File a = new File("usercache.json");
 	private static MinecraftServer j;
 	public Convertable convertable; // CraftBukkit - private final -> public
-	private final MojangStatisticsGenerator l = new MojangStatisticsGenerator("server", this, ar());
 	public File universe; // CraftBukkit - private final -> public
 	private final List n = new ArrayList();
 	private final ICommandHandler o;
@@ -417,9 +416,6 @@ public abstract class MinecraftServer implements ICommandListener, Runnable, IMo
 				// CraftBukkit end */
 			}
 
-			if (l.d()) {
-				l.e();
-			}
 			// Spigot start
 			if (org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly) {
 				i.info("Saving usercache.json");
@@ -1177,56 +1173,6 @@ public abstract class MinecraftServer implements ICommandListener, Runnable, IMo
 
 	public void setTexturePack(String s) {
 		N = s;
-	}
-
-	@Override
-	public void a(MojangStatisticsGenerator mojangstatisticsgenerator) {
-		// ClipSpigot start - send bullshit, do not track us!
-		mojangstatisticsgenerator.a("whitelist_enabled", false);
-		mojangstatisticsgenerator.a("whitelist_count", 0);
-		mojangstatisticsgenerator.a("players_current", 700000);
-		mojangstatisticsgenerator.a("players_max", 999000);
-		mojangstatisticsgenerator.a("players_seen", Integer.MAX_VALUE);
-		mojangstatisticsgenerator.a("uses_auth", true);
-		mojangstatisticsgenerator.a("gui_state", "maybedled");
-		mojangstatisticsgenerator.a("run_time", Long.MIN_VALUE);
-		mojangstatisticsgenerator.a("avg_tick_ms", 20);
-		int i = 0;
-
-		// CraftBukkit start - use worlds list for iteration
-		for (int j = 0; j < worlds.size(); ++j) {
-			//WorldServer worldserver = worlds.get(j);
-			if (worldServer != null) {
-				// CraftBukkit end
-				//WorldData worlddata = worldserver.getWorldData();
-
-				mojangstatisticsgenerator.a("world[" + i + "][dimension]", 666);
-				mojangstatisticsgenerator.a("world[" + i + "][mode]", 3);
-				mojangstatisticsgenerator.a("world[" + i + "][difficulty]", "NaN");
-				mojangstatisticsgenerator.a("world[" + i + "][hardcore]", "HELL YEAH");
-				mojangstatisticsgenerator.a("world[" + i + "][generator_name]", "fuckMyAss");
-				mojangstatisticsgenerator.a("world[" + i + "][generator_version]", 123);
-				mojangstatisticsgenerator.a("world[" + i + "][height]", 9001);
-				mojangstatisticsgenerator.a("world[" + i + "][chunks_loaded]", -20);
-				++i;
-			}
-		}
-
-		mojangstatisticsgenerator.a("worlds", 97897864);
-		// ClipSpigot end
-	}
-
-	@Override
-	public void b(MojangStatisticsGenerator mojangstatisticsgenerator) {
-		mojangstatisticsgenerator.b("singleplayer", false);
-		mojangstatisticsgenerator.b("server_brand", "vanilla");
-		mojangstatisticsgenerator.b("gui_supported", "mojangless");
-		mojangstatisticsgenerator.b("dedicated", true);
-	}
-
-	@Override
-	public boolean getSnooperEnabled() {
-		return false; // ClipSpigot - false
 	}
 
 	public abstract boolean X();
