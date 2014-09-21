@@ -143,8 +143,6 @@ import org.bukkit.craftbukkit.metadata.WorldMetadataStore;
 import org.bukkit.craftbukkit.potion.CraftPotionBrewer;
 import org.bukkit.craftbukkit.scheduler.CraftScheduler;
 import org.bukkit.craftbukkit.scoreboard.CraftScoreboardManager;
-import org.bukkit.craftbukkit.updater.AutoUpdater;
-import org.bukkit.craftbukkit.updater.BukkitDLUpdaterService;
 import org.bukkit.craftbukkit.util.CraftIconCache;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.craftbukkit.util.DatFileFilter;
@@ -211,7 +209,6 @@ public final class CraftServer implements Server {
 	private YamlConfiguration commandsConfiguration;
 	private final Yaml yaml = new Yaml(new SafeConstructor());
 	private final Map<UUID, OfflinePlayer> offlinePlayers = new MapMaker().softValues().makeMap();
-	private final AutoUpdater updater;
 	private final EntityMetadataStore entityMetadata = new EntityMetadataStore();
 	private final PlayerMetadataStore playerMetadata = new PlayerMetadataStore();
 	private final WorldMetadataStore worldMetadata = new WorldMetadataStore();
@@ -316,13 +313,6 @@ public final class CraftServer implements Server {
 		chunkGCPeriod = configuration.getInt("chunk-gc.period-in-ticks");
 		chunkGCLoadThresh = configuration.getInt("chunk-gc.load-threshold");
 		loadIcon();
-
-		updater = new AutoUpdater(new BukkitDLUpdaterService(configuration.getString("auto-updater.host")), getLogger(), configuration.getString("auto-updater.preferred-channel"));
-		updater.setEnabled(false); // Spigot
-		updater.setSuggestChannels(configuration.getBoolean("auto-updater.suggest-channels"));
-		updater.getOnBroken().addAll(configuration.getStringList("auto-updater.on-broken"));
-		updater.getOnUpdate().addAll(configuration.getStringList("auto-updater.on-update"));
-		updater.check(serverVersion);
 
 		// Spigot Start - Moved to old location of new DedicatedPlayerList in DedicatedServer
 		// loadPlugins();
@@ -1607,16 +1597,6 @@ public final class CraftServer implements Server {
 		}
 
 		return result;
-	}
-
-	public void onPlayerJoin(Player player) {
-		if (updater.isEnabled() && updater.getCurrent() != null && player.hasPermission(Server.BROADCAST_CHANNEL_ADMINISTRATIVE)) {
-			if (updater.getCurrent().isBroken() && updater.getOnBroken().contains(AutoUpdater.WARN_OPERATORS)) {
-				player.sendMessage(ChatColor.DARK_RED + "The version of CraftBukkit that this server is running is known to be broken. Please consider updating to the latest version at dl.bukkit.org.");
-			} else if (updater.isUpdateAvailable() && updater.getOnUpdate().contains(AutoUpdater.WARN_OPERATORS)) {
-				player.sendMessage(ChatColor.DARK_PURPLE + "The version of CraftBukkit that this server is running is out of date. Please consider updating to the latest version at dl.bukkit.org.");
-			}
-		}
 	}
 
 	@Override
