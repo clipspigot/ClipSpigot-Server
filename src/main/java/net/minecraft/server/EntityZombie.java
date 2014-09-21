@@ -4,14 +4,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-
-//CraftBukkit start
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityCombustByEntityEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 //CraftBukkit end
+//CraftBukkit start
 
 public class EntityZombie extends EntityMonster {
 

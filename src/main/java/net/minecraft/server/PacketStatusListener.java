@@ -1,17 +1,15 @@
 package net.minecraft.server;
 
 import java.net.InetSocketAddress;
-
 // CraftBukkit start
 import java.util.Iterator;
 
-import org.bukkit.craftbukkit.util.CraftIconCache;
-import org.bukkit.entity.Player;
-
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 // CraftBukkit end
-
 import net.minecraft.util.io.netty.util.concurrent.GenericFutureListener;
+
+import org.bukkit.craftbukkit.util.CraftIconCache;
+import org.bukkit.entity.Player;
 
 public class PacketStatusListener implements PacketStatusInListener {
 

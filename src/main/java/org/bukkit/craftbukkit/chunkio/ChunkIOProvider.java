@@ -1,5 +1,7 @@
 package org.bukkit.craftbukkit.chunkio;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import net.minecraft.server.Chunk;
 import net.minecraft.server.ChunkRegionLoader;
 import net.minecraft.server.NBTTagCompound;
@@ -7,8 +9,6 @@ import net.minecraft.server.NBTTagCompound;
 import org.bukkit.Server;
 import org.bukkit.craftbukkit.util.AsynchronousExecutor;
 import org.bukkit.craftbukkit.util.LongHash;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 class ChunkIOProvider implements AsynchronousExecutor.CallBackProvider<QueuedChunk, Chunk, Runnable, RuntimeException> {
     private final AtomicInteger threadNumber = new AtomicInteger(1);

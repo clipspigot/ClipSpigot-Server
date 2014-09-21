@@ -1,15 +1,33 @@
 package org.spigotmc;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import net.minecraft.server.*;
-import net.minecraft.util.gnu.trove.map.hash.TObjectIntHashMap;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+
+import net.minecraft.server.TileEntity;
+import net.minecraft.server.TileEntityBeacon;
+import net.minecraft.server.TileEntityChest;
+import net.minecraft.server.TileEntityCommand;
+import net.minecraft.server.TileEntityComparator;
+import net.minecraft.server.TileEntityDispenser;
+import net.minecraft.server.TileEntityDropper;
+import net.minecraft.server.TileEntityEnchantTable;
+import net.minecraft.server.TileEntityEnderChest;
+import net.minecraft.server.TileEntityEnderPortal;
+import net.minecraft.server.TileEntityFlowerPot;
+import net.minecraft.server.TileEntityLightDetector;
+import net.minecraft.server.TileEntityNote;
+import net.minecraft.server.TileEntityRecordPlayer;
+import net.minecraft.server.TileEntitySign;
+import net.minecraft.server.TileEntitySkull;
+import net.minecraft.server.World;
+import net.minecraft.server.WorldServer;
+import net.minecraft.util.gnu.trove.map.hash.TObjectIntHashMap;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 
 public class WorldTileEntityList extends HashSet<TileEntity> {
     private static final TObjectIntHashMap<Class<? extends TileEntity>> tileEntityTickIntervals =

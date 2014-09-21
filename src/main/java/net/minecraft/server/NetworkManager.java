@@ -2,6 +2,7 @@ package net.minecraft.server;
 
 import java.net.SocketAddress;
 import java.util.Queue;
+
 import javax.crypto.SecretKey;
 
 import net.minecraft.util.com.google.common.collect.Queues;
@@ -18,15 +19,17 @@ import net.minecraft.util.io.netty.handler.timeout.TimeoutException;
 import net.minecraft.util.io.netty.util.AttributeKey;
 import net.minecraft.util.io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.util.org.apache.commons.lang3.Validate;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-// Spigot start
-import com.google.common.collect.ImmutableSet;
 import org.spigotmc.SpigotCompressor;
 import org.spigotmc.SpigotDecompressor;
 // Spigot end
+
+// Spigot start
+import com.google.common.collect.ImmutableSet;
 
 public class NetworkManager extends SimpleChannelInboundHandler {
 

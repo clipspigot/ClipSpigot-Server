@@ -11,7 +11,6 @@ import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.bukkit.Bukkit; // CraftBukkit
 
 public class Chunk {

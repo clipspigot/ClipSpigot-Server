@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.bukkit.Location;
+// CraftBukkit end
 // CraftBukkit start
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.Location;
-// CraftBukkit end
 
 public class Explosion {
 

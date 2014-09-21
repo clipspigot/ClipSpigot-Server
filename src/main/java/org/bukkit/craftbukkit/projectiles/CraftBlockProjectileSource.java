@@ -2,24 +2,6 @@ package org.bukkit.craftbukkit.projectiles;
 
 import java.util.Random;
 
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Egg;
-import org.bukkit.entity.EnderPearl;
-import org.bukkit.entity.Fireball;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.SmallFireball;
-import org.bukkit.entity.Snowball;
-import org.bukkit.entity.ThrownExpBottle;
-import org.bukkit.entity.ThrownPotion;
-import org.bukkit.entity.WitherSkull;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.projectiles.BlockProjectileSource;
-import org.bukkit.util.Vector;
-
 import net.minecraft.server.BlockDispenser;
 import net.minecraft.server.EntityArrow;
 import net.minecraft.server.EntityEgg;
@@ -38,6 +20,24 @@ import net.minecraft.server.IProjectile;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.SourceBlock;
 import net.minecraft.server.TileEntityDispenser;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Egg;
+import org.bukkit.entity.EnderPearl;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.SmallFireball;
+import org.bukkit.entity.Snowball;
+import org.bukkit.entity.ThrownExpBottle;
+import org.bukkit.entity.ThrownPotion;
+import org.bukkit.entity.WitherSkull;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.BlockProjectileSource;
+import org.bukkit.util.Vector;
 
 public class CraftBlockProjectileSource implements BlockProjectileSource {
     private final TileEntityDispenser dispenserBlock;

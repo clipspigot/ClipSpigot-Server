@@ -1,10 +1,12 @@
 package net.minecraft.server;
 
 import java.io.IOException;
+
 // Spigot start - protocol patch
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
 import net.minecraft.util.com.mojang.authlib.properties.PropertyMap;
+
 import org.bukkit.craftbukkit.util.CraftChatMessage;
 
 public class PacketPlayOutPlayerInfo extends Packet {

@@ -3,12 +3,12 @@ package net.minecraft.server;
 // CraftBukkit start
 import java.util.List;
 
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+// CraftBukkit end
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
-import org.bukkit.craftbukkit.entity.CraftHumanEntity;
-// CraftBukkit end
 
 public class TileEntityFurnace extends TileEntity implements IWorldInventory {
 

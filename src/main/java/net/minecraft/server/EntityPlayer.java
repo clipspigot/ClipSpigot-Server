@@ -1,8 +1,6 @@
 package net.minecraft.server;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -13,9 +11,9 @@ import net.minecraft.util.com.google.common.collect.Sets;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.io.netty.buffer.Unpooled;
 import net.minecraft.util.org.apache.commons.io.Charsets;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 // CraftBukkit start
 import org.bukkit.Bukkit;
 import org.bukkit.WeatherType;

@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.entity;
 
 import net.minecraft.server.EntityEnderSignal;
+
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.EnderSignal;
 import org.bukkit.entity.EntityType;

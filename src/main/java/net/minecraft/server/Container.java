@@ -1,14 +1,14 @@
 package net.minecraft.server;
 
 import java.util.ArrayList;
+// CraftBukkit start
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-// CraftBukkit start
-import java.util.HashMap;
-import java.util.Map;
 import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.Event.Result;

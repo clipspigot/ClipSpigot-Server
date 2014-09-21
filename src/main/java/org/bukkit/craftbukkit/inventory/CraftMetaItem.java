@@ -1,5 +1,8 @@
 package org.bukkit.craftbukkit.inventory;
 
+// Spigot start
+import static org.spigotmc.ValidateUtils.limit;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import net.minecraft.server.GenericAttributes;
+import net.minecraft.server.IAttribute;
+// Spigot end
 import net.minecraft.server.NBTBase;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagDouble;
@@ -35,12 +41,6 @@ import org.bukkit.inventory.meta.Repairable;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-// Spigot start
-import static org.spigotmc.ValidateUtils.*;
-import net.minecraft.server.GenericAttributes;
-import net.minecraft.server.IAttribute;
-// Spigot end
 
 /**
  * Children must include the following:

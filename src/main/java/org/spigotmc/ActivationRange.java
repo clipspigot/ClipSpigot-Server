@@ -1,7 +1,7 @@
 package org.spigotmc;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.server.AxisAlignedBB;
 import net.minecraft.server.Chunk;
 import net.minecraft.server.Entity;
@@ -27,6 +27,7 @@ import net.minecraft.server.EntityWither;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.World;
+
 import org.bukkit.craftbukkit.SpigotTimings;
 
 public class ActivationRange

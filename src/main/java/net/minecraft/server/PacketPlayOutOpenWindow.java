@@ -1,8 +1,8 @@
 package net.minecraft.server;
 
-import org.bukkit.craftbukkit.util.CraftChatMessage;
-
 import java.io.IOException;
+
+import org.bukkit.craftbukkit.util.CraftChatMessage;
 
 public class PacketPlayOutOpenWindow extends Packet {
 

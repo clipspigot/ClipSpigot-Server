@@ -1,10 +1,9 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
-import java.util.List;
-
 // CraftBukkit start
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;

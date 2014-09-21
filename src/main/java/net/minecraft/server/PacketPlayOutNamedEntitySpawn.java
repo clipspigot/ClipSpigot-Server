@@ -1,13 +1,12 @@
 package net.minecraft.server;
 
+import java.io.IOException; // CraftBukkit
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
-
-import java.io.IOException; // CraftBukkit
 
 public class PacketPlayOutNamedEntitySpawn extends Packet {
 

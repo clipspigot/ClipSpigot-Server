@@ -1,11 +1,11 @@
 package org.spigotmc;
 
+import java.util.zip.Deflater;
+
 import net.minecraft.server.PacketDataSerializer;
 import net.minecraft.util.io.netty.buffer.ByteBuf;
 import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
 import net.minecraft.util.io.netty.handler.codec.MessageToByteEncoder;
-
-import java.util.zip.Deflater;
 
 public class SpigotCompressor extends MessageToByteEncoder
 {

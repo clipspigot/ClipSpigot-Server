@@ -7,9 +7,9 @@ import java.util.Map;
 
 import net.minecraft.server.MobEffect;
 
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionBrewer;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.google.common.collect.Maps;
 

@@ -1,10 +1,13 @@
 package org.bukkit.support;
 
-import com.google.common.collect.ImmutableList;
 import java.util.List;
+
 import net.minecraft.server.DispenserRegistry;
+
 import org.bukkit.Material;
 import org.junit.BeforeClass;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  *  If you are getting: java.lang.ExceptionInInitializerError

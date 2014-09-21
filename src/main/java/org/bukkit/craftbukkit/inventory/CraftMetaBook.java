@@ -1,5 +1,9 @@
 package org.bukkit.craftbukkit.inventory;
 
+// Spigot start
+import static org.spigotmc.ValidateUtils.limit;
+// Spigot end
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +20,6 @@ import org.bukkit.inventory.meta.BookMeta;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap.Builder;
-
-// Spigot start
-import static org.spigotmc.ValidateUtils.*;
-// Spigot end
 
 @DelegateDeserialization(SerializableMeta.class)
 class CraftMetaBook extends CraftMetaItem implements BookMeta {

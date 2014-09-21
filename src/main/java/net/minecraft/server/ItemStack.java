@@ -1,13 +1,12 @@
 package net.minecraft.server;
 
 import java.text.DecimalFormat;
+// CraftBukkit start
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.util.com.google.common.collect.HashMultimap;
 import net.minecraft.util.com.google.common.collect.Multimap;
-
-// CraftBukkit start
-import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.TreeType;

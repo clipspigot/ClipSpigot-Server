@@ -2,14 +2,14 @@ package org.bukkit.craftbukkit.scoreboard;
 
 import java.util.Set;
 
+import net.minecraft.server.ScoreboardTeam;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.Team;
 
 import com.google.common.collect.ImmutableSet;
-
-import net.minecraft.server.ScoreboardTeam;
 
 final class CraftTeam extends CraftScoreboardComponent implements Team {
     private final ScoreboardTeam team;

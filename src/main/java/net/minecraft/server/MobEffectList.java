@@ -2,8 +2,8 @@ package net.minecraft.server;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import net.minecraft.util.com.google.common.collect.Maps;
 

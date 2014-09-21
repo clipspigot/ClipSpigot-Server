@@ -3,6 +3,7 @@ package org.bukkit.craftbukkit.scoreboard;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import net.minecraft.server.Scoreboard;
 import net.minecraft.server.ScoreboardObjective;
 import net.minecraft.server.ScoreboardTeam;

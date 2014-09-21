@@ -6,9 +6,8 @@ import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import org.spigotmc.CustomTimingsHandler; // Spigot
 import org.bukkit.inventory.InventoryHolder; // CraftBukkit
+import org.spigotmc.CustomTimingsHandler; // Spigot
 
 public class TileEntity {
 

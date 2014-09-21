@@ -1,15 +1,15 @@
 package org.bukkit.craftbukkit;
 
-import com.google.common.collect.Maps;
-import net.minecraft.server.*;
-import org.bukkit.plugin.java.JavaPluginLoader;
-import org.spigotmc.CustomTimingsHandler;
-import org.bukkit.scheduler.BukkitTask;
-
 import java.util.HashMap;
-import java.util.Map;
+
+import net.minecraft.server.Entity;
+import net.minecraft.server.TileEntity;
+import net.minecraft.server.World;
 
 import org.bukkit.craftbukkit.scheduler.CraftTask;
+import org.bukkit.plugin.java.JavaPluginLoader;
+import org.bukkit.scheduler.BukkitTask;
+import org.spigotmc.CustomTimingsHandler;
 
 public class SpigotTimings {
 

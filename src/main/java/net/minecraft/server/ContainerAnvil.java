@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.minecraft.util.org.apache.commons.lang3.StringUtils;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.bukkit.craftbukkit.inventory.CraftInventoryView; // CraftBukkit
 
 public class ContainerAnvil extends Container {

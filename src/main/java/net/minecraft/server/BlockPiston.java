@@ -4,9 +4,9 @@ import java.util.List;
 
 // CraftBukkit start
 import org.bukkit.craftbukkit.block.CraftBlock;
-import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 // CraftBukkit end
+import org.bukkit.event.block.BlockPistonRetractEvent;
 
 public class BlockPiston extends Block {
 

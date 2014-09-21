@@ -1,14 +1,13 @@
 package net.minecraft.server;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 // CraftBukkit start
 import java.util.Collections;
-import java.util.Queue;
+import java.util.Iterator;
 import java.util.LinkedList;
 // CraftBukkit end
+import java.util.List;
+import java.util.Queue;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

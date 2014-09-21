@@ -1,7 +1,6 @@
 package net.minecraft.server;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import net.minecraft.util.org.apache.commons.lang3.ObjectUtils;
+
 import org.spigotmc.ProtocolData; // Spigot - protocol patch
 
 public class DataWatcher {

@@ -1,9 +1,9 @@
 package net.minecraft.server;
 
 // CraftBukkit start
-import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.Material;
 // CraftBukkit end
+import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class PathfinderGoalEatTile extends PathfinderGoal {
 

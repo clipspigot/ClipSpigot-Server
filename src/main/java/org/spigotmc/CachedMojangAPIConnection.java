@@ -1,13 +1,5 @@
 package org.spigotmc;
 
-import com.google.common.base.Charsets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import net.minecraft.util.com.google.common.cache.Cache;
-import net.minecraft.util.com.google.common.cache.CacheBuilder;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,6 +10,15 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+
+import net.minecraft.util.com.google.common.cache.Cache;
+import net.minecraft.util.com.google.common.cache.CacheBuilder;
+
+import com.google.common.base.Charsets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class CachedMojangAPIConnection extends HttpURLConnection
 {

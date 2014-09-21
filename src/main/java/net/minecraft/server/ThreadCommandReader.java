@@ -1,10 +1,9 @@
 package net.minecraft.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import static org.bukkit.craftbukkit.Main.useConsole; // CraftBukkit
+import static org.bukkit.craftbukkit.Main.useJline;
 
-import static org.bukkit.craftbukkit.Main.*; // CraftBukkit
+import java.io.IOException;
 
 class ThreadCommandReader extends Thread {
 

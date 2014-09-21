@@ -1,5 +1,9 @@
 package org.spigotmc;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Map;
+
 import net.minecraft.server.ChatSerializer;
 import net.minecraft.server.EnumProtocol;
 import net.minecraft.server.IChatBaseComponent;
@@ -7,10 +11,6 @@ import net.minecraft.server.Packet;
 import net.minecraft.server.PacketDataSerializer;
 import net.minecraft.server.PacketListener;
 import net.minecraft.util.com.google.common.collect.BiMap;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Map;
 
 public class ProtocolInjector
 {

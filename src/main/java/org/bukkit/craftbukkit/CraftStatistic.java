@@ -5,8 +5,8 @@ import net.minecraft.server.MonsterEggInfo;
 import net.minecraft.server.StatisticList;
 
 import org.bukkit.Achievement;
-import org.bukkit.Statistic;
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 
 import com.google.common.base.CaseFormat;

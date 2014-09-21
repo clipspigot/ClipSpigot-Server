@@ -2,11 +2,11 @@ package org.bukkit.craftbukkit.inventory;
 
 import java.util.Iterator;
 
-import org.bukkit.inventory.Recipe;
-
 import net.minecraft.server.CraftingManager;
 import net.minecraft.server.IRecipe;
 import net.minecraft.server.RecipesFurnace;
+
+import org.bukkit.inventory.Recipe;
 
 public class RecipeIterator implements Iterator<Recipe> {
     private final Iterator<IRecipe> recipes;

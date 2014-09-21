@@ -1,9 +1,8 @@
 package net.minecraft.server;
 
-import java.util.Random;
-
 // CraftBukkit start
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.TreeType;

@@ -1,13 +1,13 @@
 package org.spigotmc;
 
+import java.util.List;
+import java.util.zip.Inflater;
+
 import net.minecraft.server.PacketDataSerializer;
 import net.minecraft.util.io.netty.buffer.ByteBuf;
 import net.minecraft.util.io.netty.buffer.Unpooled;
 import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
 import net.minecraft.util.io.netty.handler.codec.ByteToMessageDecoder;
-
-import java.util.List;
-import java.util.zip.Inflater;
 
 public class SpigotDecompressor extends ByteToMessageDecoder
 {

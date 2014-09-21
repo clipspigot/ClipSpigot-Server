@@ -1,12 +1,12 @@
 package net.minecraft.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+// CraftBukkit end
 import java.util.List;
 
 // CraftBukkit start
 import org.bukkit.craftbukkit.chunkio.ChunkIOExecutor;
-import java.util.HashMap;
-// CraftBukkit end
 
 class PlayerChunk {
 

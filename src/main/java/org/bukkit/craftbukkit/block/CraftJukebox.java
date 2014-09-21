@@ -4,6 +4,7 @@ import net.minecraft.server.BlockJukeBox;
 import net.minecraft.server.Blocks;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.TileEntityRecordPlayer;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

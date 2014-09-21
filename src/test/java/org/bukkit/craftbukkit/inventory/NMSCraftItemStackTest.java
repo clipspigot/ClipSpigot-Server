@@ -1,8 +1,7 @@
 package org.bukkit.craftbukkit.inventory;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
-
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import net.minecraft.server.Enchantment;
 
 import org.bukkit.inventory.ItemStack;

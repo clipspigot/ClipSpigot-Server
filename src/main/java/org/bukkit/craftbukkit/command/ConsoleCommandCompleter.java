@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
+import jline.console.completer.Completer;
+
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.util.Waitable;
-
-import jline.console.completer.Completer;
 
 public class ConsoleCommandCompleter implements Completer {
     private final CraftServer server;

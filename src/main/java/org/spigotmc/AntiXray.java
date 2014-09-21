@@ -1,10 +1,11 @@
 package org.spigotmc;
 
-import net.minecraft.util.gnu.trove.set.TByteSet;
-import net.minecraft.util.gnu.trove.set.hash.TByteHashSet;
 import net.minecraft.server.Block;
 import net.minecraft.server.Blocks;
 import net.minecraft.server.World;
+import net.minecraft.util.gnu.trove.set.TByteSet;
+import net.minecraft.util.gnu.trove.set.hash.TByteHashSet;
+
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
 public class AntiXray

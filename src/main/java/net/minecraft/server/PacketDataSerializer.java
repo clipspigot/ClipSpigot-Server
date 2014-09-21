@@ -1,5 +1,8 @@
 package net.minecraft.server;
 
+// Spigot start - protocol patch
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,16 +16,12 @@ import java.util.UUID;
 import net.minecraft.util.com.google.common.base.Charsets;
 import net.minecraft.util.io.netty.buffer.ByteBuf;
 import net.minecraft.util.io.netty.buffer.ByteBufAllocator;
-import net.minecraft.util.io.netty.buffer.ByteBufProcessor;
-
-import org.bukkit.craftbukkit.inventory.CraftItemStack; // CraftBukkit
-
-// Spigot start - protocol patch
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import net.minecraft.util.io.netty.buffer.Unpooled;
 import net.minecraft.util.io.netty.buffer.ByteBufInputStream;
 import net.minecraft.util.io.netty.buffer.ByteBufOutputStream;
+import net.minecraft.util.io.netty.buffer.ByteBufProcessor;
+import net.minecraft.util.io.netty.buffer.Unpooled;
+
+import org.bukkit.craftbukkit.inventory.CraftItemStack; // CraftBukkit
 import org.spigotmc.SpigotComponentReverter;
 // Spigot end
 

@@ -1,8 +1,8 @@
 package net.minecraft.server;
 
-import net.minecraft.util.io.netty.buffer.ByteBuf;
-
 import java.io.IOException;
+
+import net.minecraft.util.io.netty.buffer.ByteBuf;
 
 public class PacketPlayOutCustomPayload extends Packet {
 

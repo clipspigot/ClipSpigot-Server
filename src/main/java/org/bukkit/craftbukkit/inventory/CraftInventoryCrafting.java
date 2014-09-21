@@ -1,7 +1,7 @@
 package org.bukkit.craftbukkit.inventory;
 
-import net.minecraft.server.IRecipe;
 import net.minecraft.server.IInventory;
+import net.minecraft.server.IRecipe;
 import net.minecraft.server.InventoryCrafting;
 
 import org.bukkit.inventory.CraftingInventory;

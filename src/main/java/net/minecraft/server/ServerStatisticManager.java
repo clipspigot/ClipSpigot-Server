@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import net.minecraft.util.com.google.common.collect.Maps;
 import net.minecraft.util.com.google.common.collect.Sets;
@@ -17,6 +17,7 @@ import net.minecraft.util.com.google.gson.JsonObject;
 import net.minecraft.util.com.google.gson.JsonParseException;
 import net.minecraft.util.com.google.gson.JsonParser;
 import net.minecraft.util.org.apache.commons.io.FileUtils;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

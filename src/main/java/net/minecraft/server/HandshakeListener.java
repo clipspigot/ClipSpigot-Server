@@ -1,13 +1,13 @@
 package net.minecraft.server;
 
-import net.minecraft.util.com.mojang.authlib.properties.Property; // Spigot
-import net.minecraft.util.io.netty.util.concurrent.GenericFutureListener;
-
 // CraftBukkit start
 import java.net.InetAddress;
 import java.util.HashMap;
+
+import net.minecraft.util.com.mojang.authlib.properties.Property; // Spigot
 import net.minecraft.util.com.mojang.util.UUIDTypeAdapter;
 // CraftBukkit end
+import net.minecraft.util.io.netty.util.concurrent.GenericFutureListener;
 
 public class HandshakeListener implements PacketHandshakingInListener {
 

@@ -1,8 +1,13 @@
 package net.minecraft.server;
 
 import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import net.minecraft.util.com.google.common.collect.Iterables;
+import net.minecraft.util.com.mojang.authlib.Agent;
+// Spigot end
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
 
@@ -10,13 +15,7 @@ import net.minecraft.util.com.mojang.authlib.properties.Property;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import net.minecraft.util.com.mojang.authlib.Agent;
-// Spigot end
 
 public class TileEntitySkull extends TileEntity {
 

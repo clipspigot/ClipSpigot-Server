@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+// CraftBukkit start
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,16 +9,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-// CraftBukkit start
-import java.util.ArrayList;
-import com.google.common.base.Function;
+import org.bukkit.craftbukkit.SpigotTimings; // Spigot
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 // CraftBukkit end
 
-import org.bukkit.craftbukkit.SpigotTimings; // Spigot
+import com.google.common.base.Function;
 
 public abstract class EntityLiving extends Entity {
 

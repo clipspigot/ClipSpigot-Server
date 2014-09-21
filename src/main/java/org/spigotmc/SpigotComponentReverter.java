@@ -1,13 +1,13 @@
 package org.spigotmc;
 
+import java.util.List;
+
 import net.minecraft.server.ChatComponentText;
 import net.minecraft.server.ChatModifier;
 import net.minecraft.server.EnumChatFormat;
 import net.minecraft.server.IChatBaseComponent;
-import org.bukkit.ChatColor;
 
-import java.util.Iterator;
-import java.util.List;
+import org.bukkit.ChatColor;
 
 public class SpigotComponentReverter
 {

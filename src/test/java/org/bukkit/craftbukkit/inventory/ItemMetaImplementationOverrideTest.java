@@ -1,7 +1,9 @@
 package org.bukkit.craftbukkit.inventory;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
