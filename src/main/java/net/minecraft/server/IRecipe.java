@@ -2,15 +2,15 @@ package net.minecraft.server;
 
 public interface IRecipe {
 
-    boolean a(InventoryCrafting inventorycrafting, World world);
+	boolean a(InventoryCrafting inventorycrafting, World world);
 
-    ItemStack a(InventoryCrafting inventorycrafting);
+	ItemStack a(InventoryCrafting inventorycrafting);
 
-    int a();
+	int a();
 
-    ItemStack b();
+	ItemStack b();
 
-    org.bukkit.inventory.Recipe toBukkitRecipe(); // CraftBukkit
+	org.bukkit.inventory.Recipe toBukkitRecipe(); // CraftBukkit
 
-    java.util.List<ItemStack> getIngredients(); // Spigot
+	java.util.List<ItemStack> getIngredients(); // Spigot
 }

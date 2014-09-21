@@ -2,55 +2,57 @@ package net.minecraft.server;
 
 public class PacketPlayOutWorldEvent extends Packet {
 
-    private int a;
-    private int b;
-    private int c;
-    private int d;
-    private int e;
-    private boolean f;
+	private int a;
+	private int b;
+	private int c;
+	private int d;
+	private int e;
+	private boolean f;
 
-    public PacketPlayOutWorldEvent() {}
+	public PacketPlayOutWorldEvent() {
+	}
 
-    public PacketPlayOutWorldEvent(int i, int j, int k, int l, int i1, boolean flag) {
-        this.a = i;
-        this.c = j;
-        this.d = k;
-        this.e = l;
-        this.b = i1;
-        this.f = flag;
-    }
+	public PacketPlayOutWorldEvent(int i, int j, int k, int l, int i1, boolean flag) {
+		a = i;
+		c = j;
+		d = k;
+		e = l;
+		b = i1;
+		f = flag;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readInt();
-        this.c = packetdataserializer.readInt();
-        this.d = packetdataserializer.readByte() & 255;
-        this.e = packetdataserializer.readInt();
-        this.b = packetdataserializer.readInt();
-        this.f = packetdataserializer.readBoolean();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readInt();
+		c = packetdataserializer.readInt();
+		d = packetdataserializer.readByte() & 255;
+		e = packetdataserializer.readInt();
+		b = packetdataserializer.readInt();
+		f = packetdataserializer.readBoolean();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        packetdataserializer.writeInt(this.a);
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeInt( this.c );
-            packetdataserializer.writeByte( this.d & 255 );
-            packetdataserializer.writeInt( this.e );
-        } else
-        {
-            packetdataserializer.writePosition( c, d, e );
-        }
-        // Spigot end
-        packetdataserializer.writeInt(this.b);
-        packetdataserializer.writeBoolean(this.f);
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		packetdataserializer.writeInt(a);
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeInt(c);
+			packetdataserializer.writeByte(d & 255);
+			packetdataserializer.writeInt(e);
+		} else {
+			packetdataserializer.writePosition(c, d, e);
+		}
+		// Spigot end
+		packetdataserializer.writeInt(b);
+		packetdataserializer.writeBoolean(f);
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

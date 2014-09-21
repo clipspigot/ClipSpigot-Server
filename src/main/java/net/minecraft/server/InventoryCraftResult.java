@@ -3,94 +3,121 @@ package net.minecraft.server;
 // CraftBukkit start
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
+
 // CraftBukkit end
 
 public class InventoryCraftResult implements IInventory {
 
-    private ItemStack[] items = new ItemStack[1];
+	private ItemStack[] items = new ItemStack[1];
 
-    // CraftBukkit start
-    private int maxStack = MAX_STACK;
+	// CraftBukkit start
+	private int maxStack = MAX_STACK;
 
-    public ItemStack[] getContents() {
-        return this.items;
-    }
+	@Override
+	public ItemStack[] getContents() {
+		return items;
+	}
 
-    public org.bukkit.inventory.InventoryHolder getOwner() {
-        return null; // Result slots don't get an owner
-    }
+	@Override
+	public org.bukkit.inventory.InventoryHolder getOwner() {
+		return null; // Result slots don't get an owner
+	}
 
-    // Don't need a transaction; the InventoryCrafting keeps track of it for us
-    public void onOpen(CraftHumanEntity who) {}
-    public void onClose(CraftHumanEntity who) {}
-    public java.util.List<HumanEntity> getViewers() {
-        return new java.util.ArrayList<HumanEntity>();
-    }
+	// Don't need a transaction; the InventoryCrafting keeps track of it for us
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+	}
 
-    public void setMaxStackSize(int size) {
-        maxStack = size;
-    }
-    // CraftBukkit end
+	@Override
+	public void onClose(CraftHumanEntity who) {
+	}
 
-    public InventoryCraftResult() {}
+	@Override
+	public java.util.List<HumanEntity> getViewers() {
+		return new java.util.ArrayList<HumanEntity>();
+	}
 
-    public int getSize() {
-        return 1;
-    }
+	@Override
+	public void setMaxStackSize(int size) {
+		maxStack = size;
+	}
 
-    public ItemStack getItem(int i) {
-        return this.items[0];
-    }
+	// CraftBukkit end
 
-    public String getInventoryName() {
-        return "Result";
-    }
+	public InventoryCraftResult() {
+	}
 
-    public boolean k_() {
-        return false;
-    }
+	@Override
+	public int getSize() {
+		return 1;
+	}
 
-    public ItemStack splitStack(int i, int j) {
-        if (this.items[0] != null) {
-            ItemStack itemstack = this.items[0];
+	@Override
+	public ItemStack getItem(int i) {
+		return items[0];
+	}
 
-            this.items[0] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public String getInventoryName() {
+		return "Result";
+	}
 
-    public ItemStack splitWithoutUpdate(int i) {
-        if (this.items[0] != null) {
-            ItemStack itemstack = this.items[0];
+	@Override
+	public boolean k_() {
+		return false;
+	}
 
-            this.items[0] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public ItemStack splitStack(int i, int j) {
+		if (items[0] != null) {
+			ItemStack itemstack = items[0];
 
-    public void setItem(int i, ItemStack itemstack) {
-        this.items[0] = itemstack;
-    }
+			items[0] = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-    public int getMaxStackSize() {
-        return maxStack; // CraftBukkit
-    }
+	@Override
+	public ItemStack splitWithoutUpdate(int i) {
+		if (items[0] != null) {
+			ItemStack itemstack = items[0];
 
-    public void update() {}
+			items[0] = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return true;
-    }
+	@Override
+	public void setItem(int i, ItemStack itemstack) {
+		items[0] = itemstack;
+	}
 
-    public void startOpen() {}
+	@Override
+	public int getMaxStackSize() {
+		return maxStack; // CraftBukkit
+	}
 
-    public void closeContainer() {}
+	@Override
+	public void update() {
+	}
 
-    public boolean b(int i, ItemStack itemstack) {
-        return true;
-    }
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return true;
+	}
+
+	@Override
+	public void startOpen() {
+	}
+
+	@Override
+	public void closeContainer() {
+	}
+
+	@Override
+	public boolean b(int i, ItemStack itemstack) {
+		return true;
+	}
 }

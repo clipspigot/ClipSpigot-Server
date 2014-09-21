@@ -11,232 +11,236 @@ import java.util.UUID;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.map.CraftMapView;
+
 // CraftBukkit end
 
 public class WorldMap extends PersistentBase {
 
-    public int centerX;
-    public int centerZ;
-    public byte map;
-    public byte scale;
-    public byte[] colors = new byte[16384];
-    public List f = new ArrayList();
-    public Map i = new HashMap(); // Spigot
-    public Map decorations = new LinkedHashMap();
+	public int centerX;
+	public int centerZ;
+	public byte map;
+	public byte scale;
+	public byte[] colors = new byte[16384];
+	public List f = new ArrayList();
+	public Map i = new HashMap(); // Spigot
+	public Map decorations = new LinkedHashMap();
 
-    // CraftBukkit start
-    public final CraftMapView mapView;
-    private CraftServer server;
-    private UUID uniqueId = null;
-    // CraftBukkit end
+	// CraftBukkit start
+	public final CraftMapView mapView;
+	private CraftServer server;
+	private UUID uniqueId = null;
 
-    public WorldMap(String s) {
-        super(s);
-        // CraftBukkit start
-        mapView = new CraftMapView(this);
-        server = (CraftServer) org.bukkit.Bukkit.getServer();
-        // CraftBukkit end
-    }
+	// CraftBukkit end
 
-    public void a(NBTTagCompound nbttagcompound) {
-        // CraftBukkit start
-        byte dimension = nbttagcompound.getByte("dimension");
+	public WorldMap(String s) {
+		super(s);
+		// CraftBukkit start
+		mapView = new CraftMapView(this);
+		server = (CraftServer) org.bukkit.Bukkit.getServer();
+		// CraftBukkit end
+	}
 
-        if (dimension >= 10) {
-            long least = nbttagcompound.getLong("UUIDLeast");
-            long most = nbttagcompound.getLong("UUIDMost");
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		// CraftBukkit start
+		byte dimension = nbttagcompound.getByte("dimension");
 
-            if (least != 0L && most != 0L) {
-                this.uniqueId = new UUID(most, least);
+		if (dimension >= 10) {
+			long least = nbttagcompound.getLong("UUIDLeast");
+			long most = nbttagcompound.getLong("UUIDMost");
 
-                CraftWorld world = (CraftWorld) server.getWorld(this.uniqueId);
-                // Check if the stored world details are correct.
-                if (world == null) {
-                    /* All Maps which do not have their valid world loaded are set to a dimension which hopefully won't be reached.
-                       This is to prevent them being corrupted with the wrong map data. */
-                    dimension = 127;
-                } else {
-                    dimension = (byte) world.getHandle().dimension;
-                }
-            }
-        }
+			if (least != 0L && most != 0L) {
+				uniqueId = new UUID(most, least);
 
-        this.map = dimension;
-        // CraftBukkit end
-        this.centerX = nbttagcompound.getInt("xCenter");
-        this.centerZ = nbttagcompound.getInt("zCenter");
-        this.scale = nbttagcompound.getByte("scale");
-        if (this.scale < 0) {
-            this.scale = 0;
-        }
+				CraftWorld world = (CraftWorld) server.getWorld(uniqueId);
+				// Check if the stored world details are correct.
+				if (world == null) {
+					/* All Maps which do not have their valid world loaded are set to a dimension which hopefully won't be reached.
+					   This is to prevent them being corrupted with the wrong map data. */
+					dimension = 127;
+				} else {
+					dimension = (byte) world.getHandle().dimension;
+				}
+			}
+		}
 
-        if (this.scale > 4) {
-            this.scale = 4;
-        }
+		map = dimension;
+		// CraftBukkit end
+		centerX = nbttagcompound.getInt("xCenter");
+		centerZ = nbttagcompound.getInt("zCenter");
+		scale = nbttagcompound.getByte("scale");
+		if (scale < 0) {
+			scale = 0;
+		}
 
-        short short1 = nbttagcompound.getShort("width");
-        short short2 = nbttagcompound.getShort("height");
+		if (scale > 4) {
+			scale = 4;
+		}
 
-        if (short1 == 128 && short2 == 128) {
-            this.colors = nbttagcompound.getByteArray("colors");
-        } else {
-            byte[] abyte = nbttagcompound.getByteArray("colors");
+		short short1 = nbttagcompound.getShort("width");
+		short short2 = nbttagcompound.getShort("height");
 
-            this.colors = new byte[16384];
-            int i = (128 - short1) / 2;
-            int j = (128 - short2) / 2;
+		if (short1 == 128 && short2 == 128) {
+			colors = nbttagcompound.getByteArray("colors");
+		} else {
+			byte[] abyte = nbttagcompound.getByteArray("colors");
 
-            for (int k = 0; k < short2; ++k) {
-                int l = k + j;
+			colors = new byte[16384];
+			int i = (128 - short1) / 2;
+			int j = (128 - short2) / 2;
 
-                if (l >= 0 || l < 128) {
-                    for (int i1 = 0; i1 < short1; ++i1) {
-                        int j1 = i1 + i;
+			for (int k = 0; k < short2; ++k) {
+				int l = k + j;
 
-                        if (j1 >= 0 || j1 < 128) {
-                            this.colors[j1 + l * 128] = abyte[i1 + k * short1];
-                        }
-                    }
-                }
-            }
-        }
-    }
+				if (l >= 0 || l < 128) {
+					for (int i1 = 0; i1 < short1; ++i1) {
+						int j1 = i1 + i;
 
-    public void b(NBTTagCompound nbttagcompound) {
-        // CraftBukkit start
-        if (this.map >= 10) {
-            if (this.uniqueId == null) {
-                for (org.bukkit.World world : server.getWorlds()) {
-                    CraftWorld cWorld = (CraftWorld) world;
-                    if (cWorld.getHandle().dimension == this.map) {
-                        this.uniqueId = cWorld.getUID();
-                        break;
-                    }
-                }
-            }
-            /* Perform a second check to see if a matching world was found, this is a necessary
-               change incase Maps are forcefully unlinked from a World and lack a UID.*/
-            if (this.uniqueId != null) {
-                nbttagcompound.setLong("UUIDLeast", this.uniqueId.getLeastSignificantBits());
-                nbttagcompound.setLong("UUIDMost", this.uniqueId.getMostSignificantBits());
-            }
-        }
-        // CraftBukkit end
-        nbttagcompound.setByte("dimension", this.map);
-        nbttagcompound.setInt("xCenter", this.centerX);
-        nbttagcompound.setInt("zCenter", this.centerZ);
-        nbttagcompound.setByte("scale", this.scale);
-        nbttagcompound.setShort("width", (short) 128);
-        nbttagcompound.setShort("height", (short) 128);
-        nbttagcompound.setByteArray("colors", this.colors);
-    }
+						if (j1 >= 0 || j1 < 128) {
+							colors[j1 + l * 128] = abyte[i1 + k * short1];
+						}
+					}
+				}
+			}
+		}
+	}
 
-    public void a(EntityHuman entityhuman, ItemStack itemstack) {
-        if (!this.i.containsKey(entityhuman)) {
-            WorldMapHumanTracker worldmaphumantracker = new WorldMapHumanTracker(this, entityhuman);
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		// CraftBukkit start
+		if (map >= 10) {
+			if (uniqueId == null) {
+				for (org.bukkit.World world : server.getWorlds()) {
+					CraftWorld cWorld = (CraftWorld) world;
+					if (cWorld.getHandle().dimension == map) {
+						uniqueId = cWorld.getUID();
+						break;
+					}
+				}
+			}
+			/* Perform a second check to see if a matching world was found, this is a necessary
+			   change incase Maps are forcefully unlinked from a World and lack a UID.*/
+			if (uniqueId != null) {
+				nbttagcompound.setLong("UUIDLeast", uniqueId.getLeastSignificantBits());
+				nbttagcompound.setLong("UUIDMost", uniqueId.getMostSignificantBits());
+			}
+		}
+		// CraftBukkit end
+		nbttagcompound.setByte("dimension", map);
+		nbttagcompound.setInt("xCenter", centerX);
+		nbttagcompound.setInt("zCenter", centerZ);
+		nbttagcompound.setByte("scale", scale);
+		nbttagcompound.setShort("width", (short) 128);
+		nbttagcompound.setShort("height", (short) 128);
+		nbttagcompound.setByteArray("colors", colors);
+	}
 
-            this.i.put(entityhuman, worldmaphumantracker);
-            this.f.add(worldmaphumantracker);
-        }
+	public void a(EntityHuman entityhuman, ItemStack itemstack) {
+		if (!i.containsKey(entityhuman)) {
+			WorldMapHumanTracker worldmaphumantracker = new WorldMapHumanTracker(this, entityhuman);
 
-        if (!entityhuman.inventory.c(itemstack)) {
-            this.decorations.remove(entityhuman.getName());
-        }
+			i.put(entityhuman, worldmaphumantracker);
+			f.add(worldmaphumantracker);
+		}
 
-        for (int i = 0; i < this.f.size(); ++i) {
-            WorldMapHumanTracker worldmaphumantracker1 = (WorldMapHumanTracker) this.f.get(i);
+		if (!entityhuman.inventory.c(itemstack)) {
+			decorations.remove(entityhuman.getName());
+		}
 
-            if (!worldmaphumantracker1.trackee.dead && (worldmaphumantracker1.trackee.inventory.c(itemstack) || itemstack.A())) {
-                if (!itemstack.A() && worldmaphumantracker1.trackee.dimension == this.map) {
-                    this.a(0, worldmaphumantracker1.trackee.world, worldmaphumantracker1.trackee.getName(), worldmaphumantracker1.trackee.locX, worldmaphumantracker1.trackee.locZ, (double) worldmaphumantracker1.trackee.yaw);
-                }
-            } else {
-                this.i.remove(worldmaphumantracker1.trackee);
-                this.f.remove(worldmaphumantracker1);
-            }
-        }
+		for (int i = 0; i < f.size(); ++i) {
+			WorldMapHumanTracker worldmaphumantracker1 = (WorldMapHumanTracker) f.get(i);
 
-        if (itemstack.A()) {
-            this.a(1, entityhuman.world, "frame-" + itemstack.B().getId(), (double) itemstack.B().x, (double) itemstack.B().z, (double) (itemstack.B().direction * 90));
-        }
-    }
+			if (!worldmaphumantracker1.trackee.dead && (worldmaphumantracker1.trackee.inventory.c(itemstack) || itemstack.A())) {
+				if (!itemstack.A() && worldmaphumantracker1.trackee.dimension == map) {
+					this.a(0, worldmaphumantracker1.trackee.world, worldmaphumantracker1.trackee.getName(), worldmaphumantracker1.trackee.locX, worldmaphumantracker1.trackee.locZ, worldmaphumantracker1.trackee.yaw);
+				}
+			} else {
+				this.i.remove(worldmaphumantracker1.trackee);
+				f.remove(worldmaphumantracker1);
+			}
+		}
 
-    private void a(int i, World world, String s, double d0, double d1, double d2) {
-        int j = 1 << this.scale;
-        float f = (float) (d0 - (double) this.centerX) / (float) j;
-        float f1 = (float) (d1 - (double) this.centerZ) / (float) j;
-        byte b0 = (byte) ((int) ((double) (f * 2.0F) + 0.5D));
-        byte b1 = (byte) ((int) ((double) (f1 * 2.0F) + 0.5D));
-        byte b2 = 63;
-        byte b3;
+		if (itemstack.A()) {
+			this.a(1, entityhuman.world, "frame-" + itemstack.B().getId(), itemstack.B().x, itemstack.B().z, itemstack.B().direction * 90);
+		}
+	}
 
-        if (f >= (float) (-b2) && f1 >= (float) (-b2) && f <= (float) b2 && f1 <= (float) b2) {
-            d2 += d2 < 0.0D ? -8.0D : 8.0D;
-            b3 = (byte) ((int) (d2 * 16.0D / 360.0D));
-            if (this.map < 0) {
-                int k = (int) (world.getWorldData().getDayTime() / 10L);
+	private void a(int i, World world, String s, double d0, double d1, double d2) {
+		int j = 1 << scale;
+		float f = (float) (d0 - centerX) / j;
+		float f1 = (float) (d1 - centerZ) / j;
+		byte b0 = (byte) (int) (f * 2.0F + 0.5D);
+		byte b1 = (byte) (int) (f1 * 2.0F + 0.5D);
+		byte b2 = 63;
+		byte b3;
 
-                b3 = (byte) (k * k * 34187121 + k * 121 >> 15 & 15);
-            }
-        } else {
-            if (Math.abs(f) >= 320.0F || Math.abs(f1) >= 320.0F) {
-                this.decorations.remove(s);
-                return;
-            }
+		if (f >= -b2 && f1 >= -b2 && f <= b2 && f1 <= b2) {
+			d2 += d2 < 0.0D ? -8.0D : 8.0D;
+			b3 = (byte) (int) (d2 * 16.0D / 360.0D);
+			if (map < 0) {
+				int k = (int) (world.getWorldData().getDayTime() / 10L);
 
-            i = 6;
-            b3 = 0;
-            if (f <= (float) (-b2)) {
-                b0 = (byte) ((int) ((double) (b2 * 2) + 2.5D));
-            }
+				b3 = (byte) (k * k * 34187121 + k * 121 >> 15 & 15);
+			}
+		} else {
+			if (Math.abs(f) >= 320.0F || Math.abs(f1) >= 320.0F) {
+				decorations.remove(s);
+				return;
+			}
 
-            if (f1 <= (float) (-b2)) {
-                b1 = (byte) ((int) ((double) (b2 * 2) + 2.5D));
-            }
+			i = 6;
+			b3 = 0;
+			if (f <= -b2) {
+				b0 = (byte) (int) (b2 * 2 + 2.5D);
+			}
 
-            if (f >= (float) b2) {
-                b0 = (byte) (b2 * 2 + 1);
-            }
+			if (f1 <= -b2) {
+				b1 = (byte) (int) (b2 * 2 + 2.5D);
+			}
 
-            if (f1 >= (float) b2) {
-                b1 = (byte) (b2 * 2 + 1);
-            }
-        }
+			if (f >= b2) {
+				b0 = (byte) (b2 * 2 + 1);
+			}
 
-        this.decorations.put(s, new WorldMapDecoration(this, (byte) i, b0, b1, b3));
-    }
+			if (f1 >= b2) {
+				b1 = (byte) (b2 * 2 + 1);
+			}
+		}
 
-    public byte[] getUpdatePacket(ItemStack itemstack, World world, EntityHuman entityhuman) {
-        WorldMapHumanTracker worldmaphumantracker = (WorldMapHumanTracker) this.i.get(entityhuman);
+		decorations.put(s, new WorldMapDecoration(this, (byte) i, b0, b1, b3));
+	}
 
-        return worldmaphumantracker == null ? null : worldmaphumantracker.a(itemstack);
-    }
+	public byte[] getUpdatePacket(ItemStack itemstack, World world, EntityHuman entityhuman) {
+		WorldMapHumanTracker worldmaphumantracker = (WorldMapHumanTracker) i.get(entityhuman);
 
-    public void flagDirty(int i, int j, int k) {
-        super.c();
+		return worldmaphumantracker == null ? null : worldmaphumantracker.a(itemstack);
+	}
 
-        for (int l = 0; l < this.f.size(); ++l) {
-            WorldMapHumanTracker worldmaphumantracker = (WorldMapHumanTracker) this.f.get(l);
+	public void flagDirty(int i, int j, int k) {
+		super.c();
 
-            if (worldmaphumantracker.b[i] < 0 || worldmaphumantracker.b[i] > j) {
-                worldmaphumantracker.b[i] = j;
-            }
+		for (int l = 0; l < f.size(); ++l) {
+			WorldMapHumanTracker worldmaphumantracker = (WorldMapHumanTracker) f.get(l);
 
-            if (worldmaphumantracker.c[i] < 0 || worldmaphumantracker.c[i] < k) {
-                worldmaphumantracker.c[i] = k;
-            }
-        }
-    }
+			if (worldmaphumantracker.b[i] < 0 || worldmaphumantracker.b[i] > j) {
+				worldmaphumantracker.b[i] = j;
+			}
 
-    public WorldMapHumanTracker a(EntityHuman entityhuman) {
-        WorldMapHumanTracker worldmaphumantracker = (WorldMapHumanTracker) this.i.get(entityhuman);
+			if (worldmaphumantracker.c[i] < 0 || worldmaphumantracker.c[i] < k) {
+				worldmaphumantracker.c[i] = k;
+			}
+		}
+	}
 
-        if (worldmaphumantracker == null) {
-            worldmaphumantracker = new WorldMapHumanTracker(this, entityhuman);
-            this.i.put(entityhuman, worldmaphumantracker);
-            this.f.add(worldmaphumantracker);
-        }
+	public WorldMapHumanTracker a(EntityHuman entityhuman) {
+		WorldMapHumanTracker worldmaphumantracker = (WorldMapHumanTracker) i.get(entityhuman);
 
-        return worldmaphumantracker;
-    }
+		if (worldmaphumantracker == null) {
+			worldmaphumantracker = new WorldMapHumanTracker(this, entityhuman);
+			i.put(entityhuman, worldmaphumantracker);
+			f.add(worldmaphumantracker);
+		}
+
+		return worldmaphumantracker;
+	}
 }

@@ -8,33 +8,37 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Wolf;
 
 public class CraftWolf extends CraftTameableAnimal implements Wolf {
-    public CraftWolf(CraftServer server, EntityWolf wolf) {
-        super(server, wolf);
-    }
+	public CraftWolf(CraftServer server, EntityWolf wolf) {
+		super(server, wolf);
+	}
 
-    public boolean isAngry() {
-        return getHandle().isAngry();
-    }
+	@Override
+	public boolean isAngry() {
+		return getHandle().isAngry();
+	}
 
-    public void setAngry(boolean angry) {
-        getHandle().setAngry(angry);
-    }
+	@Override
+	public void setAngry(boolean angry) {
+		getHandle().setAngry(angry);
+	}
 
-    @Override
-    public EntityWolf getHandle() {
-        return (EntityWolf) entity;
-    }
+	@Override
+	public EntityWolf getHandle() {
+		return (EntityWolf) entity;
+	}
 
-    @Override
-    public EntityType getType() {
-        return EntityType.WOLF;
-    }
+	@Override
+	public EntityType getType() {
+		return EntityType.WOLF;
+	}
 
-    public DyeColor getCollarColor() {
-        return DyeColor.getByWoolData((byte) getHandle().getCollarColor());
-    }
+	@Override
+	public DyeColor getCollarColor() {
+		return DyeColor.getByWoolData((byte) getHandle().getCollarColor());
+	}
 
-    public void setCollarColor(DyeColor color) {
-        getHandle().setCollarColor(color.getWoolData());
-    }
+	@Override
+	public void setCollarColor(DyeColor color) {
+		getHandle().setCollarColor(color.getWoolData());
+	}
 }

@@ -6,271 +6,295 @@ import java.util.List;
 // CraftBukkit start
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
+
 // CraftBukkit end
 
 public class TileEntityBeacon extends TileEntity implements IInventory {
 
-    public static final MobEffectList[][] a = new MobEffectList[][] { { MobEffectList.FASTER_MOVEMENT, MobEffectList.FASTER_DIG}, { MobEffectList.RESISTANCE, MobEffectList.JUMP}, { MobEffectList.INCREASE_DAMAGE}, { MobEffectList.REGENERATION}};
-    private boolean k;
-    private int l = -1;
-    private int m;
-    private int n;
-    private ItemStack inventorySlot;
-    private String p;
-    // CraftBukkit start - add fields and methods
-    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
-    private int maxStack = MAX_STACK;
+	public static final MobEffectList[][] a = new MobEffectList[][] { { MobEffectList.FASTER_MOVEMENT, MobEffectList.FASTER_DIG }, { MobEffectList.RESISTANCE, MobEffectList.JUMP }, { MobEffectList.INCREASE_DAMAGE }, { MobEffectList.REGENERATION } };
+	private boolean k;
+	private int l = -1;
+	private int m;
+	private int n;
+	private ItemStack inventorySlot;
+	private String p;
+	// CraftBukkit start - add fields and methods
+	public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
+	private int maxStack = MAX_STACK;
 
-    public ItemStack[] getContents() {
-        return new ItemStack[] { this.inventorySlot };
-    }
+	@Override
+	public ItemStack[] getContents() {
+		return new ItemStack[] { inventorySlot };
+	}
 
-    public void onOpen(CraftHumanEntity who) {
-        transaction.add(who);
-    }
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+		transaction.add(who);
+	}
 
-    public void onClose(CraftHumanEntity who) {
-        transaction.remove(who);
-    }
+	@Override
+	public void onClose(CraftHumanEntity who) {
+		transaction.remove(who);
+	}
 
-    public List<HumanEntity> getViewers() {
-        return transaction;
-    }
+	@Override
+	public List<HumanEntity> getViewers() {
+		return transaction;
+	}
 
-    public void setMaxStackSize(int size) {
-        maxStack = size;
-    }
-    // CraftBukkit end
+	@Override
+	public void setMaxStackSize(int size) {
+		maxStack = size;
+	}
 
-    public TileEntityBeacon() {}
+	// CraftBukkit end
 
-    public void h() {
-        if (true || this.world.getTime() % 80L == 0L) { // PaperSpigot - controlled by Improved Tick handling
-            this.y();
-            this.x();
-        }
-    }
+	public TileEntityBeacon() {
+	}
 
-    private void x() {
-        if (this.k && this.l > 0 && !this.world.isStatic && this.m > 0) {
-            double d0 = (double) (this.l * 10 + 10);
-            byte b0 = 0;
+	@Override
+	public void h() {
+		if (true || world.getTime() % 80L == 0L) { // PaperSpigot - controlled by Improved Tick handling
+			y();
+			x();
+		}
+	}
 
-            if (this.l >= 4 && this.m == this.n) {
-                b0 = 1;
-            }
+	private void x() {
+		if (k && l > 0 && !world.isStatic && m > 0) {
+			double d0 = l * 10 + 10;
+			byte b0 = 0;
 
-            AxisAlignedBB axisalignedbb = AxisAlignedBB.a((double) this.x, (double) this.y, (double) this.z, (double) (this.x + 1), (double) (this.y + 1), (double) (this.z + 1)).grow(d0, d0, d0);
+			if (l >= 4 && m == n) {
+				b0 = 1;
+			}
 
-            axisalignedbb.e = (double) this.world.getHeight();
-            List list = this.world.a(EntityHuman.class, axisalignedbb);
-            Iterator iterator = list.iterator();
+			AxisAlignedBB axisalignedbb = AxisAlignedBB.a(x, y, z, x + 1, y + 1, z + 1).grow(d0, d0, d0);
 
-            EntityHuman entityhuman;
+			axisalignedbb.e = world.getHeight();
+			List list = world.a(EntityHuman.class, axisalignedbb);
+			Iterator iterator = list.iterator();
 
-            while (iterator.hasNext()) {
-                entityhuman = (EntityHuman) iterator.next();
-                entityhuman.addEffect(new MobEffect(this.m, 180, b0, true));
-            }
+			EntityHuman entityhuman;
 
-            if (this.l >= 4 && this.m != this.n && this.n > 0) {
-                iterator = list.iterator();
+			while (iterator.hasNext()) {
+				entityhuman = (EntityHuman) iterator.next();
+				entityhuman.addEffect(new MobEffect(m, 180, b0, true));
+			}
 
-                while (iterator.hasNext()) {
-                    entityhuman = (EntityHuman) iterator.next();
-                    entityhuman.addEffect(new MobEffect(this.n, 180, 0, true));
-                }
-            }
-        }
-    }
+			if (l >= 4 && m != n && n > 0) {
+				iterator = list.iterator();
 
-    private void y() {
-        int i = this.l;
+				while (iterator.hasNext()) {
+					entityhuman = (EntityHuman) iterator.next();
+					entityhuman.addEffect(new MobEffect(n, 180, 0, true));
+				}
+			}
+		}
+	}
 
-        if (!this.world.i(this.x, this.y + 1, this.z)) {
-            this.k = false;
-            this.l = 0;
-        } else {
-            this.k = true;
-            this.l = 0;
+	private void y() {
+		int i = l;
 
-            for (int j = 1; j <= 4; this.l = j++) {
-                int k = this.y - j;
+		if (!world.i(x, y + 1, z)) {
+			k = false;
+			l = 0;
+		} else {
+			k = true;
+			l = 0;
 
-                if (k < 0) {
-                    break;
-                }
+			for (int j = 1; j <= 4; l = j++) {
+				int k = y - j;
 
-                boolean flag = true;
+				if (k < 0) {
+					break;
+				}
 
-                for (int l = this.x - j; l <= this.x + j && flag; ++l) {
-                    for (int i1 = this.z - j; i1 <= this.z + j; ++i1) {
-                        Block block = this.world.getType(l, k, i1);
+				boolean flag = true;
 
-                        if (block != Blocks.EMERALD_BLOCK && block != Blocks.GOLD_BLOCK && block != Blocks.DIAMOND_BLOCK && block != Blocks.IRON_BLOCK) {
-                            flag = false;
-                            break;
-                        }
-                    }
-                }
+				for (int l = x - j; l <= x + j && flag; ++l) {
+					for (int i1 = z - j; i1 <= z + j; ++i1) {
+						Block block = world.getType(l, k, i1);
 
-                if (!flag) {
-                    break;
-                }
-            }
+						if (block != Blocks.EMERALD_BLOCK && block != Blocks.GOLD_BLOCK && block != Blocks.DIAMOND_BLOCK && block != Blocks.IRON_BLOCK) {
+							flag = false;
+							break;
+						}
+					}
+				}
 
-            if (this.l == 0) {
-                this.k = false;
-            }
-        }
+				if (!flag) {
+					break;
+				}
+			}
 
-        if (!this.world.isStatic && this.l == 4 && i < this.l) {
-            Iterator iterator = this.world.a(EntityHuman.class, AxisAlignedBB.a((double) this.x, (double) this.y, (double) this.z, (double) this.x, (double) (this.y - 4), (double) this.z).grow(10.0D, 5.0D, 10.0D)).iterator();
+			if (l == 0) {
+				k = false;
+			}
+		}
 
-            while (iterator.hasNext()) {
-                EntityHuman entityhuman = (EntityHuman) iterator.next();
+		if (!world.isStatic && l == 4 && i < l) {
+			Iterator iterator = world.a(EntityHuman.class, AxisAlignedBB.a(x, y, z, x, y - 4, z).grow(10.0D, 5.0D, 10.0D)).iterator();
 
-                entityhuman.a((Statistic) AchievementList.K);
-            }
-        }
-    }
+			while (iterator.hasNext()) {
+				EntityHuman entityhuman = (EntityHuman) iterator.next();
 
-    public int j() {
-        return this.m;
-    }
+				entityhuman.a(AchievementList.K);
+			}
+		}
+	}
 
-    public int k() {
-        return this.n;
-    }
+	public int j() {
+		return m;
+	}
 
-    public int l() {
-        return this.l;
-    }
+	public int k() {
+		return n;
+	}
 
-    public void d(int i) {
-        this.m = 0;
+	public int l() {
+		return l;
+	}
 
-        for (int j = 0; j < this.l && j < 3; ++j) {
-            MobEffectList[] amobeffectlist = a[j];
-            int k = amobeffectlist.length;
+	public void d(int i) {
+		m = 0;
 
-            for (int l = 0; l < k; ++l) {
-                MobEffectList mobeffectlist = amobeffectlist[l];
+		for (int j = 0; j < l && j < 3; ++j) {
+			MobEffectList[] amobeffectlist = a[j];
+			int k = amobeffectlist.length;
 
-                if (mobeffectlist.id == i) {
-                    this.m = i;
-                    return;
-                }
-            }
-        }
-    }
+			for (int l = 0; l < k; ++l) {
+				MobEffectList mobeffectlist = amobeffectlist[l];
 
-    public void e(int i) {
-        this.n = 0;
-        if (this.l >= 4) {
-            for (int j = 0; j < 4; ++j) {
-                MobEffectList[] amobeffectlist = a[j];
-                int k = amobeffectlist.length;
+				if (mobeffectlist.id == i) {
+					m = i;
+					return;
+				}
+			}
+		}
+	}
 
-                for (int l = 0; l < k; ++l) {
-                    MobEffectList mobeffectlist = amobeffectlist[l];
+	public void e(int i) {
+		n = 0;
+		if (l >= 4) {
+			for (int j = 0; j < 4; ++j) {
+				MobEffectList[] amobeffectlist = a[j];
+				int k = amobeffectlist.length;
 
-                    if (mobeffectlist.id == i) {
-                        this.n = i;
-                        return;
-                    }
-                }
-            }
-        }
-    }
+				for (int l = 0; l < k; ++l) {
+					MobEffectList mobeffectlist = amobeffectlist[l];
 
-    public Packet getUpdatePacket() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+					if (mobeffectlist.id == i) {
+						n = i;
+						return;
+					}
+				}
+			}
+		}
+	}
 
-        this.b(nbttagcompound);
-        return new PacketPlayOutTileEntityData(this.x, this.y, this.z, 3, nbttagcompound);
-    }
+	@Override
+	public Packet getUpdatePacket() {
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-    public void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        this.m = nbttagcompound.getInt("Primary");
-        this.n = nbttagcompound.getInt("Secondary");
-        this.l = nbttagcompound.getInt("Levels");
-    }
+		this.b(nbttagcompound);
+		return new PacketPlayOutTileEntityData(x, y, z, 3, nbttagcompound);
+	}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        nbttagcompound.setInt("Primary", this.m);
-        nbttagcompound.setInt("Secondary", this.n);
-        nbttagcompound.setInt("Levels", this.l);
-    }
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		m = nbttagcompound.getInt("Primary");
+		n = nbttagcompound.getInt("Secondary");
+		l = nbttagcompound.getInt("Levels");
+	}
 
-    public int getSize() {
-        return 1;
-    }
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		nbttagcompound.setInt("Primary", m);
+		nbttagcompound.setInt("Secondary", n);
+		nbttagcompound.setInt("Levels", l);
+	}
 
-    public ItemStack getItem(int i) {
-        return i == 0 ? this.inventorySlot : null;
-    }
+	@Override
+	public int getSize() {
+		return 1;
+	}
 
-    public ItemStack splitStack(int i, int j) {
-        if (i == 0 && this.inventorySlot != null) {
-            if (j >= this.inventorySlot.count) {
-                ItemStack itemstack = this.inventorySlot;
+	@Override
+	public ItemStack getItem(int i) {
+		return i == 0 ? inventorySlot : null;
+	}
 
-                this.inventorySlot = null;
-                return itemstack;
-            } else {
-                this.inventorySlot.count -= j;
-                return new ItemStack(this.inventorySlot.getItem(), j, this.inventorySlot.getData());
-            }
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public ItemStack splitStack(int i, int j) {
+		if (i == 0 && inventorySlot != null) {
+			if (j >= inventorySlot.count) {
+				ItemStack itemstack = inventorySlot;
 
-    public ItemStack splitWithoutUpdate(int i) {
-        if (i == 0 && this.inventorySlot != null) {
-            ItemStack itemstack = this.inventorySlot;
+				inventorySlot = null;
+				return itemstack;
+			} else {
+				inventorySlot.count -= j;
+				return new ItemStack(inventorySlot.getItem(), j, inventorySlot.getData());
+			}
+		} else
+			return null;
+	}
 
-            this.inventorySlot = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public ItemStack splitWithoutUpdate(int i) {
+		if (i == 0 && inventorySlot != null) {
+			ItemStack itemstack = inventorySlot;
 
-    public void setItem(int i, ItemStack itemstack) {
-        if (i == 0) {
-            this.inventorySlot = itemstack;
-        }
-    }
+			inventorySlot = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-    public String getInventoryName() {
-        return this.k_() ? this.p : "container.beacon";
-    }
+	@Override
+	public void setItem(int i, ItemStack itemstack) {
+		if (i == 0) {
+			inventorySlot = itemstack;
+		}
+	}
 
-    public boolean k_() {
-        return this.p != null && this.p.length() > 0;
-    }
+	@Override
+	public String getInventoryName() {
+		return k_() ? p : "container.beacon";
+	}
 
-    public void a(String s) {
-        this.p = s;
-    }
+	@Override
+	public boolean k_() {
+		return p != null && p.length() > 0;
+	}
 
-    public int getMaxStackSize() {
-        return maxStack; // CraftBukkit
-    }
+	public void a(String s) {
+		p = s;
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return this.world.getTileEntity(this.x, this.y, this.z) != this ? false : entityhuman.e((double) this.x + 0.5D, (double) this.y + 0.5D, (double) this.z + 0.5D) <= 64.0D;
-    }
+	@Override
+	public int getMaxStackSize() {
+		return maxStack; // CraftBukkit
+	}
 
-    public void startOpen() {}
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return world.getTileEntity(x, y, z) != this ? false : entityhuman.e(x + 0.5D, y + 0.5D, z + 0.5D) <= 64.0D;
+	}
 
-    public void closeContainer() {}
+	@Override
+	public void startOpen() {
+	}
 
-    public boolean b(int i, ItemStack itemstack) {
-        return itemstack.getItem() == Items.EMERALD || itemstack.getItem() == Items.DIAMOND || itemstack.getItem() == Items.GOLD_INGOT || itemstack.getItem() == Items.IRON_INGOT;
-    }
+	@Override
+	public void closeContainer() {
+	}
+
+	@Override
+	public boolean b(int i, ItemStack itemstack) {
+		return itemstack.getItem() == Items.EMERALD || itemstack.getItem() == Items.DIAMOND || itemstack.getItem() == Items.GOLD_INGOT || itemstack.getItem() == Items.IRON_INGOT;
+	}
 }

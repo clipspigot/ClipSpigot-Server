@@ -7,23 +7,27 @@ import org.bukkit.inventory.ItemStack;
 
 public class CraftInventoryHorse extends CraftInventory implements HorseInventory {
 
-    public CraftInventoryHorse(IInventory inventory) {
-        super(inventory);
-    }
+	public CraftInventoryHorse(IInventory inventory) {
+		super(inventory);
+	}
 
-    public ItemStack getSaddle() {
-        return getItem(0);
-    }
+	@Override
+	public ItemStack getSaddle() {
+		return getItem(0);
+	}
 
-    public ItemStack getArmor() {
-       return getItem(1);
-    }
+	@Override
+	public ItemStack getArmor() {
+		return getItem(1);
+	}
 
-    public void setSaddle(ItemStack stack) {
-        setItem(0, stack);
-    }
+	@Override
+	public void setSaddle(ItemStack stack) {
+		setItem(0, stack);
+	}
 
-    public void setArmor(ItemStack stack) {
-        setItem(1, stack);
-    }
+	@Override
+	public void setArmor(ItemStack stack) {
+		setItem(1, stack);
+	}
 }

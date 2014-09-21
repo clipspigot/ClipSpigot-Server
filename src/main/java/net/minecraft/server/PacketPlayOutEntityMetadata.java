@@ -4,43 +4,45 @@ import java.util.List;
 
 public class PacketPlayOutEntityMetadata extends Packet {
 
-    private int a;
-    private List b;
+	private int a;
+	private List b;
 
-    public PacketPlayOutEntityMetadata() {}
+	public PacketPlayOutEntityMetadata() {
+	}
 
-    public PacketPlayOutEntityMetadata(int i, DataWatcher datawatcher, boolean flag) {
-        this.a = i;
-        if (flag) {
-            this.b = datawatcher.c();
-        } else {
-            this.b = datawatcher.b();
-        }
-    }
+	public PacketPlayOutEntityMetadata(int i, DataWatcher datawatcher, boolean flag) {
+		a = i;
+		if (flag) {
+			b = datawatcher.c();
+		} else {
+			b = datawatcher.b();
+		}
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readInt();
-        this.b = DataWatcher.b(packetdataserializer);
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readInt();
+		b = DataWatcher.b(packetdataserializer);
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeInt( this.a );
-        } else
-        {
-            packetdataserializer.b( a );
-        }
-        DataWatcher.a(this.b, packetdataserializer, packetdataserializer.version);
-        // Spigot end
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeInt(a);
+		} else {
+			packetdataserializer.b(a);
+		}
+		DataWatcher.a(b, packetdataserializer, packetdataserializer.version);
+		// Spigot end
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

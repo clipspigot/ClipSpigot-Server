@@ -6,244 +6,271 @@ import java.util.List;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.InventoryHolder;
+
 // CraftBukkit end
 
 public abstract class EntityMinecartContainer extends EntityMinecartAbstract implements IInventory {
 
-    private ItemStack[] items = new ItemStack[27]; // CraftBukkit - 36 -> 27
-    private boolean b = true;
+	private ItemStack[] items = new ItemStack[27]; // CraftBukkit - 36 -> 27
+	private boolean b = true;
 
-    // CraftBukkit start
-    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
-    private int maxStack = MAX_STACK;
+	// CraftBukkit start
+	public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
+	private int maxStack = MAX_STACK;
 
-    public ItemStack[] getContents() {
-        return this.items;
-    }
+	@Override
+	public ItemStack[] getContents() {
+		return items;
+	}
 
-    public void onOpen(CraftHumanEntity who) {
-        transaction.add(who);
-    }
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+		transaction.add(who);
+	}
 
-    public void onClose(CraftHumanEntity who) {
-        transaction.remove(who);
-    }
+	@Override
+	public void onClose(CraftHumanEntity who) {
+		transaction.remove(who);
+	}
 
-    public List<HumanEntity> getViewers() {
-        return transaction;
-    }
+	@Override
+	public List<HumanEntity> getViewers() {
+		return transaction;
+	}
 
-    public InventoryHolder getOwner() {
-        org.bukkit.entity.Entity cart = getBukkitEntity();
-        if(cart instanceof InventoryHolder) return (InventoryHolder) cart;
-        return null;
-    }
+	@Override
+	public InventoryHolder getOwner() {
+		org.bukkit.entity.Entity cart = getBukkitEntity();
+		if (cart instanceof InventoryHolder)
+			return (InventoryHolder) cart;
+		return null;
+	}
 
-    public void setMaxStackSize(int size) {
-        maxStack = size;
-    }
-    // CraftBukkit end
+	@Override
+	public void setMaxStackSize(int size) {
+		maxStack = size;
+	}
 
-    public EntityMinecartContainer(World world) {
-        super(world);
-    }
+	// CraftBukkit end
 
-    public EntityMinecartContainer(World world, double d0, double d1, double d2) {
-        super(world, d0, d1, d2);
-    }
+	public EntityMinecartContainer(World world) {
+		super(world);
+	}
 
-    public void a(DamageSource damagesource) {
-        super.a(damagesource);
+	public EntityMinecartContainer(World world, double d0, double d1, double d2) {
+		super(world, d0, d1, d2);
+	}
 
-        for (int i = 0; i < this.getSize(); ++i) {
-            ItemStack itemstack = this.getItem(i);
+	@Override
+	public void a(DamageSource damagesource) {
+		super.a(damagesource);
 
-            if (itemstack != null) {
-                float f = this.random.nextFloat() * 0.8F + 0.1F;
-                float f1 = this.random.nextFloat() * 0.8F + 0.1F;
-                float f2 = this.random.nextFloat() * 0.8F + 0.1F;
+		for (int i = 0; i < getSize(); ++i) {
+			ItemStack itemstack = getItem(i);
 
-                while (itemstack.count > 0) {
-                    int j = this.random.nextInt(21) + 10;
+			if (itemstack != null) {
+				float f = random.nextFloat() * 0.8F + 0.1F;
+				float f1 = random.nextFloat() * 0.8F + 0.1F;
+				float f2 = random.nextFloat() * 0.8F + 0.1F;
 
-                    if (j > itemstack.count) {
-                        j = itemstack.count;
-                    }
+				while (itemstack.count > 0) {
+					int j = random.nextInt(21) + 10;
 
-                    itemstack.count -= j;
-                    EntityItem entityitem = new EntityItem(this.world, this.locX + (double) f, this.locY + (double) f1, this.locZ + (double) f2, new ItemStack(itemstack.getItem(), j, itemstack.getData()));
-                    float f3 = 0.05F;
+					if (j > itemstack.count) {
+						j = itemstack.count;
+					}
 
-                    entityitem.motX = (double) ((float) this.random.nextGaussian() * f3);
-                    entityitem.motY = (double) ((float) this.random.nextGaussian() * f3 + 0.2F);
-                    entityitem.motZ = (double) ((float) this.random.nextGaussian() * f3);
-                    this.world.addEntity(entityitem);
-                }
-            }
-        }
-    }
+					itemstack.count -= j;
+					EntityItem entityitem = new EntityItem(world, locX + f, locY + f1, locZ + f2, new ItemStack(itemstack.getItem(), j, itemstack.getData()));
+					float f3 = 0.05F;
 
-    public ItemStack getItem(int i) {
-        return this.items[i];
-    }
+					entityitem.motX = (float) random.nextGaussian() * f3;
+					entityitem.motY = (float) random.nextGaussian() * f3 + 0.2F;
+					entityitem.motZ = (float) random.nextGaussian() * f3;
+					world.addEntity(entityitem);
+				}
+			}
+		}
+	}
 
-    public ItemStack splitStack(int i, int j) {
-        if (this.items[i] != null) {
-            ItemStack itemstack;
+	@Override
+	public ItemStack getItem(int i) {
+		return items[i];
+	}
 
-            if (this.items[i].count <= j) {
-                itemstack = this.items[i];
-                this.items[i] = null;
-                return itemstack;
-            } else {
-                itemstack = this.items[i].a(j);
-                if (this.items[i].count == 0) {
-                    this.items[i] = null;
-                }
+	@Override
+	public ItemStack splitStack(int i, int j) {
+		if (items[i] != null) {
+			ItemStack itemstack;
 
-                return itemstack;
-            }
-        } else {
-            return null;
-        }
-    }
+			if (items[i].count <= j) {
+				itemstack = items[i];
+				items[i] = null;
+				return itemstack;
+			} else {
+				itemstack = items[i].a(j);
+				if (items[i].count == 0) {
+					items[i] = null;
+				}
 
-    public ItemStack splitWithoutUpdate(int i) {
-        if (this.items[i] != null) {
-            ItemStack itemstack = this.items[i];
+				return itemstack;
+			}
+		} else
+			return null;
+	}
 
-            this.items[i] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public ItemStack splitWithoutUpdate(int i) {
+		if (items[i] != null) {
+			ItemStack itemstack = items[i];
 
-    public void setItem(int i, ItemStack itemstack) {
-        this.items[i] = itemstack;
-        if (itemstack != null && itemstack.count > this.getMaxStackSize()) {
-            itemstack.count = this.getMaxStackSize();
-        }
-    }
+			items[i] = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-    public void update() {}
+	@Override
+	public void setItem(int i, ItemStack itemstack) {
+		items[i] = itemstack;
+		if (itemstack != null && itemstack.count > getMaxStackSize()) {
+			itemstack.count = getMaxStackSize();
+		}
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return this.dead ? false : entityhuman.f(this) <= 64.0D;
-    }
+	@Override
+	public void update() {
+	}
 
-    public void startOpen() {}
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return dead ? false : entityhuman.f(this) <= 64.0D;
+	}
 
-    public void closeContainer() {}
+	@Override
+	public void startOpen() {
+	}
 
-    public boolean b(int i, ItemStack itemstack) {
-        return true;
-    }
+	@Override
+	public void closeContainer() {
+	}
 
-    public String getInventoryName() {
-        return this.k_() ? this.u() : "container.minecart";
-    }
+	@Override
+	public boolean b(int i, ItemStack itemstack) {
+		return true;
+	}
 
-    public int getMaxStackSize() {
-        return maxStack; // CraftBukkit
-    }
+	@Override
+	public String getInventoryName() {
+		return k_() ? u() : "container.minecart";
+	}
 
-    public void b(int i) {
-        // Spigot Start
-        for ( HumanEntity human : new java.util.ArrayList<HumanEntity>( transaction ) )
-        {
-            human.closeInventory();
-        }
-        // Spigot End
-        this.b = false;
-        super.b(i);
-    }
+	@Override
+	public int getMaxStackSize() {
+		return maxStack; // CraftBukkit
+	}
 
-    public void die() {
-        if (this.b) {
-            for (int i = 0; i < this.getSize(); ++i) {
-                ItemStack itemstack = this.getItem(i);
+	@Override
+	public void b(int i) {
+		// Spigot Start
+		for (HumanEntity human : new java.util.ArrayList<HumanEntity>(transaction)) {
+			human.closeInventory();
+		}
+		// Spigot End
+		b = false;
+		super.b(i);
+	}
 
-                if (itemstack != null) {
-                    float f = this.random.nextFloat() * 0.8F + 0.1F;
-                    float f1 = this.random.nextFloat() * 0.8F + 0.1F;
-                    float f2 = this.random.nextFloat() * 0.8F + 0.1F;
+	@Override
+	public void die() {
+		if (b) {
+			for (int i = 0; i < getSize(); ++i) {
+				ItemStack itemstack = getItem(i);
 
-                    while (itemstack.count > 0) {
-                        int j = this.random.nextInt(21) + 10;
+				if (itemstack != null) {
+					float f = random.nextFloat() * 0.8F + 0.1F;
+					float f1 = random.nextFloat() * 0.8F + 0.1F;
+					float f2 = random.nextFloat() * 0.8F + 0.1F;
 
-                        if (j > itemstack.count) {
-                            j = itemstack.count;
-                        }
+					while (itemstack.count > 0) {
+						int j = random.nextInt(21) + 10;
 
-                        itemstack.count -= j;
-                        EntityItem entityitem = new EntityItem(this.world, this.locX + (double) f, this.locY + (double) f1, this.locZ + (double) f2, new ItemStack(itemstack.getItem(), j, itemstack.getData()));
+						if (j > itemstack.count) {
+							j = itemstack.count;
+						}
 
-                        if (itemstack.hasTag()) {
-                            entityitem.getItemStack().setTag((NBTTagCompound) itemstack.getTag().clone());
-                        }
+						itemstack.count -= j;
+						EntityItem entityitem = new EntityItem(world, locX + f, locY + f1, locZ + f2, new ItemStack(itemstack.getItem(), j, itemstack.getData()));
 
-                        float f3 = 0.05F;
+						if (itemstack.hasTag()) {
+							entityitem.getItemStack().setTag((NBTTagCompound) itemstack.getTag().clone());
+						}
 
-                        entityitem.motX = (double) ((float) this.random.nextGaussian() * f3);
-                        entityitem.motY = (double) ((float) this.random.nextGaussian() * f3 + 0.2F);
-                        entityitem.motZ = (double) ((float) this.random.nextGaussian() * f3);
-                        this.world.addEntity(entityitem);
-                    }
-                }
-            }
-        }
+						float f3 = 0.05F;
 
-        super.die();
-    }
+						entityitem.motX = (float) random.nextGaussian() * f3;
+						entityitem.motY = (float) random.nextGaussian() * f3 + 0.2F;
+						entityitem.motZ = (float) random.nextGaussian() * f3;
+						world.addEntity(entityitem);
+					}
+				}
+			}
+		}
 
-    protected void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        NBTTagList nbttaglist = new NBTTagList();
+		super.die();
+	}
 
-        for (int i = 0; i < this.items.length; ++i) {
-            if (this.items[i] != null) {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+	@Override
+	protected void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		NBTTagList nbttaglist = new NBTTagList();
 
-                nbttagcompound1.setByte("Slot", (byte) i);
-                this.items[i].save(nbttagcompound1);
-                nbttaglist.add(nbttagcompound1);
-            }
-        }
+		for (int i = 0; i < items.length; ++i) {
+			if (items[i] != null) {
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-        nbttagcompound.set("Items", nbttaglist);
-    }
+				nbttagcompound1.setByte("Slot", (byte) i);
+				items[i].save(nbttagcompound1);
+				nbttaglist.add(nbttagcompound1);
+			}
+		}
 
-    protected void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        NBTTagList nbttaglist = nbttagcompound.getList("Items", 10);
+		nbttagcompound.set("Items", nbttaglist);
+	}
 
-        this.items = new ItemStack[this.getSize()];
+	@Override
+	protected void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		NBTTagList nbttaglist = nbttagcompound.getList("Items", 10);
 
-        for (int i = 0; i < nbttaglist.size(); ++i) {
-            NBTTagCompound nbttagcompound1 = nbttaglist.get(i);
-            int j = nbttagcompound1.getByte("Slot") & 255;
+		items = new ItemStack[getSize()];
 
-            if (j >= 0 && j < this.items.length) {
-                this.items[j] = ItemStack.createStack(nbttagcompound1);
-            }
-        }
-    }
+		for (int i = 0; i < nbttaglist.size(); ++i) {
+			NBTTagCompound nbttagcompound1 = nbttaglist.get(i);
+			int j = nbttagcompound1.getByte("Slot") & 255;
 
-    public boolean c(EntityHuman entityhuman) {
-        if (!this.world.isStatic) {
-            entityhuman.openContainer(this);
-        }
+			if (j >= 0 && j < items.length) {
+				items[j] = ItemStack.createStack(nbttagcompound1);
+			}
+		}
+	}
 
-        return true;
-    }
+	@Override
+	public boolean c(EntityHuman entityhuman) {
+		if (!world.isStatic) {
+			entityhuman.openContainer(this);
+		}
 
-    protected void i() {
-        int i = 15 - Container.b((IInventory) this);
-        float f = 0.98F + (float) i * 0.001F;
+		return true;
+	}
 
-        this.motX *= (double) f;
-        this.motY *= 0.0D;
-        this.motZ *= (double) f;
-    }
+	@Override
+	protected void i() {
+		int i = 15 - Container.b(this);
+		float f = 0.98F + i * 0.001F;
+
+		motX *= f;
+		motY *= 0.0D;
+		motZ *= f;
+	}
 }

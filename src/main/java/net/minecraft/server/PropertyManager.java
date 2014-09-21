@@ -13,119 +13,118 @@ import org.apache.logging.log4j.Logger;
 
 public class PropertyManager {
 
-    private static final Logger loggingAgent = LogManager.getLogger();
-    public final Properties properties = new Properties(); // CraftBukkit - private -> public
-    private final File c;
+	private static final Logger loggingAgent = LogManager.getLogger();
+	public final Properties properties = new Properties(); // CraftBukkit - private -> public
+	private final File c;
 
-    public PropertyManager(File file1) {
-        this.c = file1;
-        if (file1.exists()) {
-            FileInputStream fileinputstream = null;
+	public PropertyManager(File file1) {
+		c = file1;
+		if (file1.exists()) {
+			FileInputStream fileinputstream = null;
 
-            try {
-                fileinputstream = new FileInputStream(file1);
-                this.properties.load(fileinputstream);
-            } catch (Exception exception) {
-                loggingAgent.warn("Failed to load " + file1, exception);
-                this.a();
-            } finally {
-                if (fileinputstream != null) {
-                    try {
-                        fileinputstream.close();
-                    } catch (IOException ioexception) {
-                        ;
-                    }
-                }
-            }
-        } else {
-            loggingAgent.warn(file1 + " does not exist");
-            this.a();
-        }
-    }
+			try {
+				fileinputstream = new FileInputStream(file1);
+				properties.load(fileinputstream);
+			} catch (Exception exception) {
+				loggingAgent.warn("Failed to load " + file1, exception);
+				a();
+			} finally {
+				if (fileinputstream != null) {
+					try {
+						fileinputstream.close();
+					} catch (IOException ioexception) {
+						;
+					}
+				}
+			}
+		} else {
+			loggingAgent.warn(file1 + " does not exist");
+			a();
+		}
+	}
 
-    // CraftBukkit start
-    private OptionSet options = null;
+	// CraftBukkit start
+	private OptionSet options = null;
 
-    public PropertyManager(final OptionSet options) {
-        this((File) options.valueOf("config"));
+	public PropertyManager(final OptionSet options) {
+		this((File) options.valueOf("config"));
 
-        this.options = options;
-    }
+		this.options = options;
+	}
 
-    private <T> T getOverride(String name, T value) {
-        if ((this.options != null) && (this.options.has(name)) && !name.equals( "online-mode")) { // Spigot
-            return (T) this.options.valueOf(name);
-        }
+	private <T> T getOverride(String name, T value) {
+		if (options != null && options.has(name) && !name.equals("online-mode"))
+			return (T) options.valueOf(name);
 
-        return value;
-    }
-    // CraftBukkit end
+		return value;
+	}
 
-    public void a() {
-        loggingAgent.info("Generating new properties file");
-        this.savePropertiesFile();
-    }
+	// CraftBukkit end
 
-    public void savePropertiesFile() {
-        FileOutputStream fileoutputstream = null;
+	public void a() {
+		loggingAgent.info("Generating new properties file");
+		savePropertiesFile();
+	}
 
-        try {
-            // CraftBukkit start - Don't attempt writing to file if it's read only
-            if (this.c.exists() && !this.c.canWrite()) {
-                return;
-            }
-            // CraftBukkit end
-            fileoutputstream = new FileOutputStream(this.c);
-            this.properties.store(fileoutputstream, "Minecraft server properties");
-        } catch (Exception exception) {
-            loggingAgent.warn("Failed to save " + this.c, exception);
-            this.a();
-        } finally {
-            if (fileoutputstream != null) {
-                try {
-                    fileoutputstream.close();
-                } catch (IOException ioexception) {
-                    ;
-                }
-            }
-        }
-    }
+	public void savePropertiesFile() {
+		FileOutputStream fileoutputstream = null;
 
-    public File c() {
-        return this.c;
-    }
+		try {
+			// CraftBukkit start - Don't attempt writing to file if it's read only
+			if (c.exists() && !c.canWrite())
+				return;
+			// CraftBukkit end
+			fileoutputstream = new FileOutputStream(c);
+			properties.store(fileoutputstream, "Minecraft server properties");
+		} catch (Exception exception) {
+			loggingAgent.warn("Failed to save " + c, exception);
+			a();
+		} finally {
+			if (fileoutputstream != null) {
+				try {
+					fileoutputstream.close();
+				} catch (IOException ioexception) {
+					;
+				}
+			}
+		}
+	}
 
-    public String getString(String s, String s1) {
-        if (!this.properties.containsKey(s)) {
-            this.properties.setProperty(s, s1);
-            this.savePropertiesFile();
-            this.savePropertiesFile();
-        }
+	public File c() {
+		return c;
+	}
 
-        return this.getOverride(s, this.properties.getProperty(s, s1)); // CraftBukkit
-    }
+	public String getString(String s, String s1) {
+		if (!properties.containsKey(s)) {
+			properties.setProperty(s, s1);
+			savePropertiesFile();
+			savePropertiesFile();
+		}
 
-    public int getInt(String s, int i) {
-        try {
-            return this.getOverride(s, Integer.parseInt(this.getString(s, "" + i))); // CraftBukkit
-        } catch (Exception exception) {
-            this.properties.setProperty(s, "" + i);
-            this.savePropertiesFile();
-            return this.getOverride(s, i); // CraftBukkit
-        }
-    }
+		return this.getOverride(s, properties.getProperty(s, s1)); // CraftBukkit
+	}
 
-    public boolean getBoolean(String s, boolean flag) {
-        try {
-            return this.getOverride(s, Boolean.parseBoolean(this.getString(s, "" + flag))); // CraftBukkit
-        } catch (Exception exception) {
-            this.properties.setProperty(s, "" + flag);
-            this.savePropertiesFile();
-            return this.getOverride(s, flag); // CraftBukkit
-        }
-    }
+	public int getInt(String s, int i) {
+		try {
+			return this.getOverride(s, Integer.parseInt(getString(s, "" + i))); // CraftBukkit
+		} catch (Exception exception) {
+			properties.setProperty(s, "" + i);
+			savePropertiesFile();
+			return this.getOverride(s, i); // CraftBukkit
+		}
+	}
 
-    public void setProperty(String s, Object object) {
-        this.properties.setProperty(s, "" + object);
-    }
+	public boolean getBoolean(String s, boolean flag) {
+		try {
+			return this.getOverride(s, Boolean.parseBoolean(getString(s, "" + flag))); // CraftBukkit
+		} catch (Exception exception) {
+			properties.setProperty(s, "" + flag);
+			savePropertiesFile();
+			return this.getOverride(s, flag); // CraftBukkit
+		}
+	}
+
+	public void setProperty(String s, Object object) {
+		properties.setProperty(s, "" + object);
+	}
 }

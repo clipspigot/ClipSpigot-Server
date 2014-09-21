@@ -3,27 +3,31 @@ package net.minecraft.server;
 // CraftBukkit - package-private -> public
 public class TileEntityCommandListener extends CommandBlockListenerAbstract {
 
-    final TileEntityCommand a;
+	final TileEntityCommand a;
 
-    TileEntityCommandListener(TileEntityCommand tileentitycommand) {
-        this.a = tileentitycommand;
-        sender = new org.bukkit.craftbukkit.command.CraftBlockCommandSender(this); // CraftBukkit - add sender
-    }
+	TileEntityCommandListener(TileEntityCommand tileentitycommand) {
+		a = tileentitycommand;
+		sender = new org.bukkit.craftbukkit.command.CraftBlockCommandSender(this); // CraftBukkit - add sender
+	}
 
-    public ChunkCoordinates getChunkCoordinates() {
-        return new ChunkCoordinates(this.a.x, this.a.y, this.a.z);
-    }
+	@Override
+	public ChunkCoordinates getChunkCoordinates() {
+		return new ChunkCoordinates(a.x, a.y, a.z);
+	}
 
-    public World getWorld() {
-        return this.a.getWorld();
-    }
+	@Override
+	public World getWorld() {
+		return a.getWorld();
+	}
 
-    public void setCommand(String s) {
-        super.setCommand(s);
-        this.a.update();
-    }
+	@Override
+	public void setCommand(String s) {
+		super.setCommand(s);
+		a.update();
+	}
 
-    public void e() {
-        this.a.getWorld().notify(this.a.x, this.a.y, this.a.z);
-    }
+	@Override
+	public void e() {
+		a.getWorld().notify(a.x, a.y, a.z);
+	}
 }

@@ -9,29 +9,29 @@ import org.bukkit.craftbukkit.inventory.CraftInventoryBeacon;
 import org.bukkit.inventory.Inventory;
 
 public class CraftBeacon extends CraftBlockState implements Beacon {
-    private final CraftWorld world;
-    private final TileEntityBeacon beacon;
+	private final CraftWorld world;
+	private final TileEntityBeacon beacon;
 
-    public CraftBeacon(final Block block) {
-        super(block);
+	public CraftBeacon(final Block block) {
+		super(block);
 
-        world = (CraftWorld) block.getWorld();
-        beacon = (TileEntityBeacon) world.getTileEntityAt(getX(), getY(), getZ());
-    }
+		world = (CraftWorld) block.getWorld();
+		beacon = (TileEntityBeacon) world.getTileEntityAt(getX(), getY(), getZ());
+	}
 
-    public Inventory getInventory() {
-        return new CraftInventoryBeacon(beacon);
-    }
+	@Override
+	public Inventory getInventory() {
+		return new CraftInventoryBeacon(beacon);
+	}
 
-    @Override
-    public boolean update(boolean force, boolean applyPhysics) {
-        boolean result = super.update(force, applyPhysics);
+	@Override
+	public boolean update(boolean force, boolean applyPhysics) {
+		boolean result = super.update(force, applyPhysics);
 
-        if (result) {
-            beacon.update();
-        }
+		if (result) {
+			beacon.update();
+		}
 
-        return result;
-    }
+		return result;
+	}
 }
-

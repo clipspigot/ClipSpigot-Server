@@ -7,38 +7,37 @@ import java.io.IOException;
 
 class ThreadCommandReader extends Thread {
 
-    final DedicatedServer server;
+	final DedicatedServer server;
 
-    ThreadCommandReader(DedicatedServer dedicatedserver, String s) {
-        super(s);
-        this.server = dedicatedserver;
-    }
+	ThreadCommandReader(DedicatedServer dedicatedserver, String s) {
+		super(s);
+		server = dedicatedserver;
+	}
 
-    public void run() {
-        // CraftBukkit start
-        if (!useConsole) {
-            return;
-        }
-        // CraftBukkit end
+	@Override
+	public void run() {
+		// CraftBukkit start
+		if (!useConsole)
+			return;
 
-        jline.console.ConsoleReader bufferedreader = this.server.reader; // CraftBukkit
-        String s;
+		jline.console.ConsoleReader bufferedreader = server.reader; // CraftBukkit
+		String s;
 
-        try {
-            // CraftBukkit start - JLine disabling compatibility
-            while (!this.server.isStopped() && this.server.isRunning()) {
-                if (useJline) {
-                    s = bufferedreader.readLine(">", null);
-                } else {
-                    s = bufferedreader.readLine();
-                }
-                if (s != null) {
-                    this.server.issueCommand(s, this.server);
-                }
-                // CraftBukkit end
-            }
-        } catch (IOException ioexception) {
-            DedicatedServer.aF().error("Exception handling console input", ioexception);
-        }
-    }
+		try {
+			// CraftBukkit start - JLine disabling compatibility
+			while (!server.isStopped() && server.isRunning()) {
+				if (useJline) {
+					s = bufferedreader.readLine(">", null);
+				} else {
+					s = bufferedreader.readLine();
+				}
+				if (s != null) {
+					server.issueCommand(s, server);
+				}
+				// CraftBukkit end
+			}
+		} catch (IOException ioexception) {
+			DedicatedServer.aF().error("Exception handling console input", ioexception);
+		}
+	}
 }

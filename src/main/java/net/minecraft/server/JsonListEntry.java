@@ -4,23 +4,24 @@ import net.minecraft.util.com.google.gson.JsonObject;
 
 public class JsonListEntry {
 
-    private final Object a;
+	private final Object a;
 
-    public JsonListEntry(Object object) {
-        this.a = object;
-    }
+	public JsonListEntry(Object object) {
+		a = object;
+	}
 
-    protected JsonListEntry(Object object, JsonObject jsonobject) {
-        this.a = object;
-    }
+	protected JsonListEntry(Object object, JsonObject jsonobject) {
+		a = object;
+	}
 
-    public Object getKey() { // CraftBukkit -> package private -> public
-        return this.a;
-    }
+	public Object getKey() { // CraftBukkit -> package private -> public
+		return a;
+	}
 
-    boolean hasExpired() {
-        return false;
-    }
+	boolean hasExpired() {
+		return false;
+	}
 
-    protected void a(JsonObject jsonobject) {}
+	protected void a(JsonObject jsonobject) {
+	}
 }

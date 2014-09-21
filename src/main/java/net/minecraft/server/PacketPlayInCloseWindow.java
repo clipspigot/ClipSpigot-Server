@@ -2,28 +2,33 @@ package net.minecraft.server;
 
 public class PacketPlayInCloseWindow extends Packet {
 
-    private int a;
+	private int a;
 
-    public PacketPlayInCloseWindow() {}
+	public PacketPlayInCloseWindow() {
+	}
 
-    // CraftBukkit start - Add constructor
-    public PacketPlayInCloseWindow(int id) {
-        this.a = id;
-    }
-    // CraftBukkit end
-    public void a(PacketPlayInListener packetplayinlistener) {
-        packetplayinlistener.a(this);
-    }
+	// CraftBukkit start - Add constructor
+	public PacketPlayInCloseWindow(int id) {
+		a = id;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readByte();
-    }
+	// CraftBukkit end
+	public void a(PacketPlayInListener packetplayinlistener) {
+		packetplayinlistener.a(this);
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        packetdataserializer.writeByte(this.a);
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readByte();
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayInListener) packetlistener);
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		packetdataserializer.writeByte(a);
+	}
+
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayInListener) packetlistener);
+	}
 }

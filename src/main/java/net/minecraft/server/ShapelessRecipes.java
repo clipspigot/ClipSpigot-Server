@@ -7,79 +7,85 @@ import java.util.List;
 // CraftBukkit start
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.inventory.CraftShapelessRecipe;
+
 // CraftBukkit end
 
 public class ShapelessRecipes implements IRecipe {
 
-    public final ItemStack result; // Spigot
-    private final List ingredients;
+	public final ItemStack result; // Spigot
+	private final List ingredients;
 
-    public ShapelessRecipes(ItemStack itemstack, List list) {
-        this.result = itemstack;
-        this.ingredients = list;
-    }
+	public ShapelessRecipes(ItemStack itemstack, List list) {
+		result = itemstack;
+		ingredients = list;
+	}
 
-    // CraftBukkit start
-    @SuppressWarnings("unchecked")
-    public org.bukkit.inventory.ShapelessRecipe toBukkitRecipe() {
-        CraftItemStack result = CraftItemStack.asCraftMirror(this.result);
-        CraftShapelessRecipe recipe = new CraftShapelessRecipe(result, this);
-        for (ItemStack stack : (List<ItemStack>) this.ingredients) {
-            if (stack != null) {
-                recipe.addIngredient(org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.getItem()), stack.getData());
-            }
-        }
-        return recipe;
-    }
-    // CraftBukkit end
+	// CraftBukkit start
+	@Override
+	@SuppressWarnings("unchecked")
+	public org.bukkit.inventory.ShapelessRecipe toBukkitRecipe() {
+		CraftItemStack result = CraftItemStack.asCraftMirror(this.result);
+		CraftShapelessRecipe recipe = new CraftShapelessRecipe(result, this);
+		for (ItemStack stack : (List<ItemStack>) ingredients) {
+			if (stack != null) {
+				recipe.addIngredient(org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.getItem()), stack.getData());
+			}
+		}
+		return recipe;
+	}
 
-    public ItemStack b() {
-        return this.result;
-    }
+	// CraftBukkit end
 
-    public boolean a(InventoryCrafting inventorycrafting, World world) {
-        ArrayList arraylist = new ArrayList(this.ingredients);
+	@Override
+	public ItemStack b() {
+		return result;
+	}
 
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 3; ++j) {
-                ItemStack itemstack = inventorycrafting.b(j, i);
+	@Override
+	public boolean a(InventoryCrafting inventorycrafting, World world) {
+		ArrayList arraylist = new ArrayList(ingredients);
 
-                if (itemstack != null) {
-                    boolean flag = false;
-                    Iterator iterator = arraylist.iterator();
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				ItemStack itemstack = inventorycrafting.b(j, i);
 
-                    while (iterator.hasNext()) {
-                        ItemStack itemstack1 = (ItemStack) iterator.next();
+				if (itemstack != null) {
+					boolean flag = false;
+					Iterator iterator = arraylist.iterator();
 
-                        if (itemstack.getItem() == itemstack1.getItem() && (itemstack1.getData() == 32767 || itemstack.getData() == itemstack1.getData())) {
-                            flag = true;
-                            arraylist.remove(itemstack1);
-                            break;
-                        }
-                    }
+					while (iterator.hasNext()) {
+						ItemStack itemstack1 = (ItemStack) iterator.next();
 
-                    if (!flag) {
-                        return false;
-                    }
-                }
-            }
-        }
+						if (itemstack.getItem() == itemstack1.getItem() && (itemstack1.getData() == 32767 || itemstack.getData() == itemstack1.getData())) {
+							flag = true;
+							arraylist.remove(itemstack1);
+							break;
+						}
+					}
 
-        return arraylist.isEmpty();
-    }
+					if (!flag)
+						return false;
+				}
+			}
+		}
 
-    public ItemStack a(InventoryCrafting inventorycrafting) {
-        return this.result.cloneItemStack();
-    }
+		return arraylist.isEmpty();
+	}
 
-    public int a() {
-        return this.ingredients.size();
-    }
+	@Override
+	public ItemStack a(InventoryCrafting inventorycrafting) {
+		return result.cloneItemStack();
+	}
 
-    // Spigot start
-    public java.util.List<ItemStack> getIngredients()
-    {
-        return java.util.Collections.unmodifiableList( ingredients );
-    }
-    // Spigot end
+	@Override
+	public int a() {
+		return ingredients.size();
+	}
+
+	// Spigot start
+	@Override
+	public java.util.List<ItemStack> getIngredients() {
+		return java.util.Collections.unmodifiableList(ingredients);
+	}
+	// Spigot end
 }

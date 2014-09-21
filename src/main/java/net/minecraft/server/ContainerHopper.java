@@ -3,83 +3,87 @@ package net.minecraft.server;
 // CraftBukkit start
 import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
+
 // CraftBukkit end
 
 public class ContainerHopper extends Container {
 
-    private final IInventory hopper;
+	private final IInventory hopper;
 
-    // CraftBukkit start
-    private CraftInventoryView bukkitEntity = null;
-    private PlayerInventory player;
+	// CraftBukkit start
+	private CraftInventoryView bukkitEntity = null;
+	private PlayerInventory player;
 
-    public CraftInventoryView getBukkitView() {
-        if (bukkitEntity != null) {
-            return bukkitEntity;
-        }
+	@Override
+	public CraftInventoryView getBukkitView() {
+		if (bukkitEntity != null)
+			return bukkitEntity;
 
-        CraftInventory inventory = new CraftInventory(this.hopper);
-        bukkitEntity = new CraftInventoryView(this.player.player.getBukkitEntity(), inventory, this);
-        return bukkitEntity;
-    }
-    // CraftBukkit end
+		CraftInventory inventory = new CraftInventory(hopper);
+		bukkitEntity = new CraftInventoryView(player.player.getBukkitEntity(), inventory, this);
+		return bukkitEntity;
+	}
 
-    public ContainerHopper(PlayerInventory playerinventory, IInventory iinventory) {
-        this.hopper = iinventory;
-        this.player = playerinventory; // CraftBukkit - save player
-        iinventory.startOpen();
-        byte b0 = 51;
+	// CraftBukkit end
 
-        int i;
+	public ContainerHopper(PlayerInventory playerinventory, IInventory iinventory) {
+		hopper = iinventory;
+		player = playerinventory; // CraftBukkit - save player
+		iinventory.startOpen();
+		byte b0 = 51;
 
-        for (i = 0; i < iinventory.getSize(); ++i) {
-            this.a(new Slot(iinventory, i, 44 + i * 18, 20));
-        }
+		int i;
 
-        for (i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                this.a(new Slot(playerinventory, j + i * 9 + 9, 8 + j * 18, i * 18 + b0));
-            }
-        }
+		for (i = 0; i < iinventory.getSize(); ++i) {
+			this.a(new Slot(iinventory, i, 44 + i * 18, 20));
+		}
 
-        for (i = 0; i < 9; ++i) {
-            this.a(new Slot(playerinventory, i, 8 + i * 18, 58 + b0));
-        }
-    }
+		for (i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				this.a(new Slot(playerinventory, j + i * 9 + 9, 8 + j * 18, i * 18 + b0));
+			}
+		}
 
-    public boolean a(EntityHuman entityhuman) {
-        if (!this.checkReachable) return true; // CraftBukkit
-        return this.hopper.a(entityhuman);
-    }
+		for (i = 0; i < 9; ++i) {
+			this.a(new Slot(playerinventory, i, 8 + i * 18, 58 + b0));
+		}
+	}
 
-    public ItemStack b(EntityHuman entityhuman, int i) {
-        ItemStack itemstack = null;
-        Slot slot = (Slot) this.c.get(i);
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		if (!checkReachable)
+			return true; // CraftBukkit
+		return hopper.a(entityhuman);
+	}
 
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
+	@Override
+	public ItemStack b(EntityHuman entityhuman, int i) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) c.get(i);
 
-            itemstack = itemstack1.cloneItemStack();
-            if (i < this.hopper.getSize()) {
-                if (!this.a(itemstack1, this.hopper.getSize(), this.c.size(), true)) {
-                    return null;
-                }
-            } else if (!this.a(itemstack1, 0, this.hopper.getSize(), false)) {
-                return null;
-            }
+		if (slot != null && slot.hasItem()) {
+			ItemStack itemstack1 = slot.getItem();
 
-            if (itemstack1.count == 0) {
-                slot.set((ItemStack) null);
-            } else {
-                slot.f();
-            }
-        }
+			itemstack = itemstack1.cloneItemStack();
+			if (i < hopper.getSize()) {
+				if (!this.a(itemstack1, hopper.getSize(), c.size(), true))
+					return null;
+			} else if (!this.a(itemstack1, 0, hopper.getSize(), false))
+				return null;
 
-        return itemstack;
-    }
+			if (itemstack1.count == 0) {
+				slot.set((ItemStack) null);
+			} else {
+				slot.f();
+			}
+		}
 
-    public void b(EntityHuman entityhuman) {
-        super.b(entityhuman);
-        this.hopper.closeContainer();
-    }
+		return itemstack;
+	}
+
+	@Override
+	public void b(EntityHuman entityhuman) {
+		super.b(entityhuman);
+		hopper.closeContainer();
+	}
 }

@@ -6,127 +6,133 @@ import java.util.List;
 
 public class TileEntityPiston extends TileEntity {
 
-    private Block a;
-    private int i;
-    private int j;
-    private boolean k;
-    private boolean l;
-    private float m;
-    private float n;
-    private List o = new ArrayList();
+	private Block a;
+	private int i;
+	private int j;
+	private boolean k;
+	private boolean l;
+	private float m;
+	private float n;
+	private List o = new ArrayList();
 
-    public TileEntityPiston() {}
+	public TileEntityPiston() {
+	}
 
-    public TileEntityPiston(Block block, int i, int j, boolean flag, boolean flag1) {
-        this.a = block;
-        this.i = i;
-        this.j = j;
-        this.k = flag;
-        this.l = flag1;
-    }
+	public TileEntityPiston(Block block, int i, int j, boolean flag, boolean flag1) {
+		a = block;
+		this.i = i;
+		this.j = j;
+		k = flag;
+		l = flag1;
+	}
 
-    public Block a() {
-        return this.a;
-    }
+	public Block a() {
+		return a;
+	}
 
-    public int p() {
-        return this.i;
-    }
+	@Override
+	public int p() {
+		return i;
+	}
 
-    public boolean b() {
-        return this.k;
-    }
+	public boolean b() {
+		return k;
+	}
 
-    public int c() {
-        return this.j;
-    }
+	public int c() {
+		return j;
+	}
 
-    public float a(float f) {
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
+	public float a(float f) {
+		if (f > 1.0F) {
+			f = 1.0F;
+		}
 
-        return this.n + (this.m - this.n) * f;
-    }
+		return n + (m - n) * f;
+	}
 
-    private void a(float f, float f1) {
-        if (this.k) {
-            f = 1.0F - f;
-        } else {
-            --f;
-        }
+	private void a(float f, float f1) {
+		if (k) {
+			f = 1.0F - f;
+		} else {
+			--f;
+		}
 
-        AxisAlignedBB axisalignedbb = Blocks.PISTON_MOVING.a(this.world, this.x, this.y, this.z, this.a, f, this.j);
+		AxisAlignedBB axisalignedbb = Blocks.PISTON_MOVING.a(world, x, y, z, a, f, j);
 
-        if (axisalignedbb != null) {
-            List list = this.world.getEntities((Entity) null, axisalignedbb);
+		if (axisalignedbb != null) {
+			List list = world.getEntities((Entity) null, axisalignedbb);
 
-            if (!list.isEmpty()) {
-                this.o.addAll(list);
-                Iterator iterator = this.o.iterator();
+			if (!list.isEmpty()) {
+				o.addAll(list);
+				Iterator iterator = o.iterator();
 
-                while (iterator.hasNext()) {
-                    Entity entity = (Entity) iterator.next();
+				while (iterator.hasNext()) {
+					Entity entity = (Entity) iterator.next();
 
-                    entity.move((double) (f1 * (float) Facing.b[this.j]), (double) (f1 * (float) Facing.c[this.j]), (double) (f1 * (float) Facing.d[this.j]));
-                }
+					entity.move(f1 * Facing.b[j], f1 * Facing.c[j], f1 * Facing.d[j]);
+				}
 
-                this.o.clear();
-            }
-        }
-    }
+				o.clear();
+			}
+		}
+	}
 
-    public void f() {
-        if (this.n < 1.0F && this.world != null) {
-            this.n = this.m = 1.0F;
-            this.world.p(this.x, this.y, this.z);
-            this.s();
-            if (this.world.getType(this.x, this.y, this.z) == Blocks.PISTON_MOVING) {
-                this.world.setTypeAndData(this.x, this.y, this.z, this.a, this.i, 3);
-                this.world.e(this.x, this.y, this.z, this.a);
-            }
-        }
-    }
+	public void f() {
+		if (n < 1.0F && world != null) {
+			n = m = 1.0F;
+			world.p(x, y, z);
+			s();
+			if (world.getType(x, y, z) == Blocks.PISTON_MOVING) {
+				world.setTypeAndData(x, y, z, a, i, 3);
+				world.e(x, y, z, a);
+			}
+		}
+	}
 
-    public void h() {
-        if (this.world == null) return; // CraftBukkit
+	@Override
+	public void h() {
+		if (world == null)
+			return; // CraftBukkit
 
-        this.n = this.m;
-        if (this.n >= 1.0F) {
-            this.a(1.0F, 0.25F);
-            this.world.p(this.x, this.y, this.z);
-            this.s();
-            if (this.world.getType(this.x, this.y, this.z) == Blocks.PISTON_MOVING) {
-                this.world.setTypeAndData(this.x, this.y, this.z, this.a, this.i, 3);
-                this.world.e(this.x, this.y, this.z, this.a);
-            }
-        } else {
-            this.m += 0.5F;
-            if (this.m >= 1.0F) {
-                this.m = 1.0F;
-            }
+		n = m;
+		if (n >= 1.0F) {
+			this.a(1.0F, 0.25F);
+			world.p(x, y, z);
+			s();
+			if (world.getType(x, y, z) == Blocks.PISTON_MOVING) {
+				world.setTypeAndData(x, y, z, a, i, 3);
+				world.e(x, y, z, a);
+			}
+		} else {
+			m += 0.5F;
+			if (m >= 1.0F) {
+				m = 1.0F;
+			}
 
-            if (this.k) {
-                this.a(this.m, this.m - this.n + 0.0625F);
-            }
-        }
-    }
+			if (k) {
+				this.a(m, m - n + 0.0625F);
+			}
+		}
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        this.a = Block.getById(nbttagcompound.getInt("blockId"));
-        this.i = nbttagcompound.getInt("blockData");
-        this.j = nbttagcompound.getInt("facing");
-        this.n = this.m = nbttagcompound.getFloat("progress");
-        this.k = nbttagcompound.getBoolean("extending");
-    }
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		a = Block.getById(nbttagcompound.getInt("blockId"));
+		i = nbttagcompound.getInt("blockData");
+		j = nbttagcompound.getInt("facing");
+		n = m = nbttagcompound.getFloat("progress");
+		k = nbttagcompound.getBoolean("extending");
+	}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        nbttagcompound.setInt("blockId", Block.getId(this.a));
-        nbttagcompound.setInt("blockData", this.i);
-        nbttagcompound.setInt("facing", this.j);
-        nbttagcompound.setFloat("progress", this.n);
-        nbttagcompound.setBoolean("extending", this.k);
-    }
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		nbttagcompound.setInt("blockId", Block.getId(a));
+		nbttagcompound.setInt("blockData", i);
+		nbttagcompound.setInt("facing", j);
+		nbttagcompound.setFloat("progress", n);
+		nbttagcompound.setBoolean("extending", k);
+	}
 }

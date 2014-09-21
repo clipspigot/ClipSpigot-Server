@@ -2,66 +2,72 @@ package net.minecraft.server;
 
 public class PacketPlayInWindowClick extends Packet {
 
-    private int a;
-    public int slot; // Spigot
-    private int button;
-    private short d;
-    private ItemStack item;
-    private int shift;
+	private int a;
+	public int slot; // Spigot
+	private int button;
+	private short d;
+	private ItemStack item;
+	private int shift;
 
-    public PacketPlayInWindowClick() {}
+	public PacketPlayInWindowClick() {
+	}
 
-    public void a(PacketPlayInListener packetplayinlistener) {
-        packetplayinlistener.a(this);
-    }
+	public void a(PacketPlayInListener packetplayinlistener) {
+		packetplayinlistener.a(this);
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readByte();
-        this.slot = packetdataserializer.readShort();
-        this.button = packetdataserializer.readByte();
-        this.d = packetdataserializer.readShort();
-        this.shift = packetdataserializer.readByte();
-        this.item = packetdataserializer.c();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readByte();
+		slot = packetdataserializer.readShort();
+		button = packetdataserializer.readByte();
+		d = packetdataserializer.readShort();
+		shift = packetdataserializer.readByte();
+		item = packetdataserializer.c();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        packetdataserializer.writeByte(this.a);
-        packetdataserializer.writeShort(this.slot);
-        packetdataserializer.writeByte(this.button);
-        packetdataserializer.writeShort(this.d);
-        packetdataserializer.writeByte(this.shift);
-        packetdataserializer.a(this.item);
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		packetdataserializer.writeByte(a);
+		packetdataserializer.writeShort(slot);
+		packetdataserializer.writeByte(button);
+		packetdataserializer.writeShort(d);
+		packetdataserializer.writeByte(shift);
+		packetdataserializer.a(item);
+	}
 
-    public String b() {
-        return this.item != null ? String.format("id=%d, slot=%d, button=%d, type=%d, itemid=%d, itemcount=%d, itemaux=%d", new Object[] { Integer.valueOf(this.a), Integer.valueOf(this.slot), Integer.valueOf(this.button), Integer.valueOf(this.shift), Integer.valueOf(Item.getId(this.item.getItem())), Integer.valueOf(this.item.count), Integer.valueOf(this.item.getData())}) : String.format("id=%d, slot=%d, button=%d, type=%d, itemid=-1", new Object[] { Integer.valueOf(this.a), Integer.valueOf(this.slot), Integer.valueOf(this.button), Integer.valueOf(this.shift)});
-    }
+	@Override
+	public String b() {
+		return item != null ? String.format("id=%d, slot=%d, button=%d, type=%d, itemid=%d, itemcount=%d, itemaux=%d", new Object[] { Integer.valueOf(a), Integer.valueOf(slot), Integer.valueOf(button), Integer.valueOf(shift), Integer.valueOf(Item.getId(item.getItem())), Integer.valueOf(item.count), Integer.valueOf(item.getData()) }) : String.format("id=%d, slot=%d, button=%d, type=%d, itemid=-1",
+				new Object[] { Integer.valueOf(a), Integer.valueOf(slot), Integer.valueOf(button), Integer.valueOf(shift) });
+	}
 
-    public int c() {
-        return this.a;
-    }
+	public int c() {
+		return a;
+	}
 
-    public int d() {
-        return this.slot;
-    }
+	public int d() {
+		return slot;
+	}
 
-    public int e() {
-        return this.button;
-    }
+	public int e() {
+		return button;
+	}
 
-    public short f() {
-        return this.d;
-    }
+	public short f() {
+		return d;
+	}
 
-    public ItemStack g() {
-        return this.item;
-    }
+	public ItemStack g() {
+		return item;
+	}
 
-    public int h() {
-        return this.shift;
-    }
+	public int h() {
+		return shift;
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayInListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayInListener) packetlistener);
+	}
 }

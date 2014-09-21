@@ -2,39 +2,42 @@ package net.minecraft.server;
 
 public class PacketPlayOutKeepAlive extends Packet {
 
-    private int a;
+	private int a;
 
-    public PacketPlayOutKeepAlive() {}
+	public PacketPlayOutKeepAlive() {
+	}
 
-    public PacketPlayOutKeepAlive(int i) {
-        this.a = i;
-    }
+	public PacketPlayOutKeepAlive(int i) {
+		a = i;
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readInt();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readInt();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        // Spigot start
-        if ( packetdataserializer.version >= 32 )
-        {
-            packetdataserializer.b( this.a );
-        } else
-        {
-            packetdataserializer.writeInt( this.a );
-        }
-        // Spigot end
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		// Spigot start
+		if (packetdataserializer.version >= 32) {
+			packetdataserializer.b(a);
+		} else {
+			packetdataserializer.writeInt(a);
+		}
+		// Spigot end
+	}
 
-    public boolean a() {
-        return true;
-    }
+	@Override
+	public boolean a() {
+		return true;
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

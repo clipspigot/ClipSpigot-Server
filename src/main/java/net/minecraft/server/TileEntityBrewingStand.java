@@ -6,292 +6,316 @@ import java.util.List;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.BrewEvent;
+
 // CraftBukkit end
 
 public class TileEntityBrewingStand extends TileEntity implements IWorldInventory {
 
-    private static final int[] a = new int[] { 3};
-    private static final int[] i = new int[] { 0, 1, 2};
-    public ItemStack[] items = new ItemStack[4]; // CraftBukkit - private -> public
-    public int brewTime; // CraftBukkit - private -> public
-    private int l;
-    private Item m;
-    private String n;
-    private int lastTick = MinecraftServer.currentTick; // CraftBukkit - add field
+	private static final int[] a = new int[] { 3 };
+	private static final int[] i = new int[] { 0, 1, 2 };
+	public ItemStack[] items = new ItemStack[4]; // CraftBukkit - private -> public
+	public int brewTime; // CraftBukkit - private -> public
+	private int l;
+	private Item m;
+	private String n;
+	private int lastTick = MinecraftServer.currentTick; // CraftBukkit - add field
 
-    public TileEntityBrewingStand() {}
+	public TileEntityBrewingStand() {
+	}
 
-    // CraftBukkit start - add fields and methods
-    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
-    private int maxStack = 64;
+	// CraftBukkit start - add fields and methods
+	public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
+	private int maxStack = 64;
 
-    public void onOpen(CraftHumanEntity who) {
-        transaction.add(who);
-    }
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+		transaction.add(who);
+	}
 
-    public void onClose(CraftHumanEntity who) {
-        transaction.remove(who);
-    }
+	@Override
+	public void onClose(CraftHumanEntity who) {
+		transaction.remove(who);
+	}
 
-    public List<HumanEntity> getViewers() {
-        return transaction;
-    }
+	@Override
+	public List<HumanEntity> getViewers() {
+		return transaction;
+	}
 
-    public ItemStack[] getContents() {
-        return this.items;
-    }
+	@Override
+	public ItemStack[] getContents() {
+		return items;
+	}
 
-    public void setMaxStackSize(int size) {
-        maxStack = size;
-    }
-    // CraftBukkit end
+	@Override
+	public void setMaxStackSize(int size) {
+		maxStack = size;
+	}
 
-    public String getInventoryName() {
-        return this.k_() ? this.n : "container.brewing";
-    }
+	// CraftBukkit end
 
-    public boolean k_() {
-        return this.n != null && this.n.length() > 0;
-    }
+	@Override
+	public String getInventoryName() {
+		return k_() ? n : "container.brewing";
+	}
 
-    public void a(String s) {
-        this.n = s;
-    }
+	@Override
+	public boolean k_() {
+		return n != null && n.length() > 0;
+	}
 
-    public int getSize() {
-        return this.items.length;
-    }
+	public void a(String s) {
+		n = s;
+	}
 
-    public void h() {
-        // CraftBukkit start - Use wall time instead of ticks for brewing
-        int elapsedTicks = MinecraftServer.currentTick - this.lastTick;
-        this.lastTick = MinecraftServer.currentTick;
+	@Override
+	public int getSize() {
+		return items.length;
+	}
 
-        if (this.brewTime > 0) {
-            this.brewTime -= elapsedTicks;
-            if (this.brewTime <= 0) { // == -> <=
-                // CraftBukkit end
-                this.l();
-                this.update();
-            } else if (!this.k()) {
-                this.brewTime = 0;
-                this.update();
-            } else if (this.m != this.items[3].getItem()) {
-                this.brewTime = 0;
-                this.update();
-            }
-        } else if (this.k()) {
-            this.brewTime = 400;
-            this.m = this.items[3].getItem();
-        }
+	@Override
+	public void h() {
+		// CraftBukkit start - Use wall time instead of ticks for brewing
+		int elapsedTicks = MinecraftServer.currentTick - lastTick;
+		lastTick = MinecraftServer.currentTick;
 
-        int i = this.j();
+		if (brewTime > 0) {
+			brewTime -= elapsedTicks;
+			if (brewTime <= 0) { // == -> <=
+				// CraftBukkit end
+				l();
+				update();
+			} else if (!k()) {
+				brewTime = 0;
+				update();
+			} else if (m != items[3].getItem()) {
+				brewTime = 0;
+				update();
+			}
+		} else if (k()) {
+			brewTime = 400;
+			m = items[3].getItem();
+		}
 
-        if (i != this.l) {
-            this.l = i;
-            this.world.setData(this.x, this.y, this.z, i, 2);
-        }
+		int i = j();
 
-        super.h();
-    }
+		if (i != l) {
+			l = i;
+			world.setData(x, y, z, i, 2);
+		}
 
-    public int i() {
-        return this.brewTime;
-    }
+		super.h();
+	}
 
-    private boolean k() {
-        if (this.items[3] != null && this.items[3].count > 0) {
-            ItemStack itemstack = this.items[3];
+	public int i() {
+		return brewTime;
+	}
 
-            if (!itemstack.getItem().m(itemstack)) {
-                return false;
-            } else {
-                boolean flag = false;
+	private boolean k() {
+		if (items[3] != null && items[3].count > 0) {
+			ItemStack itemstack = items[3];
 
-                for (int i = 0; i < 3; ++i) {
-                    if (this.items[i] != null && this.items[i].getItem() == Items.POTION) {
-                        int j = this.items[i].getData();
-                        int k = this.c(j, itemstack);
+			if (!itemstack.getItem().m(itemstack))
+				return false;
+			else {
+				boolean flag = false;
 
-                        if (!ItemPotion.g(j) && ItemPotion.g(k)) {
-                            flag = true;
-                            break;
-                        }
+				for (int i = 0; i < 3; ++i) {
+					if (items[i] != null && items[i].getItem() == Items.POTION) {
+						int j = items[i].getData();
+						int k = this.c(j, itemstack);
 
-                        List list = Items.POTION.c(j);
-                        List list1 = Items.POTION.c(k);
+						if (!ItemPotion.g(j) && ItemPotion.g(k)) {
+							flag = true;
+							break;
+						}
 
-                        if ((j <= 0 || list != list1) && (list == null || !list.equals(list1) && list1 != null) && j != k) {
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
+						List list = Items.POTION.c(j);
+						List list1 = Items.POTION.c(k);
 
-                return flag;
-            }
-        } else {
-            return false;
-        }
-    }
+						if ((j <= 0 || list != list1) && (list == null || !list.equals(list1) && list1 != null) && j != k) {
+							flag = true;
+							break;
+						}
+					}
+				}
 
-    private void l() {
-        if (this.k()) {
-            ItemStack itemstack = this.items[3];
+				return flag;
+			}
+		} else
+			return false;
+	}
 
-            // CraftBukkit start
-            if (getOwner() != null) {
-                BrewEvent event = new BrewEvent(world.getWorld().getBlockAt(x, y, z), (org.bukkit.inventory.BrewerInventory) this.getOwner().getInventory());
-                org.bukkit.Bukkit.getPluginManager().callEvent(event);
-                if (event.isCancelled()) {
-                    return;
-                }
-            }
-            // CraftBukkit end
+	private void l() {
+		if (k()) {
+			ItemStack itemstack = items[3];
 
-            for (int i = 0; i < 3; ++i) {
-                if (this.items[i] != null && this.items[i].getItem() == Items.POTION) {
-                    int j = this.items[i].getData();
-                    int k = this.c(j, itemstack);
-                    List list = Items.POTION.c(j);
-                    List list1 = Items.POTION.c(k);
+			// CraftBukkit start
+			if (getOwner() != null) {
+				BrewEvent event = new BrewEvent(world.getWorld().getBlockAt(x, y, z), (org.bukkit.inventory.BrewerInventory) getOwner().getInventory());
+				org.bukkit.Bukkit.getPluginManager().callEvent(event);
+				if (event.isCancelled())
+					return;
+			}
+			// CraftBukkit end
 
-                    if ((j <= 0 || list != list1) && (list == null || !list.equals(list1) && list1 != null)) {
-                        if (j != k) {
-                            this.items[i].setData(k);
-                        }
-                    } else if (!ItemPotion.g(j) && ItemPotion.g(k)) {
-                        this.items[i].setData(k);
-                    }
-                }
-            }
+			for (int i = 0; i < 3; ++i) {
+				if (items[i] != null && items[i].getItem() == Items.POTION) {
+					int j = items[i].getData();
+					int k = this.c(j, itemstack);
+					List list = Items.POTION.c(j);
+					List list1 = Items.POTION.c(k);
 
-            if (itemstack.getItem().u()) {
-                this.items[3] = new ItemStack(itemstack.getItem().t());
-            } else {
-                --this.items[3].count;
-                if (this.items[3].count <= 0) {
-                    this.items[3] = null;
-                }
-            }
-        }
-    }
+					if ((j <= 0 || list != list1) && (list == null || !list.equals(list1) && list1 != null)) {
+						if (j != k) {
+							items[i].setData(k);
+						}
+					} else if (!ItemPotion.g(j) && ItemPotion.g(k)) {
+						items[i].setData(k);
+					}
+				}
+			}
 
-    private int c(int i, ItemStack itemstack) {
-        return itemstack == null ? i : (itemstack.getItem().m(itemstack) ? PotionBrewer.a(i, itemstack.getItem().i(itemstack)) : i);
-    }
+			if (itemstack.getItem().u()) {
+				items[3] = new ItemStack(itemstack.getItem().t());
+			} else {
+				--items[3].count;
+				if (items[3].count <= 0) {
+					items[3] = null;
+				}
+			}
+		}
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        NBTTagList nbttaglist = nbttagcompound.getList("Items", 10);
+	private int c(int i, ItemStack itemstack) {
+		return itemstack == null ? i : itemstack.getItem().m(itemstack) ? PotionBrewer.a(i, itemstack.getItem().i(itemstack)) : i;
+	}
 
-        this.items = new ItemStack[this.getSize()];
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		NBTTagList nbttaglist = nbttagcompound.getList("Items", 10);
 
-        for (int i = 0; i < nbttaglist.size(); ++i) {
-            NBTTagCompound nbttagcompound1 = nbttaglist.get(i);
-            byte b0 = nbttagcompound1.getByte("Slot");
+		items = new ItemStack[getSize()];
 
-            if (b0 >= 0 && b0 < this.items.length) {
-                this.items[b0] = ItemStack.createStack(nbttagcompound1);
-            }
-        }
+		for (int i = 0; i < nbttaglist.size(); ++i) {
+			NBTTagCompound nbttagcompound1 = nbttaglist.get(i);
+			byte b0 = nbttagcompound1.getByte("Slot");
 
-        this.brewTime = nbttagcompound.getShort("BrewTime");
-        if (nbttagcompound.hasKeyOfType("CustomName", 8)) {
-            this.n = nbttagcompound.getString("CustomName");
-        }
-    }
+			if (b0 >= 0 && b0 < items.length) {
+				items[b0] = ItemStack.createStack(nbttagcompound1);
+			}
+		}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        nbttagcompound.setShort("BrewTime", (short) this.brewTime);
-        NBTTagList nbttaglist = new NBTTagList();
+		brewTime = nbttagcompound.getShort("BrewTime");
+		if (nbttagcompound.hasKeyOfType("CustomName", 8)) {
+			n = nbttagcompound.getString("CustomName");
+		}
+	}
 
-        for (int i = 0; i < this.items.length; ++i) {
-            if (this.items[i] != null) {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		nbttagcompound.setShort("BrewTime", (short) brewTime);
+		NBTTagList nbttaglist = new NBTTagList();
 
-                nbttagcompound1.setByte("Slot", (byte) i);
-                this.items[i].save(nbttagcompound1);
-                nbttaglist.add(nbttagcompound1);
-            }
-        }
+		for (int i = 0; i < items.length; ++i) {
+			if (items[i] != null) {
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-        nbttagcompound.set("Items", nbttaglist);
-        if (this.k_()) {
-            nbttagcompound.setString("CustomName", this.n);
-        }
-    }
+				nbttagcompound1.setByte("Slot", (byte) i);
+				items[i].save(nbttagcompound1);
+				nbttaglist.add(nbttagcompound1);
+			}
+		}
 
-    public ItemStack getItem(int i) {
-        return i >= 0 && i < this.items.length ? this.items[i] : null;
-    }
+		nbttagcompound.set("Items", nbttaglist);
+		if (k_()) {
+			nbttagcompound.setString("CustomName", n);
+		}
+	}
 
-    public ItemStack splitStack(int i, int j) {
-        if (i >= 0 && i < this.items.length) {
-            ItemStack itemstack = this.items[i];
+	@Override
+	public ItemStack getItem(int i) {
+		return i >= 0 && i < items.length ? items[i] : null;
+	}
 
-            this.items[i] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public ItemStack splitStack(int i, int j) {
+		if (i >= 0 && i < items.length) {
+			ItemStack itemstack = items[i];
 
-    public ItemStack splitWithoutUpdate(int i) {
-        if (i >= 0 && i < this.items.length) {
-            ItemStack itemstack = this.items[i];
+			items[i] = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-            this.items[i] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public ItemStack splitWithoutUpdate(int i) {
+		if (i >= 0 && i < items.length) {
+			ItemStack itemstack = items[i];
 
-    public void setItem(int i, ItemStack itemstack) {
-        if (i >= 0 && i < this.items.length) {
-            this.items[i] = itemstack;
-        }
-    }
+			items[i] = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-    public int getMaxStackSize() {
-        return this.maxStack; // CraftBukkit
-    }
+	@Override
+	public void setItem(int i, ItemStack itemstack) {
+		if (i >= 0 && i < items.length) {
+			items[i] = itemstack;
+		}
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return this.world.getTileEntity(this.x, this.y, this.z) != this ? false : entityhuman.e((double) this.x + 0.5D, (double) this.y + 0.5D, (double) this.z + 0.5D) <= 64.0D;
-    }
+	@Override
+	public int getMaxStackSize() {
+		return maxStack; // CraftBukkit
+	}
 
-    public void startOpen() {}
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return world.getTileEntity(x, y, z) != this ? false : entityhuman.e(x + 0.5D, y + 0.5D, z + 0.5D) <= 64.0D;
+	}
 
-    public void closeContainer() {}
+	@Override
+	public void startOpen() {
+	}
 
-    public boolean b(int i, ItemStack itemstack) {
-        return i == 3 ? itemstack.getItem().m(itemstack) : itemstack.getItem() == Items.POTION || itemstack.getItem() == Items.GLASS_BOTTLE;
-    }
+	@Override
+	public void closeContainer() {
+	}
 
-    public int j() {
-        int i = 0;
+	@Override
+	public boolean b(int i, ItemStack itemstack) {
+		return i == 3 ? itemstack.getItem().m(itemstack) : itemstack.getItem() == Items.POTION || itemstack.getItem() == Items.GLASS_BOTTLE;
+	}
 
-        for (int j = 0; j < 3; ++j) {
-            if (this.items[j] != null) {
-                i |= 1 << j;
-            }
-        }
+	public int j() {
+		int i = 0;
 
-        return i;
-    }
+		for (int j = 0; j < 3; ++j) {
+			if (items[j] != null) {
+				i |= 1 << j;
+			}
+		}
 
-    public int[] getSlotsForFace(int i) {
-        return i == 1 ? a : TileEntityBrewingStand.i; // CraftBukkit - decompilation error
-    }
+		return i;
+	}
 
-    public boolean canPlaceItemThroughFace(int i, ItemStack itemstack, int j) {
-        return this.b(i, itemstack);
-    }
+	@Override
+	public int[] getSlotsForFace(int i) {
+		return i == 1 ? a : TileEntityBrewingStand.i; // CraftBukkit - decompilation error
+	}
 
-    public boolean canTakeItemThroughFace(int i, ItemStack itemstack, int j) {
-        return true;
-    }
+	@Override
+	public boolean canPlaceItemThroughFace(int i, ItemStack itemstack, int j) {
+		return this.b(i, itemstack);
+	}
+
+	@Override
+	public boolean canTakeItemThroughFace(int i, ItemStack itemstack, int j) {
+		return true;
+	}
 }

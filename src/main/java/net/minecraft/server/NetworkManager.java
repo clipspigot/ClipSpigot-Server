@@ -33,234 +33,240 @@ import com.google.common.collect.ImmutableSet;
 
 public class NetworkManager extends SimpleChannelInboundHandler {
 
-    private static final Logger i = LogManager.getLogger();
-    public static final Marker a = MarkerManager.getMarker("NETWORK");
-    public static final Marker b = MarkerManager.getMarker("NETWORK_PACKETS", a);
-    public static final Marker c = MarkerManager.getMarker("NETWORK_STAT", a);
-    public static final AttributeKey d = new AttributeKey("protocol");
-    public static final AttributeKey e = new AttributeKey("receivable_packets");
-    public static final AttributeKey f = new AttributeKey("sendable_packets");
-    public static final NioEventLoopGroup g = new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Client IO #%d").setDaemon(true).build());
-    public static final NetworkStatistics h = new NetworkStatistics();
-    private final boolean j;
-    private final Queue k = Queues.newConcurrentLinkedQueue();
-    private final Queue l = Queues.newConcurrentLinkedQueue();
-    private Channel m;
-    // Spigot Start
-    public SocketAddress n;
-    public java.util.UUID spoofedUUID;
-    public Property[] spoofedProfile;
-    public boolean preparing = true;
-    // Spigot End
-    private PacketListener o;
-    private EnumProtocol p;
-    private IChatBaseComponent q;
-    private boolean r;
-    // Spigot Start
-    public static final AttributeKey<Integer> protocolVersion = new AttributeKey<Integer>("protocol_version");
-    public static final ImmutableSet<Integer> SUPPORTED_VERSIONS = ImmutableSet.of(4, 5, 47);
-    public static final int CURRENT_VERSION = 5;
-    public static int getVersion(Channel attr)
-    {
-        Integer ver = attr.attr( protocolVersion ).get();
-        return ( ver != null ) ? ver : CURRENT_VERSION;
-    }
-    public int getVersion()
-    {
-        return getVersion( this.m );
-    }
-    // Spigot End
+	private static final Logger i = LogManager.getLogger();
+	public static final Marker a = MarkerManager.getMarker("NETWORK");
+	public static final Marker b = MarkerManager.getMarker("NETWORK_PACKETS", a);
+	public static final Marker c = MarkerManager.getMarker("NETWORK_STAT", a);
+	public static final AttributeKey d = new AttributeKey("protocol");
+	public static final AttributeKey e = new AttributeKey("receivable_packets");
+	public static final AttributeKey f = new AttributeKey("sendable_packets");
+	public static final NioEventLoopGroup g = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty Client IO #%d").setDaemon(true).build());
+	public static final NetworkStatistics h = new NetworkStatistics();
+	private final boolean j;
+	private final Queue k = Queues.newConcurrentLinkedQueue();
+	private final Queue l = Queues.newConcurrentLinkedQueue();
+	private Channel m;
+	// Spigot Start
+	public SocketAddress n;
+	public java.util.UUID spoofedUUID;
+	public Property[] spoofedProfile;
+	public boolean preparing = true;
+	// Spigot End
+	private PacketListener o;
+	private EnumProtocol p;
+	private IChatBaseComponent q;
+	private boolean r;
+	// Spigot Start
+	public static final AttributeKey<Integer> protocolVersion = new AttributeKey<Integer>("protocol_version");
+	public static final ImmutableSet<Integer> SUPPORTED_VERSIONS = ImmutableSet.of(4, 5, 47);
+	public static final int CURRENT_VERSION = 5;
 
-    public NetworkManager(boolean flag) {
-        this.j = flag;
-    }
+	public static int getVersion(Channel attr) {
+		Integer ver = attr.attr(protocolVersion).get();
+		return ver != null ? ver : CURRENT_VERSION;
+	}
 
-    public void channelActive(ChannelHandlerContext channelhandlercontext) throws Exception { // CraftBukkit - throws Exception
-        super.channelActive(channelhandlercontext);
-        this.m = channelhandlercontext.channel();
-        this.n = this.m.remoteAddress();
-        // Spigot Start
-        this.preparing = false;
-        // Spigot End
-        this.a(EnumProtocol.HANDSHAKING);
-    }
+	public int getVersion() {
+		return getVersion(m);
+	}
 
-    public void a(EnumProtocol enumprotocol) {
-        this.p = (EnumProtocol) this.m.attr(d).getAndSet(enumprotocol);
-        this.m.attr(e).set(enumprotocol.a(this.j));
-        this.m.attr(f).set(enumprotocol.b(this.j));
-        this.m.config().setAutoRead(true);
-        i.debug("Enabled auto read");
-    }
+	// Spigot End
 
-    public void channelInactive(ChannelHandlerContext channelhandlercontext) {
-        this.close(new ChatMessage("disconnect.endOfStream", new Object[0]));
-    }
+	public NetworkManager(boolean flag) {
+		j = flag;
+	}
 
-    public void exceptionCaught(ChannelHandlerContext channelhandlercontext, Throwable throwable) {
-        ChatMessage chatmessage;
+	@Override
+	public void channelActive(ChannelHandlerContext channelhandlercontext) throws Exception { // CraftBukkit - throws Exception
+		super.channelActive(channelhandlercontext);
+		m = channelhandlercontext.channel();
+		n = m.remoteAddress();
+		// Spigot Start
+		preparing = false;
+		// Spigot End
+		this.a(EnumProtocol.HANDSHAKING);
+	}
 
-        if (throwable instanceof TimeoutException) {
-            chatmessage = new ChatMessage("disconnect.timeout", new Object[0]);
-        } else {
-            chatmessage = new ChatMessage("disconnect.genericReason", new Object[] { "Internal Exception: " + throwable});
-        }
+	public void a(EnumProtocol enumprotocol) {
+		p = (EnumProtocol) m.attr(d).getAndSet(enumprotocol);
+		m.attr(e).set(enumprotocol.a(j));
+		m.attr(f).set(enumprotocol.b(j));
+		m.config().setAutoRead(true);
+		i.debug("Enabled auto read");
+	}
 
-        this.close(chatmessage);
-        if (MinecraftServer.getServer().isDebugging()) throwable.printStackTrace(); // Spigot
-    }
+	@Override
+	public void channelInactive(ChannelHandlerContext channelhandlercontext) {
+		close(new ChatMessage("disconnect.endOfStream", new Object[0]));
+	}
 
-    protected void a(ChannelHandlerContext channelhandlercontext, Packet packet) {
-        if (this.m.isOpen()) {
-            if (packet.a()) {
-                packet.handle(this.o);
-            } else {
-                this.k.add(packet);
-            }
-        }
-    }
+	@Override
+	public void exceptionCaught(ChannelHandlerContext channelhandlercontext, Throwable throwable) {
+		ChatMessage chatmessage;
 
-    public void a(PacketListener packetlistener) {
-        Validate.notNull(packetlistener, "packetListener", new Object[0]);
-        i.debug("Set listener of {} to {}", new Object[] { this, packetlistener});
-        this.o = packetlistener;
-    }
+		if (throwable instanceof TimeoutException) {
+			chatmessage = new ChatMessage("disconnect.timeout", new Object[0]);
+		} else {
+			chatmessage = new ChatMessage("disconnect.genericReason", new Object[] { "Internal Exception: " + throwable });
+		}
 
-    public void handle(Packet packet, GenericFutureListener... agenericfuturelistener) {
-        if (this.m != null && this.m.isOpen()) {
-            this.i();
-            this.b(packet, agenericfuturelistener);
-        } else {
-            this.l.add(new QueuedPacket(packet, agenericfuturelistener));
-        }
-    }
+		close(chatmessage);
+		if (MinecraftServer.getServer().isDebugging()) {
+			throwable.printStackTrace(); // Spigot
+		}
+	}
 
-    private void b(Packet packet, GenericFutureListener[] agenericfuturelistener) {
-        EnumProtocol enumprotocol = EnumProtocol.a(packet);
-        EnumProtocol enumprotocol1 = (EnumProtocol) this.m.attr(d).get();
+	protected void a(ChannelHandlerContext channelhandlercontext, Packet packet) {
+		if (m.isOpen()) {
+			if (packet.a()) {
+				packet.handle(o);
+			} else {
+				k.add(packet);
+			}
+		}
+	}
 
-        if (enumprotocol1 != enumprotocol) {
-            i.debug("Disabled auto read");
-            this.m.config().setAutoRead(false);
-        }
+	public void a(PacketListener packetlistener) {
+		Validate.notNull(packetlistener, "packetListener", new Object[0]);
+		i.debug("Set listener of {} to {}", new Object[] { this, packetlistener });
+		o = packetlistener;
+	}
 
-        if (this.m.eventLoop().inEventLoop()) {
-            if (enumprotocol != enumprotocol1) {
-                this.a(enumprotocol);
-            }
+	public void handle(Packet packet, GenericFutureListener... agenericfuturelistener) {
+		if (m != null && m.isOpen()) {
+			i();
+			b(packet, agenericfuturelistener);
+		} else {
+			l.add(new QueuedPacket(packet, agenericfuturelistener));
+		}
+	}
 
-            this.m.writeAndFlush(packet).addListeners(agenericfuturelistener).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-        } else {
-            this.m.eventLoop().execute(new QueuedProtocolSwitch(this, enumprotocol, enumprotocol1, packet, agenericfuturelistener));
-        }
-    }
+	private void b(Packet packet, GenericFutureListener[] agenericfuturelistener) {
+		EnumProtocol enumprotocol = EnumProtocol.a(packet);
+		EnumProtocol enumprotocol1 = (EnumProtocol) m.attr(d).get();
 
-    private void i() {
-        if (this.m != null && this.m.isOpen()) {
-            while (!this.l.isEmpty()) {
-                QueuedPacket queuedpacket = (QueuedPacket) this.l.poll();
+		if (enumprotocol1 != enumprotocol) {
+			i.debug("Disabled auto read");
+			m.config().setAutoRead(false);
+		}
 
-                this.b(QueuedPacket.a(queuedpacket), QueuedPacket.b(queuedpacket));
-            }
-        }
-    }
+		if (m.eventLoop().inEventLoop()) {
+			if (enumprotocol != enumprotocol1) {
+				this.a(enumprotocol);
+			}
 
-    public void a() {
-        this.i();
-        EnumProtocol enumprotocol = (EnumProtocol) this.m.attr(d).get();
+			m.writeAndFlush(packet).addListeners(agenericfuturelistener).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+		} else {
+			m.eventLoop().execute(new QueuedProtocolSwitch(this, enumprotocol, enumprotocol1, packet, agenericfuturelistener));
+		}
+	}
 
-        if (this.p != enumprotocol) {
-            if (this.p != null) {
-                this.o.a(this.p, enumprotocol);
-            }
+	private void i() {
+		if (m != null && m.isOpen()) {
+			while (!l.isEmpty()) {
+				QueuedPacket queuedpacket = (QueuedPacket) l.poll();
 
-            this.p = enumprotocol;
-        }
+				b(QueuedPacket.a(queuedpacket), QueuedPacket.b(queuedpacket));
+			}
+		}
+	}
 
-        if (this.o != null) {
-            for (int i = 1000; !this.k.isEmpty() && i >= 0; --i) {
-                Packet packet = (Packet) this.k.poll();
+	public void a() {
+		i();
+		EnumProtocol enumprotocol = (EnumProtocol) m.attr(d).get();
 
-                // CraftBukkit start
-                if (!this.isConnected() || !this.m.config().isAutoRead()) {
-                    continue;
-                }
-                // CraftBukkit end
-                packet.handle(this.o);
-            }
+		if (p != enumprotocol) {
+			if (p != null) {
+				o.a(p, enumprotocol);
+			}
 
-            this.o.a();
-        }
+			p = enumprotocol;
+		}
 
-        this.m.flush();
-    }
+		if (o != null) {
+			for (int i = 1000; !k.isEmpty() && i >= 0; --i) {
+				Packet packet = (Packet) k.poll();
 
-    public SocketAddress getSocketAddress() {
-        return this.n;
-    }
+				// CraftBukkit start
+				if (!isConnected() || !m.config().isAutoRead()) {
+					continue;
+				}
+				// CraftBukkit end
+				packet.handle(o);
+			}
 
-    public void close(IChatBaseComponent ichatbasecomponent) {
-        // Spigot Start
-        this.preparing = false;
-        // Spigot End
-        if (this.m.isOpen()) {
-            this.m.close();
-            this.q = ichatbasecomponent;
-        }
-    }
+			o.a();
+		}
 
-    public boolean c() {
-        return this.m instanceof LocalChannel || this.m instanceof LocalServerChannel;
-    }
+		m.flush();
+	}
 
-    public void a(SecretKey secretkey) {
-        this.m.pipeline().addBefore("splitter", "decrypt", new PacketDecrypter(MinecraftEncryption.a(2, secretkey)));
-        this.m.pipeline().addBefore("prepender", "encrypt", new PacketEncrypter(MinecraftEncryption.a(1, secretkey)));
-        this.r = true;
-    }
+	public SocketAddress getSocketAddress() {
+		return n;
+	}
 
-    public boolean isConnected() {
-        return this.m != null && this.m.isOpen();
-    }
+	public void close(IChatBaseComponent ichatbasecomponent) {
+		// Spigot Start
+		preparing = false;
+		// Spigot End
+		if (m.isOpen()) {
+			m.close();
+			q = ichatbasecomponent;
+		}
+	}
 
-    public PacketListener getPacketListener() {
-        return this.o;
-    }
+	public boolean c() {
+		return m instanceof LocalChannel || m instanceof LocalServerChannel;
+	}
 
-    public IChatBaseComponent f() {
-        return this.q;
-    }
+	public void a(SecretKey secretkey) {
+		m.pipeline().addBefore("splitter", "decrypt", new PacketDecrypter(MinecraftEncryption.a(2, secretkey)));
+		m.pipeline().addBefore("prepender", "encrypt", new PacketEncrypter(MinecraftEncryption.a(1, secretkey)));
+		r = true;
+	}
 
-    public void g() {
-        this.m.config().setAutoRead(false);
-    }
+	public boolean isConnected() {
+		return m != null && m.isOpen();
+	}
 
-    protected void channelRead0(ChannelHandlerContext channelhandlercontext, Object object) {
-        this.a(channelhandlercontext, (Packet) object);
-    }
+	public PacketListener getPacketListener() {
+		return o;
+	}
 
-    static Channel a(NetworkManager networkmanager) {
-        return networkmanager.m;
-    }
+	public IChatBaseComponent f() {
+		return q;
+	}
 
-    // Spigot Start
-    public SocketAddress getRawAddress()
-    {
-        return this.m.remoteAddress();
-    }
-    // Spigot End
+	public void g() {
+		m.config().setAutoRead(false);
+	}
 
+	@Override
+	protected void channelRead0(ChannelHandlerContext channelhandlercontext, Object object) {
+		this.a(channelhandlercontext, (Packet) object);
+	}
 
-    // Spigot start - protocol patch
-    public void enableCompression() {
-        // Fix ProtocolLib compatibility
-        if ( m.pipeline().get("protocol_lib_decoder") != null ) {
-            m.pipeline().addBefore( "protocol_lib_decoder", "decompress", new SpigotDecompressor() );
-        } else {
-            m.pipeline().addBefore( "decoder", "decompress", new SpigotDecompressor() );
-        }
+	static Channel a(NetworkManager networkmanager) {
+		return networkmanager.m;
+	}
 
-        m.pipeline().addBefore( "encoder", "compress", new SpigotCompressor() );
-    }
-    // Spigot end
+	// Spigot Start
+	public SocketAddress getRawAddress() {
+		return m.remoteAddress();
+	}
+
+	// Spigot End
+
+	// Spigot start - protocol patch
+	public void enableCompression() {
+		// Fix ProtocolLib compatibility
+		if (m.pipeline().get("protocol_lib_decoder") != null) {
+			m.pipeline().addBefore("protocol_lib_decoder", "decompress", new SpigotDecompressor());
+		} else {
+			m.pipeline().addBefore("decoder", "decompress", new SpigotDecompressor());
+		}
+
+		m.pipeline().addBefore("encoder", "compress", new SpigotCompressor());
+	}
+	// Spigot end
 }

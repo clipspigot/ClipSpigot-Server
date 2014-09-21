@@ -2,43 +2,46 @@ package net.minecraft.server;
 
 public class PacketPlayOutEntityHeadRotation extends Packet {
 
-    private int a;
-    private byte b;
+	private int a;
+	private byte b;
 
-    public PacketPlayOutEntityHeadRotation() {}
+	public PacketPlayOutEntityHeadRotation() {
+	}
 
-    public PacketPlayOutEntityHeadRotation(Entity entity, byte b0) {
-        this.a = entity.getId();
-        this.b = b0;
-    }
+	public PacketPlayOutEntityHeadRotation(Entity entity, byte b0) {
+		a = entity.getId();
+		b = b0;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readInt();
-        this.b = packetdataserializer.readByte();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readInt();
+		b = packetdataserializer.readByte();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeInt( this.a );
-        } else
-        {
-            packetdataserializer.b( a );
-        }
-        // Spigot end
-        packetdataserializer.writeByte(this.b);
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeInt(a);
+		} else {
+			packetdataserializer.b(a);
+		}
+		// Spigot end
+		packetdataserializer.writeByte(b);
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public String b() {
-        return String.format("id=%d, rot=%d", new Object[] { Integer.valueOf(this.a), Byte.valueOf(this.b)});
-    }
+	@Override
+	public String b() {
+		return String.format("id=%d, rot=%d", new Object[] { Integer.valueOf(a), Byte.valueOf(b) });
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

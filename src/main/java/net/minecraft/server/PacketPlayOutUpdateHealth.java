@@ -2,43 +2,45 @@ package net.minecraft.server;
 
 public class PacketPlayOutUpdateHealth extends Packet {
 
-    private float a;
-    private int b;
-    private float c;
+	private float a;
+	private int b;
+	private float c;
 
-    public PacketPlayOutUpdateHealth() {}
+	public PacketPlayOutUpdateHealth() {
+	}
 
-    public PacketPlayOutUpdateHealth(float f, int i, float f1) {
-        this.a = f;
-        this.b = i;
-        this.c = f1;
-    }
+	public PacketPlayOutUpdateHealth(float f, int i, float f1) {
+		a = f;
+		b = i;
+		c = f1;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readFloat();
-        this.b = packetdataserializer.readShort();
-        this.c = packetdataserializer.readFloat();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readFloat();
+		b = packetdataserializer.readShort();
+		c = packetdataserializer.readFloat();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        packetdataserializer.writeFloat(this.a);
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeShort( this.b );
-        } else
-        {
-            packetdataserializer.b( this.b );
-        }
-        // Spigot end
-        packetdataserializer.writeFloat(this.c);
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		packetdataserializer.writeFloat(a);
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeShort(b);
+		} else {
+			packetdataserializer.b(b);
+		}
+		// Spigot end
+		packetdataserializer.writeFloat(c);
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

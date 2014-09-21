@@ -9,99 +9,100 @@ import org.apache.logging.log4j.Logger;
 
 public class GenericAttributes {
 
-    private static final Logger f = LogManager.getLogger();
-    // Spigot Start
-    public static final IAttribute maxHealth = (new AttributeRanged("generic.maxHealth", 20.0D, 0.1D, org.spigotmc.SpigotConfig.maxHealth)).a("Max Health").a(true); // Spigot
-    public static final IAttribute b = (new AttributeRanged("generic.followRange", 32.0D, 0.0D, 2048.0D)).a("Follow Range");
-    public static final IAttribute c = (new AttributeRanged("generic.knockbackResistance", 0.0D, 0.0D, 1.0D)).a("Knockback Resistance");
-    public static final IAttribute d = (new AttributeRanged("generic.movementSpeed", 0.699999988079071D, 0.0D, org.spigotmc.SpigotConfig.movementSpeed)).a("Movement Speed").a(true);
-    public static final IAttribute e = new AttributeRanged("generic.attackDamage", 2.0D, 0.0D, org.spigotmc.SpigotConfig.attackDamage);
-    // Spigot End
+	private static final Logger f = LogManager.getLogger();
+	// Spigot Start
+	public static final IAttribute maxHealth = new AttributeRanged("generic.maxHealth", 20.0D, 0.1D, org.spigotmc.SpigotConfig.maxHealth).a("Max Health").a(true); // Spigot
+	public static final IAttribute b = new AttributeRanged("generic.followRange", 32.0D, 0.0D, 2048.0D).a("Follow Range");
+	public static final IAttribute c = new AttributeRanged("generic.knockbackResistance", 0.0D, 0.0D, 1.0D).a("Knockback Resistance");
+	public static final IAttribute d = new AttributeRanged("generic.movementSpeed", 0.699999988079071D, 0.0D, org.spigotmc.SpigotConfig.movementSpeed).a("Movement Speed").a(true);
+	public static final IAttribute e = new AttributeRanged("generic.attackDamage", 2.0D, 0.0D, org.spigotmc.SpigotConfig.attackDamage);
 
-    public static NBTTagList a(AttributeMapBase attributemapbase) {
-        NBTTagList nbttaglist = new NBTTagList();
-        Iterator iterator = attributemapbase.a().iterator();
+	// Spigot End
 
-        while (iterator.hasNext()) {
-            AttributeInstance attributeinstance = (AttributeInstance) iterator.next();
+	public static NBTTagList a(AttributeMapBase attributemapbase) {
+		NBTTagList nbttaglist = new NBTTagList();
+		Iterator iterator = attributemapbase.a().iterator();
 
-            nbttaglist.add(a(attributeinstance));
-        }
+		while (iterator.hasNext()) {
+			AttributeInstance attributeinstance = (AttributeInstance) iterator.next();
 
-        return nbttaglist;
-    }
+			nbttaglist.add(a(attributeinstance));
+		}
 
-    private static NBTTagCompound a(AttributeInstance attributeinstance) {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
-        IAttribute iattribute = attributeinstance.getAttribute();
+		return nbttaglist;
+	}
 
-        nbttagcompound.setString("Name", iattribute.getName());
-        nbttagcompound.setDouble("Base", attributeinstance.b());
-        Collection collection = attributeinstance.c();
+	private static NBTTagCompound a(AttributeInstance attributeinstance) {
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
+		IAttribute iattribute = attributeinstance.getAttribute();
 
-        if (collection != null && !collection.isEmpty()) {
-            NBTTagList nbttaglist = new NBTTagList();
-            Iterator iterator = collection.iterator();
+		nbttagcompound.setString("Name", iattribute.getName());
+		nbttagcompound.setDouble("Base", attributeinstance.b());
+		Collection collection = attributeinstance.c();
 
-            while (iterator.hasNext()) {
-                AttributeModifier attributemodifier = (AttributeModifier) iterator.next();
+		if (collection != null && !collection.isEmpty()) {
+			NBTTagList nbttaglist = new NBTTagList();
+			Iterator iterator = collection.iterator();
 
-                if (attributemodifier.e()) {
-                    nbttaglist.add(a(attributemodifier));
-                }
-            }
+			while (iterator.hasNext()) {
+				AttributeModifier attributemodifier = (AttributeModifier) iterator.next();
 
-            nbttagcompound.set("Modifiers", nbttaglist);
-        }
+				if (attributemodifier.e()) {
+					nbttaglist.add(a(attributemodifier));
+				}
+			}
 
-        return nbttagcompound;
-    }
+			nbttagcompound.set("Modifiers", nbttaglist);
+		}
 
-    private static NBTTagCompound a(AttributeModifier attributemodifier) {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+		return nbttagcompound;
+	}
 
-        nbttagcompound.setString("Name", attributemodifier.b());
-        nbttagcompound.setDouble("Amount", attributemodifier.d());
-        nbttagcompound.setInt("Operation", attributemodifier.c());
-        nbttagcompound.setLong("UUIDMost", attributemodifier.a().getMostSignificantBits());
-        nbttagcompound.setLong("UUIDLeast", attributemodifier.a().getLeastSignificantBits());
-        return nbttagcompound;
-    }
+	private static NBTTagCompound a(AttributeModifier attributemodifier) {
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-    public static void a(AttributeMapBase attributemapbase, NBTTagList nbttaglist) {
-        for (int i = 0; i < nbttaglist.size(); ++i) {
-            NBTTagCompound nbttagcompound = nbttaglist.get(i);
-            AttributeInstance attributeinstance = attributemapbase.a(nbttagcompound.getString("Name"));
+		nbttagcompound.setString("Name", attributemodifier.b());
+		nbttagcompound.setDouble("Amount", attributemodifier.d());
+		nbttagcompound.setInt("Operation", attributemodifier.c());
+		nbttagcompound.setLong("UUIDMost", attributemodifier.a().getMostSignificantBits());
+		nbttagcompound.setLong("UUIDLeast", attributemodifier.a().getLeastSignificantBits());
+		return nbttagcompound;
+	}
 
-            if (attributeinstance != null) {
-                a(attributeinstance, nbttagcompound);
-            } else {
-                f.warn("Ignoring unknown attribute \'" + nbttagcompound.getString("Name") + "\'");
-            }
-        }
-    }
+	public static void a(AttributeMapBase attributemapbase, NBTTagList nbttaglist) {
+		for (int i = 0; i < nbttaglist.size(); ++i) {
+			NBTTagCompound nbttagcompound = nbttaglist.get(i);
+			AttributeInstance attributeinstance = attributemapbase.a(nbttagcompound.getString("Name"));
 
-    private static void a(AttributeInstance attributeinstance, NBTTagCompound nbttagcompound) {
-        attributeinstance.setValue(nbttagcompound.getDouble("Base"));
-        if (nbttagcompound.hasKeyOfType("Modifiers", 9)) {
-            NBTTagList nbttaglist = nbttagcompound.getList("Modifiers", 10);
+			if (attributeinstance != null) {
+				a(attributeinstance, nbttagcompound);
+			} else {
+				f.warn("Ignoring unknown attribute \'" + nbttagcompound.getString("Name") + "\'");
+			}
+		}
+	}
 
-            for (int i = 0; i < nbttaglist.size(); ++i) {
-                AttributeModifier attributemodifier = a(nbttaglist.get(i));
-                AttributeModifier attributemodifier1 = attributeinstance.a(attributemodifier.a());
+	private static void a(AttributeInstance attributeinstance, NBTTagCompound nbttagcompound) {
+		attributeinstance.setValue(nbttagcompound.getDouble("Base"));
+		if (nbttagcompound.hasKeyOfType("Modifiers", 9)) {
+			NBTTagList nbttaglist = nbttagcompound.getList("Modifiers", 10);
 
-                if (attributemodifier1 != null) {
-                    attributeinstance.b(attributemodifier1);
-                }
+			for (int i = 0; i < nbttaglist.size(); ++i) {
+				AttributeModifier attributemodifier = a(nbttaglist.get(i));
+				AttributeModifier attributemodifier1 = attributeinstance.a(attributemodifier.a());
 
-                attributeinstance.a(attributemodifier);
-            }
-        }
-    }
+				if (attributemodifier1 != null) {
+					attributeinstance.b(attributemodifier1);
+				}
 
-    public static AttributeModifier a(NBTTagCompound nbttagcompound) {
-        UUID uuid = new UUID(nbttagcompound.getLong("UUIDMost"), nbttagcompound.getLong("UUIDLeast"));
+				attributeinstance.a(attributemodifier);
+			}
+		}
+	}
 
-        return new AttributeModifier(uuid, nbttagcompound.getString("Name"), nbttagcompound.getDouble("Amount"), nbttagcompound.getInt("Operation"));
-    }
+	public static AttributeModifier a(NBTTagCompound nbttagcompound) {
+		UUID uuid = new UUID(nbttagcompound.getLong("UUIDMost"), nbttagcompound.getLong("UUIDLeast"));
+
+		return new AttributeModifier(uuid, nbttagcompound.getString("Name"), nbttagcompound.getDouble("Amount"), nbttagcompound.getInt("Operation"));
+	}
 }

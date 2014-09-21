@@ -5,161 +5,160 @@ import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 // CraftBukkit start
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.event.entity.EntityTargetEvent;
+
 // CraftBukkit end
 
 public abstract class PathfinderGoalTarget extends PathfinderGoal {
 
-    protected EntityCreature c;
-    protected boolean d;
-    private boolean a;
-    private int b;
-    private int e;
-    private int f;
+	protected EntityCreature c;
+	protected boolean d;
+	private boolean a;
+	private int b;
+	private int e;
+	private int f;
 
-    public PathfinderGoalTarget(EntityCreature entitycreature, boolean flag) {
-        this(entitycreature, flag, false);
-    }
+	public PathfinderGoalTarget(EntityCreature entitycreature, boolean flag) {
+		this(entitycreature, flag, false);
+	}
 
-    public PathfinderGoalTarget(EntityCreature entitycreature, boolean flag, boolean flag1) {
-        this.c = entitycreature;
-        this.d = flag;
-        this.a = flag1;
-    }
+	public PathfinderGoalTarget(EntityCreature entitycreature, boolean flag, boolean flag1) {
+		c = entitycreature;
+		d = flag;
+		a = flag1;
+	}
 
-    public boolean b() {
-        EntityLiving entityliving = this.c.getGoalTarget();
+	@Override
+	public boolean b() {
+		EntityLiving entityliving = c.getGoalTarget();
 
-        if (entityliving == null) {
-            return false;
-        } else if (!entityliving.isAlive()) {
-            return false;
-        } else {
-            double d0 = this.f();
+		if (entityliving == null)
+			return false;
+		else if (!entityliving.isAlive())
+			return false;
+		else {
+			double d0 = f();
 
-            if (this.c.f(entityliving) > d0 * d0) {
-                return false;
-            } else {
-                if (this.d) {
-                    if (this.c.getEntitySenses().canSee(entityliving)) {
-                        this.f = 0;
-                    } else if (++this.f > 60) {
-                        return false;
-                    }
-                }
+			if (c.f(entityliving) > d0 * d0)
+				return false;
+			else {
+				if (d) {
+					if (c.getEntitySenses().canSee(entityliving)) {
+						f = 0;
+					} else if (++f > 60)
+						return false;
+				}
 
-                return !(entityliving instanceof EntityPlayer) || !((EntityPlayer) entityliving).playerInteractManager.isCreative();
-            }
-        }
-    }
+				return !(entityliving instanceof EntityPlayer) || !((EntityPlayer) entityliving).playerInteractManager.isCreative();
+			}
+		}
+	}
 
-    protected double f() {
-        AttributeInstance attributeinstance = this.c.getAttributeInstance(GenericAttributes.b);
+	protected double f() {
+		AttributeInstance attributeinstance = c.getAttributeInstance(GenericAttributes.b);
 
-        return attributeinstance == null ? 16.0D : attributeinstance.getValue();
-    }
+		return attributeinstance == null ? 16.0D : attributeinstance.getValue();
+	}
 
-    public void c() {
-        this.b = 0;
-        this.e = 0;
-        this.f = 0;
-    }
+	@Override
+	public void c() {
+		b = 0;
+		e = 0;
+		f = 0;
+	}
 
-    public void d() {
-        this.c.setGoalTarget((EntityLiving) null);
-    }
+	@Override
+	public void d() {
+		c.setGoalTarget((EntityLiving) null);
+	}
 
-    protected boolean a(EntityLiving entityliving, boolean flag) {
-        if (entityliving == null) {
-            return false;
-        } else if (entityliving == this.c) {
-            return false;
-        } else if (!entityliving.isAlive()) {
-            return false;
-        } else if (!this.c.a(entityliving.getClass())) {
-            return false;
-        } else {
-            if (this.c instanceof EntityOwnable && StringUtils.isNotEmpty(((EntityOwnable) this.c).getOwnerUUID())) {
-                if (entityliving instanceof EntityOwnable && ((EntityOwnable) this.c).getOwnerUUID().equals(((EntityOwnable) entityliving).getOwnerUUID())) {
-                    return false;
-                }
+	protected boolean a(EntityLiving entityliving, boolean flag) {
+		if (entityliving == null)
+			return false;
+		else if (entityliving == c)
+			return false;
+		else if (!entityliving.isAlive())
+			return false;
+		else if (!c.a(entityliving.getClass()))
+			return false;
+		else {
+			if (c instanceof EntityOwnable && StringUtils.isNotEmpty(((EntityOwnable) c).getOwnerUUID())) {
+				if (entityliving instanceof EntityOwnable && ((EntityOwnable) c).getOwnerUUID().equals(((EntityOwnable) entityliving).getOwnerUUID()))
+					return false;
 
-                if (entityliving == ((EntityOwnable) this.c).getOwner()) {
-                    return false;
-                }
-            } else if (entityliving instanceof EntityHuman && !flag && ((EntityHuman) entityliving).abilities.isInvulnerable) {
-                return false;
-            }
+				if (entityliving == ((EntityOwnable) c).getOwner())
+					return false;
+			} else if (entityliving instanceof EntityHuman && !flag && ((EntityHuman) entityliving).abilities.isInvulnerable)
+				return false;
 
-            if (!this.c.b(MathHelper.floor(entityliving.locX), MathHelper.floor(entityliving.locY), MathHelper.floor(entityliving.locZ))) {
-                return false;
-            } else if (this.d && !this.c.getEntitySenses().canSee(entityliving)) {
-                return false;
-            } else {
-                if (this.a) {
-                    if (--this.e <= 0) {
-                        this.b = 0;
-                    }
+			if (!c.b(MathHelper.floor(entityliving.locX), MathHelper.floor(entityliving.locY), MathHelper.floor(entityliving.locZ)))
+				return false;
+			else if (d && !c.getEntitySenses().canSee(entityliving))
+				return false;
+			else {
+				if (a) {
+					if (--e <= 0) {
+						b = 0;
+					}
 
-                    if (this.b == 0) {
-                        this.b = this.a(entityliving) ? 1 : 2;
-                    }
+					if (b == 0) {
+						b = this.a(entityliving) ? 1 : 2;
+					}
 
-                    if (this.b == 2) {
-                        return false;
-                    }
-                }
+					if (b == 2)
+						return false;
+				}
 
-                // CraftBukkit start - Check all the different target goals for the reason, default to RANDOM_TARGET
-                EntityTargetEvent.TargetReason reason = EntityTargetEvent.TargetReason.RANDOM_TARGET;
+				// CraftBukkit start - Check all the different target goals for the reason, default to RANDOM_TARGET
+				EntityTargetEvent.TargetReason reason = EntityTargetEvent.TargetReason.RANDOM_TARGET;
 
-                if (this instanceof PathfinderGoalDefendVillage) {
-                    reason = EntityTargetEvent.TargetReason.DEFEND_VILLAGE;
-                } else if (this instanceof PathfinderGoalHurtByTarget) {
-                    reason = EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY;
-                } else if (this instanceof PathfinderGoalNearestAttackableTarget) {
-                    if (entityliving instanceof EntityHuman) {
-                        reason = EntityTargetEvent.TargetReason.CLOSEST_PLAYER;
-                    }
-                } else if (this instanceof PathfinderGoalOwnerHurtByTarget) {
-                    reason = EntityTargetEvent.TargetReason.TARGET_ATTACKED_OWNER;
-                } else if (this instanceof PathfinderGoalOwnerHurtTarget) {
-                    reason = EntityTargetEvent.TargetReason.OWNER_ATTACKED_TARGET;
-                }
+				if (this instanceof PathfinderGoalDefendVillage) {
+					reason = EntityTargetEvent.TargetReason.DEFEND_VILLAGE;
+				} else if (this instanceof PathfinderGoalHurtByTarget) {
+					reason = EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY;
+				} else if (this instanceof PathfinderGoalNearestAttackableTarget) {
+					if (entityliving instanceof EntityHuman) {
+						reason = EntityTargetEvent.TargetReason.CLOSEST_PLAYER;
+					}
+				} else if (this instanceof PathfinderGoalOwnerHurtByTarget) {
+					reason = EntityTargetEvent.TargetReason.TARGET_ATTACKED_OWNER;
+				} else if (this instanceof PathfinderGoalOwnerHurtTarget) {
+					reason = EntityTargetEvent.TargetReason.OWNER_ATTACKED_TARGET;
+				}
 
-                org.bukkit.event.entity.EntityTargetLivingEntityEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTargetLivingEvent(this.c, entityliving, reason);
-                if (event.isCancelled() || event.getTarget() == null) {
-                    this.c.setGoalTarget(null);
-                    return false;
-                } else if (entityliving.getBukkitEntity() != event.getTarget()) {
-                    this.c.setGoalTarget((EntityLiving) ((CraftEntity) event.getTarget()).getHandle());
-                }
-                if (this.c instanceof EntityCreature) {
-                    ((EntityCreature) this.c).target = ((CraftEntity) event.getTarget()).getHandle();
-                }
-                // CraftBukkit end
+				org.bukkit.event.entity.EntityTargetLivingEntityEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTargetLivingEvent(c, entityliving, reason);
+				if (event.isCancelled() || event.getTarget() == null) {
+					c.setGoalTarget(null);
+					return false;
+				} else if (entityliving.getBukkitEntity() != event.getTarget()) {
+					c.setGoalTarget((EntityLiving) ((CraftEntity) event.getTarget()).getHandle());
+				}
+				if (c instanceof EntityCreature) {
+					c.target = ((CraftEntity) event.getTarget()).getHandle();
+				}
+				// CraftBukkit end
 
-                return true;
-            }
-        }
-    }
+				return true;
+			}
+		}
+	}
 
-    private boolean a(EntityLiving entityliving) {
-        this.e = 10 + this.c.aI().nextInt(5);
-        PathEntity pathentity = this.c.getNavigation().a(entityliving);
+	private boolean a(EntityLiving entityliving) {
+		e = 10 + c.aI().nextInt(5);
+		PathEntity pathentity = c.getNavigation().a(entityliving);
 
-        if (pathentity == null) {
-            return false;
-        } else {
-            PathPoint pathpoint = pathentity.c();
+		if (pathentity == null)
+			return false;
+		else {
+			PathPoint pathpoint = pathentity.c();
 
-            if (pathpoint == null) {
-                return false;
-            } else {
-                int i = pathpoint.a - MathHelper.floor(entityliving.locX);
-                int j = pathpoint.c - MathHelper.floor(entityliving.locZ);
+			if (pathpoint == null)
+				return false;
+			else {
+				int i = pathpoint.a - MathHelper.floor(entityliving.locX);
+				int j = pathpoint.c - MathHelper.floor(entityliving.locZ);
 
-                return (double) (i * i + j * j) <= 2.25D;
-            }
-        }
-    }
+				return i * i + j * j <= 2.25D;
+			}
+		}
+	}
 }

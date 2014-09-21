@@ -2,14 +2,16 @@ package net.minecraft.server;
 
 public class TileEntityLightDetector extends TileEntity {
 
-    public TileEntityLightDetector() {}
+	public TileEntityLightDetector() {
+	}
 
-    public void h() {
-        if (this.world != null && !this.world.isStatic /*&& this.world.getTime() % 20L == 0L*/) { // PaperSpigot - interval controlled by Improved Tick Handling
-            this.h = this.q();
-            if (this.h instanceof BlockDaylightDetector) {
-                ((BlockDaylightDetector) this.h).e(this.world, this.x, this.y, this.z);
-            }
-        }
-    }
+	@Override
+	public void h() {
+		if (world != null && !world.isStatic /*&& this.world.getTime() % 20L == 0L*/) { // PaperSpigot - interval controlled by Improved Tick Handling
+			h = q();
+			if (h instanceof BlockDaylightDetector) {
+				((BlockDaylightDetector) h).e(world, x, y, z);
+			}
+		}
+	}
 }

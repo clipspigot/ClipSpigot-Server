@@ -2,38 +2,41 @@ package net.minecraft.server;
 
 public class PathfinderGoalSit extends PathfinderGoal {
 
-    private EntityTameableAnimal entity;
-    private boolean willSit;
+	private EntityTameableAnimal entity;
+	private boolean willSit;
 
-    public PathfinderGoalSit(EntityTameableAnimal entitytameableanimal) {
-        this.entity = entitytameableanimal;
-        this.a(5);
-    }
+	public PathfinderGoalSit(EntityTameableAnimal entitytameableanimal) {
+		entity = entitytameableanimal;
+		this.a(5);
+	}
 
-    public boolean a() {
-        if (!this.entity.isTamed()) {
-            return this.willSit && this.entity.getGoalTarget() == null; // CraftBukkit - Allow sitting for wild animals
-        } else if (this.entity.M()) {
-            return false;
-        } else if (!this.entity.onGround) {
-            return false;
-        } else {
-            EntityLiving entityliving = this.entity.getOwner();
+	@Override
+	public boolean a() {
+		if (!entity.isTamed())
+			return willSit && entity.getGoalTarget() == null; // CraftBukkit - Allow sitting for wild animals
+		else if (entity.M())
+			return false;
+		else if (!entity.onGround)
+			return false;
+		else {
+			EntityLiving entityliving = entity.getOwner();
 
-            return entityliving == null ? true : (this.entity.f(entityliving) < 144.0D && entityliving.getLastDamager() != null ? false : this.willSit);
-        }
-    }
+			return entityliving == null ? true : entity.f(entityliving) < 144.0D && entityliving.getLastDamager() != null ? false : willSit;
+		}
+	}
 
-    public void c() {
-        this.entity.getNavigation().h();
-        this.entity.setSitting(true);
-    }
+	@Override
+	public void c() {
+		entity.getNavigation().h();
+		entity.setSitting(true);
+	}
 
-    public void d() {
-        this.entity.setSitting(false);
-    }
+	@Override
+	public void d() {
+		entity.setSitting(false);
+	}
 
-    public void setSitting(boolean flag) {
-        this.willSit = flag;
-    }
+	public void setSitting(boolean flag) {
+		willSit = flag;
+	}
 }

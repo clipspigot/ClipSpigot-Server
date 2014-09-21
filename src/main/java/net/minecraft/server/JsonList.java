@@ -24,155 +24,154 @@ import org.apache.logging.log4j.Logger;
 
 public class JsonList {
 
-    protected static final Logger a = LogManager.getLogger();
-    protected final Gson b;
-    private final File c;
-    private final Map d = Maps.newHashMap();
-    private boolean e = true;
-    private static final ParameterizedType f = new JsonListType();
+	protected static final Logger a = LogManager.getLogger();
+	protected final Gson b;
+	private final File c;
+	private final Map d = Maps.newHashMap();
+	private boolean e = true;
+	private static final ParameterizedType f = new JsonListType();
 
-    public JsonList(File file1) {
-        this.c = file1;
-        GsonBuilder gsonbuilder = (new GsonBuilder()).setPrettyPrinting();
+	public JsonList(File file1) {
+		c = file1;
+		GsonBuilder gsonbuilder = new GsonBuilder().setPrettyPrinting();
 
-        gsonbuilder.registerTypeHierarchyAdapter(JsonListEntry.class, new JsonListEntrySerializer(this, (JsonListType) null));
-        this.b = gsonbuilder.create();
-    }
+		gsonbuilder.registerTypeHierarchyAdapter(JsonListEntry.class, new JsonListEntrySerializer(this, (JsonListType) null));
+		b = gsonbuilder.create();
+	}
 
-    public boolean isEnabled() {
-        return this.e;
-    }
+	public boolean isEnabled() {
+		return e;
+	}
 
-    public void a(boolean flag) {
-        this.e = flag;
-    }
+	public void a(boolean flag) {
+		e = flag;
+	}
 
-    public File c() {
-        return this.c;
-    }
+	public File c() {
+		return c;
+	}
 
-    public void add(JsonListEntry jsonlistentry) {
-        this.d.put(this.a(jsonlistentry.getKey()), jsonlistentry);
+	public void add(JsonListEntry jsonlistentry) {
+		d.put(this.a(jsonlistentry.getKey()), jsonlistentry);
 
-        try {
-            this.save();
-        } catch (IOException ioexception) {
-            a.warn("Could not save the list after adding a user.", ioexception);
-        }
-    }
+		try {
+			save();
+		} catch (IOException ioexception) {
+			a.warn("Could not save the list after adding a user.", ioexception);
+		}
+	}
 
-    public JsonListEntry get(Object object) {
-        this.h();
-        return (JsonListEntry) this.d.get(this.a(object));
-    }
+	public JsonListEntry get(Object object) {
+		h();
+		return (JsonListEntry) d.get(this.a(object));
+	}
 
-    public void remove(Object object) {
-        this.d.remove(this.a(object));
+	public void remove(Object object) {
+		d.remove(this.a(object));
 
-        try {
-            this.save();
-        } catch (IOException ioexception) {
-            a.warn("Could not save the list after removing a user.", ioexception);
-        }
-    }
+		try {
+			save();
+		} catch (IOException ioexception) {
+			a.warn("Could not save the list after removing a user.", ioexception);
+		}
+	}
 
-    public String[] getEntries() {
-        return (String[]) this.d.keySet().toArray(new String[this.d.size()]);
-    }
+	public String[] getEntries() {
+		return (String[]) d.keySet().toArray(new String[d.size()]);
+	}
 
-    // CraftBukkit start
-    public Collection<JsonListEntry> getValues() {
-        return this.d.values();
-    }
-    // CraftBukkit end
+	// CraftBukkit start
+	public Collection<JsonListEntry> getValues() {
+		return d.values();
+	}
 
-    public boolean isEmpty() {
-        return this.d.size() < 1;
-    }
+	// CraftBukkit end
 
-    protected String a(Object object) {
-        return object.toString();
-    }
+	public boolean isEmpty() {
+		return d.size() < 1;
+	}
 
-    protected boolean d(Object object) {
-        return this.d.containsKey(this.a(object));
-    }
+	protected String a(Object object) {
+		return object.toString();
+	}
 
-    private void h() {
-        ArrayList arraylist = Lists.newArrayList();
-        Iterator iterator = this.d.values().iterator();
+	protected boolean d(Object object) {
+		return d.containsKey(this.a(object));
+	}
 
-        while (iterator.hasNext()) {
-            JsonListEntry jsonlistentry = (JsonListEntry) iterator.next();
+	private void h() {
+		ArrayList arraylist = Lists.newArrayList();
+		Iterator iterator = d.values().iterator();
 
-            if (jsonlistentry.hasExpired()) {
-                arraylist.add(jsonlistentry.getKey());
-            }
-        }
+		while (iterator.hasNext()) {
+			JsonListEntry jsonlistentry = (JsonListEntry) iterator.next();
 
-        iterator = arraylist.iterator();
+			if (jsonlistentry.hasExpired()) {
+				arraylist.add(jsonlistentry.getKey());
+			}
+		}
 
-        while (iterator.hasNext()) {
-            Object object = iterator.next();
+		iterator = arraylist.iterator();
 
-            this.d.remove(object);
-        }
-    }
+		while (iterator.hasNext()) {
+			Object object = iterator.next();
 
-    protected JsonListEntry a(JsonObject jsonobject) {
-        return new JsonListEntry(null, jsonobject);
-    }
+			d.remove(object);
+		}
+	}
 
-    protected Map e() {
-        return this.d;
-    }
+	protected JsonListEntry a(JsonObject jsonobject) {
+		return new JsonListEntry(null, jsonobject);
+	}
 
-    public void save() throws IOException { // CraftBukkit - Added throws
-        Collection collection = this.d.values();
-        String s = this.b.toJson(collection);
-        BufferedWriter bufferedwriter = null;
+	protected Map e() {
+		return d;
+	}
 
-        try {
-            bufferedwriter = Files.newWriter(this.c, Charsets.UTF_8);
-            bufferedwriter.write(s);
-        } finally {
-            IOUtils.closeQuietly(bufferedwriter);
-        }
-    }
+	public void save() throws IOException { // CraftBukkit - Added throws
+		Collection collection = d.values();
+		String s = b.toJson(collection);
+		BufferedWriter bufferedwriter = null;
 
-    public void load() throws IOException { // CraftBukkit - Added throws
-        Collection collection = null;
-        BufferedReader bufferedreader = null;
+		try {
+			bufferedwriter = Files.newWriter(c, Charsets.UTF_8);
+			bufferedwriter.write(s);
+		} finally {
+			IOUtils.closeQuietly(bufferedwriter);
+		}
+	}
 
-        try {
-            bufferedreader = Files.newReader(this.c, Charsets.UTF_8);
-            collection = (Collection) this.b.fromJson(bufferedreader, f);
-        // Spigot Start
-        } catch ( java.io.FileNotFoundException ex )
-        {
-            org.bukkit.Bukkit.getLogger().log( java.util.logging.Level.INFO, "Unable to find file {0}, creating it.", this.c );
-        } catch ( net.minecraft.util.com.google.gson.JsonSyntaxException ex )
-        {
-            org.bukkit.Bukkit.getLogger().log( java.util.logging.Level.WARNING, "Unable to read file {0}, backing it up to {0}.backup and creating new copy.", this.c );
-            File backup = new File( this.c + ".backup" );
-            this.c.renameTo( backup );
-            this.c.delete();
-        // Spigot End
-        } finally {
-            IOUtils.closeQuietly(bufferedreader);
-        }
+	public void load() throws IOException { // CraftBukkit - Added throws
+		Collection collection = null;
+		BufferedReader bufferedreader = null;
 
-        if (collection != null) {
-            this.d.clear();
-            Iterator iterator = collection.iterator();
+		try {
+			bufferedreader = Files.newReader(c, Charsets.UTF_8);
+			collection = (Collection) b.fromJson(bufferedreader, f);
+			// Spigot Start
+		} catch (java.io.FileNotFoundException ex) {
+			org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.INFO, "Unable to find file {0}, creating it.", c);
+		} catch (net.minecraft.util.com.google.gson.JsonSyntaxException ex) {
+			org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.WARNING, "Unable to read file {0}, backing it up to {0}.backup and creating new copy.", c);
+			File backup = new File(c + ".backup");
+			c.renameTo(backup);
+			c.delete();
+			// Spigot End
+		} finally {
+			IOUtils.closeQuietly(bufferedreader);
+		}
 
-            while (iterator.hasNext()) {
-                JsonListEntry jsonlistentry = (JsonListEntry) iterator.next();
+		if (collection != null) {
+			d.clear();
+			Iterator iterator = collection.iterator();
 
-                if (jsonlistentry.getKey() != null) {
-                    this.d.put(this.a(jsonlistentry.getKey()), jsonlistentry);
-                }
-            }
-        }
-    }
+			while (iterator.hasNext()) {
+				JsonListEntry jsonlistentry = (JsonListEntry) iterator.next();
+
+				if (jsonlistentry.getKey() != null) {
+					d.put(this.a(jsonlistentry.getKey()), jsonlistentry);
+				}
+			}
+		}
+	}
 }

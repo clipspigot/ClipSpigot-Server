@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import net.minecraft.util.com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.minecraft.util.io.netty.bootstrap.ServerBootstrap;
@@ -19,96 +18,97 @@ import org.apache.logging.log4j.Logger;
 
 public class ServerConnection {
 
-    private static final Logger b = LogManager.getLogger();
-    private static final NioEventLoopGroup c = new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty IO #%d").setDaemon(true).build());
-    private final MinecraftServer d;
-    public volatile boolean a;
-    private final List e = Collections.synchronizedList(new ArrayList());
-    private final List f = Collections.synchronizedList(new ArrayList());
+	private static final Logger b = LogManager.getLogger();
+	private static final NioEventLoopGroup c = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("Netty IO #%d").setDaemon(true).build());
+	private final MinecraftServer d;
+	public volatile boolean a;
+	private final List e = Collections.synchronizedList(new ArrayList());
+	private final List f = Collections.synchronizedList(new ArrayList());
 
-    public ServerConnection(MinecraftServer minecraftserver) {
-        this.d = minecraftserver;
-        this.a = true;
-    }
+	public ServerConnection(MinecraftServer minecraftserver) {
+		d = minecraftserver;
+		a = true;
+	}
 
-    public void a(InetAddress inetaddress, int i) {
-        List list = this.e;
+	public void a(InetAddress inetaddress, int i) {
+		List list = e;
 
-        synchronized (this.e) {
-            this.e.add(((ServerBootstrap) ((ServerBootstrap) (new ServerBootstrap()).channel(NioServerSocketChannel.class)).childHandler(new ServerConnectionChannel(this)).group(c).localAddress(inetaddress, i)).bind().syncUninterruptibly());
-        }
-    }
+		synchronized (e) {
+			e.add(new ServerBootstrap().channel(NioServerSocketChannel.class).childHandler(new ServerConnectionChannel(this)).group(c).localAddress(inetaddress, i).bind().syncUninterruptibly());
+		}
+	}
 
-    public void b() {
-        this.a = false;
-        Iterator iterator = this.e.iterator();
+	public void b() {
+		a = false;
+		Iterator iterator = e.iterator();
 
-        while (iterator.hasNext()) {
-            ChannelFuture channelfuture = (ChannelFuture) iterator.next();
+		while (iterator.hasNext()) {
+			ChannelFuture channelfuture = (ChannelFuture) iterator.next();
 
-            channelfuture.channel().close().syncUninterruptibly();
-        }
-    }
+			channelfuture.channel().close().syncUninterruptibly();
+		}
+	}
 
-    public void c() {
-        List list = this.f;
+	public void c() {
+		List list = f;
 
-        synchronized (this.f) {
-            // Spigot Start
-            // This prevents players from 'gaming' the server, and strategically relogging to increase their position in the tick order
-            if ( org.spigotmc.SpigotConfig.playerShuffle > 0 && MinecraftServer.currentTick % org.spigotmc.SpigotConfig.playerShuffle == 0 )
-            {
-                Collections.shuffle( this.f );
-            }
-            // Spigot End
-            Iterator iterator = this.f.iterator();
+		synchronized (f) {
+			// Spigot Start
+			// This prevents players from 'gaming' the server, and strategically relogging to increase their position in the tick order
+			if (org.spigotmc.SpigotConfig.playerShuffle > 0 && MinecraftServer.currentTick % org.spigotmc.SpigotConfig.playerShuffle == 0) {
+				Collections.shuffle(f);
+			}
+			// Spigot End
+			Iterator iterator = f.iterator();
 
-            while (iterator.hasNext()) {
-                NetworkManager networkmanager = (NetworkManager) iterator.next();
+			while (iterator.hasNext()) {
+				NetworkManager networkmanager = (NetworkManager) iterator.next();
 
-                if (!networkmanager.isConnected()) {
-                    // Spigot Start
-                    // Fix a race condition where a NetworkManager could be unregistered just before connection.
-                    if (networkmanager.preparing) continue;
-                    // Spigot End
-                    iterator.remove();
-                    if (networkmanager.f() != null) {
-                        networkmanager.getPacketListener().a(networkmanager.f());
-                    } else if (networkmanager.getPacketListener() != null) {
-                        networkmanager.getPacketListener().a(new ChatComponentText("Disconnected"));
-                    }
-                } else {
-                    try {
-                        networkmanager.a();
-                    } catch (Exception exception) {
-                        if (networkmanager.c()) {
-                            CrashReport crashreport = CrashReport.a(exception, "Ticking memory connection");
-                            CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Ticking connection");
+				if (!networkmanager.isConnected()) {
+					// Spigot Start
+					// Fix a race condition where a NetworkManager could be unregistered just before connection.
+					if (networkmanager.preparing) {
+						continue;
+					}
+					// Spigot End
+					iterator.remove();
+					if (networkmanager.f() != null) {
+						networkmanager.getPacketListener().a(networkmanager.f());
+					} else if (networkmanager.getPacketListener() != null) {
+						networkmanager.getPacketListener().a(new ChatComponentText("Disconnected"));
+					}
+				} else {
+					try {
+						networkmanager.a();
+					} catch (Exception exception) {
+						if (networkmanager.c()) {
+							CrashReport crashreport = CrashReport.a(exception, "Ticking memory connection");
+							CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Ticking connection");
 
-                            crashreportsystemdetails.a("Connection", (Callable) (new CrashReportServerConnection(this, networkmanager)));
-                            throw new ReportedException(crashreport);
-                        }
+							crashreportsystemdetails.a("Connection", new CrashReportServerConnection(this, networkmanager));
+							throw new ReportedException(crashreport);
+						}
 
-                        b.warn("Failed to handle packet for " + networkmanager.getSocketAddress(), exception);
-                        ChatComponentText chatcomponenttext = new ChatComponentText("Internal server error");
+						b.warn("Failed to handle packet for " + networkmanager.getSocketAddress(), exception);
+						ChatComponentText chatcomponenttext = new ChatComponentText("Internal server error");
 
-                        networkmanager.handle(new PacketPlayOutKickDisconnect(chatcomponenttext), new GenericFutureListener[] { new ServerConnectionFuture(this, networkmanager, chatcomponenttext)});
-                        networkmanager.g();
-                    }
-                }
-            }
-        }
-    }
+						networkmanager.handle(new PacketPlayOutKickDisconnect(chatcomponenttext), new GenericFutureListener[] { new ServerConnectionFuture(this, networkmanager, chatcomponenttext) });
+						networkmanager.g();
+					}
+				}
+			}
+		}
+	}
 
-    public MinecraftServer d() {
-        return this.d;
-    }
+	public MinecraftServer d() {
+		return d;
+	}
 
-    static List a(ServerConnection serverconnection) {
-        return serverconnection.f;
-    }
+	static List a(ServerConnection serverconnection) {
+		return serverconnection.f;
+	}
 
-    static MinecraftServer b(ServerConnection serverconnection) {
-        return serverconnection.d;
-    }
+	static MinecraftServer b(ServerConnection serverconnection) {
+		return serverconnection.d;
+	}
 }

@@ -2,148 +2,150 @@ package net.minecraft.server;
 
 public abstract class EntityAgeable extends EntityCreature {
 
-    private float bp = -1.0F;
-    private float bq;
-    public boolean ageLocked = false; // CraftBukkit
+	private float bp = -1.0F;
+	private float bq;
+	public boolean ageLocked = false; // CraftBukkit
 
-    // Spigot start
-    @Override
-    public void inactiveTick()
-    {
-        super.inactiveTick();
-        if ( this.world.isStatic || this.ageLocked )
-        { // CraftBukkit
-            this.a( this.isBaby() );
-        } else
-        {
-            int i = this.getAge();
+	// Spigot start
+	@Override
+	public void inactiveTick() {
+		super.inactiveTick();
+		if (world.isStatic || ageLocked) { // CraftBukkit
+			this.a(isBaby());
+		} else {
+			int i = getAge();
 
-            if ( i < 0 )
-            {
-                ++i;
-                this.setAge( i );
-            } else if ( i > 0 )
-            {
-                --i;
-                this.setAge( i );
-            }
-        }
-    }
-    // Spigot end
+			if (i < 0) {
+				++i;
+				setAge(i);
+			} else if (i > 0) {
+				--i;
+				setAge(i);
+			}
+		}
+	}
 
-    public EntityAgeable(World world) {
-        super(world);
-    }
+	// Spigot end
 
-    public abstract EntityAgeable createChild(EntityAgeable entityageable);
+	public EntityAgeable(World world) {
+		super(world);
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        ItemStack itemstack = entityhuman.inventory.getItemInHand();
+	public abstract EntityAgeable createChild(EntityAgeable entityageable);
 
-        if (itemstack != null && itemstack.getItem() == Items.MONSTER_EGG) {
-            if (!this.world.isStatic) {
-                Class oclass = EntityTypes.a(itemstack.getData());
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		ItemStack itemstack = entityhuman.inventory.getItemInHand();
 
-                if (oclass != null && oclass.isAssignableFrom(this.getClass())) {
-                    EntityAgeable entityageable = this.createChild(this);
+		if (itemstack != null && itemstack.getItem() == Items.MONSTER_EGG) {
+			if (!world.isStatic) {
+				Class oclass = EntityTypes.a(itemstack.getData());
 
-                    if (entityageable != null) {
-                        entityageable.setAge(-24000);
-                        entityageable.setPositionRotation(this.locX, this.locY, this.locZ, 0.0F, 0.0F);
-                        this.world.addEntity(entityageable, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER_EGG); // CraftBukkit
-                        if (itemstack.hasName()) {
-                            entityageable.setCustomName(itemstack.getName());
-                        }
+				if (oclass != null && oclass.isAssignableFrom(this.getClass())) {
+					EntityAgeable entityageable = createChild(this);
 
-                        if (!entityhuman.abilities.canInstantlyBuild) {
-                            --itemstack.count;
-                            if (itemstack.count == 0) {  // CraftBukkit - allow less than 0 stacks as "infinite"
-                                entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
-                            }
-                        }
-                    }
-                }
-            }
+					if (entityageable != null) {
+						entityageable.setAge(-24000);
+						entityageable.setPositionRotation(locX, locY, locZ, 0.0F, 0.0F);
+						world.addEntity(entityageable, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER_EGG); // CraftBukkit
+						if (itemstack.hasName()) {
+							entityageable.setCustomName(itemstack.getName());
+						}
 
-            return true;
-        } else {
-            return false;
-        }
-    }
+						if (!entityhuman.abilities.canInstantlyBuild) {
+							--itemstack.count;
+							if (itemstack.count == 0) { // CraftBukkit - allow less than 0 stacks as "infinite"
+								entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+							}
+						}
+					}
+				}
+			}
 
-    protected void c() {
-        super.c();
-        this.datawatcher.a(12, new org.spigotmc.ProtocolData.IntByte(0, (byte) 0)); // Spigot - protocol patch
-    }
+			return true;
+		} else
+			return false;
+	}
 
-    public int getAge() {
-        return this.datawatcher.getIntByte(12).value; // Spigot - protocol patch
-    }
+	@Override
+	protected void c() {
+		super.c();
+		datawatcher.a(12, new org.spigotmc.ProtocolData.IntByte(0, (byte) 0)); // Spigot - protocol patch
+	}
 
-    public void a(int i) {
-        int j = this.getAge();
+	public int getAge() {
+		return datawatcher.getIntByte(12).value; // Spigot - protocol patch
+	}
 
-        j += i * 20;
-        if (j > 0) {
-            j = 0;
-        }
+	public void a(int i) {
+		int j = getAge();
 
-        this.setAge(j);
-    }
+		j += i * 20;
+		if (j > 0) {
+			j = 0;
+		}
 
-    public void setAge(int i) {
-        this.datawatcher.watch(12, new org.spigotmc.ProtocolData.IntByte(i, (byte) ( i < 0 ? -1 : (i >= 6000 ? 1 : 0)))); // Spigot - protocol patch
-        this.a(this.isBaby());
-    }
+		setAge(j);
+	}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        nbttagcompound.setInt("Age", this.getAge());
-        nbttagcompound.setBoolean("AgeLocked", this.ageLocked); // CraftBukkit
-    }
+	public void setAge(int i) {
+		datawatcher.watch(12, new org.spigotmc.ProtocolData.IntByte(i, (byte) (i < 0 ? -1 : i >= 6000 ? 1 : 0))); // Spigot - protocol patch
+		this.a(isBaby());
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        this.setAge(nbttagcompound.getInt("Age"));
-        this.ageLocked = nbttagcompound.getBoolean("AgeLocked"); // CraftBukkit
-    }
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		nbttagcompound.setInt("Age", getAge());
+		nbttagcompound.setBoolean("AgeLocked", ageLocked); // CraftBukkit
+	}
 
-    public void e() {
-        super.e();
-        if (this.world.isStatic || this.ageLocked) { // CraftBukkit
-            this.a(this.isBaby());
-        } else {
-            int i = this.getAge();
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		setAge(nbttagcompound.getInt("Age"));
+		ageLocked = nbttagcompound.getBoolean("AgeLocked"); // CraftBukkit
+	}
 
-            if (i < 0) {
-                ++i;
-                this.setAge(i);
-            } else if (i > 0) {
-                --i;
-                this.setAge(i);
-            }
-        }
-    }
+	@Override
+	public void e() {
+		super.e();
+		if (world.isStatic || ageLocked) { // CraftBukkit
+			this.a(isBaby());
+		} else {
+			int i = getAge();
 
-    public boolean isBaby() {
-        return this.getAge() < 0;
-    }
+			if (i < 0) {
+				++i;
+				setAge(i);
+			} else if (i > 0) {
+				--i;
+				setAge(i);
+			}
+		}
+	}
 
-    public void a(boolean flag) {
-        this.a(flag ? 0.5F : 1.0F);
-    }
+	@Override
+	public boolean isBaby() {
+		return getAge() < 0;
+	}
 
-    protected final void a(float f, float f1) {
-        boolean flag = this.bp > 0.0F;
+	public void a(boolean flag) {
+		this.a(flag ? 0.5F : 1.0F);
+	}
 
-        this.bp = f;
-        this.bq = f1;
-        if (!flag) {
-            this.a(1.0F);
-        }
-    }
+	@Override
+	protected final void a(float f, float f1) {
+		boolean flag = bp > 0.0F;
 
-    protected final void a(float f) {
-        super.a(this.bp * f, this.bq * f);
-    }
+		bp = f;
+		bq = f1;
+		if (!flag) {
+			this.a(1.0F);
+		}
+	}
+
+	protected final void a(float f) {
+		super.a(bp * f, bq * f);
+	}
 }

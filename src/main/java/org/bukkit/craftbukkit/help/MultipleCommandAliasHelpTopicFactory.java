@@ -9,7 +9,8 @@ import org.bukkit.help.HelpTopicFactory;
  */
 public class MultipleCommandAliasHelpTopicFactory implements HelpTopicFactory<MultipleCommandAlias> {
 
-    public HelpTopic createTopic(MultipleCommandAlias multipleCommandAlias) {
-        return new MultipleCommandAliasHelpTopic(multipleCommandAlias);
-    }
+	@Override
+	public HelpTopic createTopic(MultipleCommandAlias multipleCommandAlias) {
+		return new MultipleCommandAliasHelpTopic(multipleCommandAlias);
+	}
 }

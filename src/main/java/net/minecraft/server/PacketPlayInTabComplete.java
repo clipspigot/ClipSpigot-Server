@@ -6,43 +6,47 @@ import net.minecraft.util.org.apache.commons.lang3.StringUtils;
 
 public class PacketPlayInTabComplete extends Packet {
 
-    private String a;
+	private String a;
 
-    public PacketPlayInTabComplete() {}
+	public PacketPlayInTabComplete() {
+	}
 
-    public PacketPlayInTabComplete(String s) {
-        this.a = s;
-    }
+	public PacketPlayInTabComplete(String s) {
+		a = s;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) throws IOException {
-        this.a = packetdataserializer.c(32767);
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version >= 37 )
-        {
-            if (packetdataserializer.readBoolean()) {
-                long position = packetdataserializer.readLong();
-            }
-        }
-        // Spigot end
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) throws IOException {
+		a = packetdataserializer.c(32767);
+		// Spigot start - protocol patch
+		if (packetdataserializer.version >= 37) {
+			if (packetdataserializer.readBoolean()) {
+				long position = packetdataserializer.readLong();
+			}
+		}
+		// Spigot end
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) throws IOException {
-        packetdataserializer.a(StringUtils.substring(this.a, 0, 32767));
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) throws IOException {
+		packetdataserializer.a(StringUtils.substring(a, 0, 32767));
+	}
 
-    public void a(PacketPlayInListener packetplayinlistener) {
-        packetplayinlistener.a(this);
-    }
+	public void a(PacketPlayInListener packetplayinlistener) {
+		packetplayinlistener.a(this);
+	}
 
-    public String c() {
-        return this.a;
-    }
+	public String c() {
+		return a;
+	}
 
-    public String b() {
-        return String.format("message=\'%s\'", new Object[] { this.a});
-    }
+	@Override
+	public String b() {
+		return String.format("message=\'%s\'", new Object[] { a });
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayInListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayInListener) packetlistener);
+	}
 }

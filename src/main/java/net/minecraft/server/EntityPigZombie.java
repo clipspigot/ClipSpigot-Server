@@ -7,154 +7,169 @@ import org.bukkit.event.entity.EntityTargetEvent; // CraftBukkit
 
 public class EntityPigZombie extends EntityZombie {
 
-    private static final UUID bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
-    private static final AttributeModifier br = (new AttributeModifier(bq, "Attacking speed boost", 0.45D, 0)).a(false);
-    public int angerLevel; // CraftBukkit - private -> public
-    private int soundDelay;
-    private Entity bu;
+	private static final UUID bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
+	private static final AttributeModifier br = new AttributeModifier(bq, "Attacking speed boost", 0.45D, 0).a(false);
+	public int angerLevel; // CraftBukkit - private -> public
+	private int soundDelay;
+	private Entity bu;
 
-    public EntityPigZombie(World world) {
-        super(world);
-        this.fireProof = true;
-    }
+	public EntityPigZombie(World world) {
+		super(world);
+		fireProof = true;
+	}
 
-    protected void aD() {
-        super.aD();
-        this.getAttributeInstance(bp).setValue(0.0D);
-        this.getAttributeInstance(GenericAttributes.d).setValue(0.5D);
-        this.getAttributeInstance(GenericAttributes.e).setValue(5.0D);
-    }
+	@Override
+	protected void aD() {
+		super.aD();
+		getAttributeInstance(bp).setValue(0.0D);
+		getAttributeInstance(GenericAttributes.d).setValue(0.5D);
+		getAttributeInstance(GenericAttributes.e).setValue(5.0D);
+	}
 
-    protected boolean bk() {
-        return false;
-    }
+	@Override
+	protected boolean bk() {
+		return false;
+	}
 
-    public void h() {
-        if (this.bu != this.target && !this.world.isStatic) {
-            AttributeInstance attributeinstance = this.getAttributeInstance(GenericAttributes.d);
+	@Override
+	public void h() {
+		if (bu != target && !world.isStatic) {
+			AttributeInstance attributeinstance = getAttributeInstance(GenericAttributes.d);
 
-            attributeinstance.b(br);
-            if (this.target != null) {
-                attributeinstance.a(br);
-            }
-        }
+			attributeinstance.b(br);
+			if (target != null) {
+				attributeinstance.a(br);
+			}
+		}
 
-        this.bu = this.target;
-        if (this.soundDelay > 0 && --this.soundDelay == 0) {
-            this.makeSound("mob.zombiepig.zpigangry", this.bf() * 2.0F, ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) * 1.8F);
-        }
+		bu = target;
+		if (soundDelay > 0 && --soundDelay == 0) {
+			makeSound("mob.zombiepig.zpigangry", bf() * 2.0F, ((random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F) * 1.8F);
+		}
 
-        super.h();
-    }
+		super.h();
+	}
 
-    public boolean canSpawn() {
-        return this.world.difficulty != EnumDifficulty.PEACEFUL && this.world.b(this.boundingBox) && this.world.getCubes(this, this.boundingBox).isEmpty() && !this.world.containsLiquid(this.boundingBox);
-    }
+	@Override
+	public boolean canSpawn() {
+		return world.difficulty != EnumDifficulty.PEACEFUL && world.b(boundingBox) && world.getCubes(this, boundingBox).isEmpty() && !world.containsLiquid(boundingBox);
+	}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        nbttagcompound.setShort("Anger", (short) this.angerLevel);
-    }
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		nbttagcompound.setShort("Anger", (short) angerLevel);
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        this.angerLevel = nbttagcompound.getShort("Anger");
-    }
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		angerLevel = nbttagcompound.getShort("Anger");
+	}
 
-    protected Entity findTarget() {
-        return this.angerLevel == 0 ? null : super.findTarget();
-    }
+	@Override
+	protected Entity findTarget() {
+		return angerLevel == 0 ? null : super.findTarget();
+	}
 
-    public boolean damageEntity(DamageSource damagesource, float f) {
-        if (this.isInvulnerable()) {
-            return false;
-        } else {
-            Entity entity = damagesource.getEntity();
+	@Override
+	public boolean damageEntity(DamageSource damagesource, float f) {
+		if (isInvulnerable())
+			return false;
+		else {
+			Entity entity = damagesource.getEntity();
 
-            if (entity instanceof EntityHuman) {
-                List list = this.world.getEntities(this, this.boundingBox.grow(32.0D, 32.0D, 32.0D));
+			if (entity instanceof EntityHuman) {
+				List list = world.getEntities(this, boundingBox.grow(32.0D, 32.0D, 32.0D));
 
-                for (int i = 0; i < list.size(); ++i) {
-                    Entity entity1 = (Entity) list.get(i);
+				for (int i = 0; i < list.size(); ++i) {
+					Entity entity1 = (Entity) list.get(i);
 
-                    if (entity1 instanceof EntityPigZombie) {
-                        EntityPigZombie entitypigzombie = (EntityPigZombie) entity1;
+					if (entity1 instanceof EntityPigZombie) {
+						EntityPigZombie entitypigzombie = (EntityPigZombie) entity1;
 
-                        entitypigzombie.c(entity, EntityTargetEvent.TargetReason.PIG_ZOMBIE_TARGET);
-                    }
-                }
+						entitypigzombie.c(entity, EntityTargetEvent.TargetReason.PIG_ZOMBIE_TARGET);
+					}
+				}
 
-                this.c(entity, EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY);
-            }
+				this.c(entity, EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY);
+			}
 
-            return super.damageEntity(damagesource, f);
-        }
-    }
+			return super.damageEntity(damagesource, f);
+		}
+	}
 
-    // CraftBukkit start
-    private void c(Entity entity, EntityTargetEvent.TargetReason reason) { // add TargetReason
-        EntityTargetEvent event = new EntityTargetEvent(this.getBukkitEntity(), entity.getBukkitEntity(), reason);
-        this.world.getServer().getPluginManager().callEvent(event);
+	// CraftBukkit start
+	private void c(Entity entity, EntityTargetEvent.TargetReason reason) { // add TargetReason
+		EntityTargetEvent event = new EntityTargetEvent(getBukkitEntity(), entity.getBukkitEntity(), reason);
+		world.getServer().getPluginManager().callEvent(event);
 
-        if (event.isCancelled()) {
-            return;
-        }
+		if (event.isCancelled())
+			return;
 
-        if (event.getTarget() == null) {
-            this.target = null;
-            return;
-        }
-        entity = ((org.bukkit.craftbukkit.entity.CraftEntity) event.getTarget()).getHandle();
-        // CraftBukkit end
+		if (event.getTarget() == null) {
+			target = null;
+			return;
+		}
+		entity = ((org.bukkit.craftbukkit.entity.CraftEntity) event.getTarget()).getHandle();
+		// CraftBukkit end
 
-        this.target = entity;
-        this.angerLevel = 400 + this.random.nextInt(400);
-        this.soundDelay = this.random.nextInt(40);
-    }
+		target = entity;
+		angerLevel = 400 + random.nextInt(400);
+		soundDelay = random.nextInt(40);
+	}
 
-    protected String t() {
-        return "mob.zombiepig.zpig";
-    }
+	@Override
+	protected String t() {
+		return "mob.zombiepig.zpig";
+	}
 
-    protected String aT() {
-        return "mob.zombiepig.zpighurt";
-    }
+	@Override
+	protected String aT() {
+		return "mob.zombiepig.zpighurt";
+	}
 
-    protected String aU() {
-        return "mob.zombiepig.zpigdeath";
-    }
+	@Override
+	protected String aU() {
+		return "mob.zombiepig.zpigdeath";
+	}
 
-    protected void dropDeathLoot(boolean flag, int i) {
-        int j = this.random.nextInt(2 + i);
+	@Override
+	protected void dropDeathLoot(boolean flag, int i) {
+		int j = random.nextInt(2 + i);
 
-        int k;
+		int k;
 
-        for (k = 0; k < j; ++k) {
-            this.a(Items.ROTTEN_FLESH, 1);
-        }
+		for (k = 0; k < j; ++k) {
+			this.a(Items.ROTTEN_FLESH, 1);
+		}
 
-        j = this.random.nextInt(2 + i);
+		j = random.nextInt(2 + i);
 
-        for (k = 0; k < j; ++k) {
-            this.a(Items.GOLD_NUGGET, 1);
-        }
-    }
+		for (k = 0; k < j; ++k) {
+			this.a(Items.GOLD_NUGGET, 1);
+		}
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return false;
-    }
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return false;
+	}
 
-    protected void getRareDrop(int i) {
-        this.a(Items.GOLD_INGOT, 1);
-    }
+	@Override
+	protected void getRareDrop(int i) {
+		this.a(Items.GOLD_INGOT, 1);
+	}
 
-    protected void bC() {
-        this.setEquipment(0, new ItemStack(Items.GOLD_SWORD));
-    }
+	@Override
+	protected void bC() {
+		setEquipment(0, new ItemStack(Items.GOLD_SWORD));
+	}
 
-    public GroupDataEntity prepare(GroupDataEntity groupdataentity) {
-        super.prepare(groupdataentity);
-        this.setVillager(false);
-        return groupdataentity;
-    }
+	@Override
+	public GroupDataEntity prepare(GroupDataEntity groupdataentity) {
+		super.prepare(groupdataentity);
+		setVillager(false);
+		return groupdataentity;
+	}
 }

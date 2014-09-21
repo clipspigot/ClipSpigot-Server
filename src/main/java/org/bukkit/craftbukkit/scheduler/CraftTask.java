@@ -6,119 +6,126 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.spigotmc.CustomTimingsHandler; // Spigot
 
-
 public class CraftTask implements BukkitTask, Runnable { // Spigot
 
-    private volatile CraftTask next = null;
-    /**
-     * -1 means no repeating <br>
-     * -2 means cancel <br>
-     * -3 means processing for Future <br>
-     * -4 means done for Future <br>
-     * Never 0 <br>
-     * >0 means number of ticks to wait between each execution
-     */
-    private volatile long period;
-    private long nextRun;
-    private final Runnable task;
-    private final Plugin plugin;
-    private final int id;
+	private volatile CraftTask next = null;
+	/**
+	 * -1 means no repeating <br>
+	 * -2 means cancel <br>
+	 * -3 means processing for Future <br>
+	 * -4 means done for Future <br>
+	 * Never 0 <br>
+	 * >0 means number of ticks to wait between each execution
+	 */
+	private volatile long period;
+	private long nextRun;
+	private final Runnable task;
+	private final Plugin plugin;
+	private final int id;
 
-    final CustomTimingsHandler timings; // Spigot
-    CraftTask() {
-        this(null, null, -1, -1);
-    }
+	final CustomTimingsHandler timings; // Spigot
 
-    CraftTask(final Runnable task) {
-        this(null, task, -1, -1);
-    }
+	CraftTask() {
+		this(null, null, -1, -1);
+	}
 
-    // Spigot start
-    public String timingName = null;
-    CraftTask(String timingName) {
-        this(timingName, null, null, -1, -1);
-    }
-    CraftTask(String timingName, final Runnable task) {
-        this(timingName, null, task, -1, -1);
-    }
-    CraftTask(String timingName, final Plugin plugin, final Runnable task, final int id, final long period) {
-        this.plugin = plugin;
-        this.task = task;
-        this.id = id;
-        this.period = period;
-        this.timingName = timingName == null && task == null ? "Unknown" : timingName;
-        timings = this.isSync() ? SpigotTimings.getPluginTaskTimings(this, period) : null;
-    }
+	CraftTask(final Runnable task) {
+		this(null, task, -1, -1);
+	}
 
-    CraftTask(final Plugin plugin, final Runnable task, final int id, final long period) {
-        this(null, plugin, task, id, period);
-    // Spigot end
-    }
+	// Spigot start
+	public String timingName = null;
 
-    public final int getTaskId() {
-        return id;
-    }
+	CraftTask(String timingName) {
+		this(timingName, null, null, -1, -1);
+	}
 
-    public final Plugin getOwner() {
-        return plugin;
-    }
+	CraftTask(String timingName, final Runnable task) {
+		this(timingName, null, task, -1, -1);
+	}
 
-    public boolean isSync() {
-        return true;
-    }
+	CraftTask(String timingName, final Plugin plugin, final Runnable task, final int id, final long period) {
+		this.plugin = plugin;
+		this.task = task;
+		this.id = id;
+		this.period = period;
+		this.timingName = timingName == null && task == null ? "Unknown" : timingName;
+		timings = isSync() ? SpigotTimings.getPluginTaskTimings(this, period) : null;
+	}
 
-    public void run() {
-        task.run();
-    }
+	CraftTask(final Plugin plugin, final Runnable task, final int id, final long period) {
+		this(null, plugin, task, id, period);
+		// Spigot end
+	}
 
-    long getPeriod() {
-        return period;
-    }
+	@Override
+	public final int getTaskId() {
+		return id;
+	}
 
-    void setPeriod(long period) {
-        this.period = period;
-    }
+	@Override
+	public final Plugin getOwner() {
+		return plugin;
+	}
 
-    long getNextRun() {
-        return nextRun;
-    }
+	@Override
+	public boolean isSync() {
+		return true;
+	}
 
-    void setNextRun(long nextRun) {
-        this.nextRun = nextRun;
-    }
+	@Override
+	public void run() {
+		task.run();
+	}
 
-    CraftTask getNext() {
-        return next;
-    }
+	long getPeriod() {
+		return period;
+	}
 
-    void setNext(CraftTask next) {
-        this.next = next;
-    }
+	void setPeriod(long period) {
+		this.period = period;
+	}
 
-    Class<? extends Runnable> getTaskClass() {
-        return task.getClass();
-    }
+	long getNextRun() {
+		return nextRun;
+	}
 
-    public void cancel() {
-        Bukkit.getScheduler().cancelTask(id);
-    }
+	void setNextRun(long nextRun) {
+		this.nextRun = nextRun;
+	}
 
-    /**
-     * This method properly sets the status to cancelled, synchronizing when required.
-     *
-     * @return false if it is a craft future task that has already begun execution, true otherwise
-     */
-    boolean cancel0() {
-        setPeriod(-2l);
-        return true;
-    }
+	CraftTask getNext() {
+		return next;
+	}
 
-    // Spigot start
-    public String getTaskName() {
-        if (timingName != null) {
-            return timingName;
-        }
-        return task.getClass().getName();
-    }
-    // Spigot end
+	void setNext(CraftTask next) {
+		this.next = next;
+	}
+
+	Class<? extends Runnable> getTaskClass() {
+		return task.getClass();
+	}
+
+	@Override
+	public void cancel() {
+		Bukkit.getScheduler().cancelTask(id);
+	}
+
+	/**
+	 * This method properly sets the status to cancelled, synchronizing when required.
+	 *
+	 * @return false if it is a craft future task that has already begun execution, true otherwise
+	 */
+	boolean cancel0() {
+		setPeriod(-2l);
+		return true;
+	}
+
+	// Spigot start
+	public String getTaskName() {
+		if (timingName != null)
+			return timingName;
+		return task.getClass().getName();
+	}
+	// Spigot end
 }

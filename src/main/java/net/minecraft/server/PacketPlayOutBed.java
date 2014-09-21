@@ -2,48 +2,50 @@ package net.minecraft.server;
 
 public class PacketPlayOutBed extends Packet {
 
-    private int a;
-    private int b;
-    private int c;
-    private int d;
+	private int a;
+	private int b;
+	private int c;
+	private int d;
 
-    public PacketPlayOutBed() {}
+	public PacketPlayOutBed() {
+	}
 
-    public PacketPlayOutBed(EntityHuman entityhuman, int i, int j, int k) {
-        this.b = i;
-        this.c = j;
-        this.d = k;
-        this.a = entityhuman.getId();
-    }
+	public PacketPlayOutBed(EntityHuman entityhuman, int i, int j, int k) {
+		b = i;
+		c = j;
+		d = k;
+		a = entityhuman.getId();
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readInt();
-        this.b = packetdataserializer.readInt();
-        this.c = packetdataserializer.readByte();
-        this.d = packetdataserializer.readInt();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readInt();
+		b = packetdataserializer.readInt();
+		c = packetdataserializer.readByte();
+		d = packetdataserializer.readInt();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeInt( this.a );
-            packetdataserializer.writeInt( this.b );
-            packetdataserializer.writeByte( this.c );
-            packetdataserializer.writeInt( this.d );
-        } else
-        {
-            packetdataserializer.b( a );
-            packetdataserializer.writePosition( b, c, d );
-        }
-        // Spigot end
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeInt(a);
+			packetdataserializer.writeInt(b);
+			packetdataserializer.writeByte(c);
+			packetdataserializer.writeInt(d);
+		} else {
+			packetdataserializer.b(a);
+			packetdataserializer.writePosition(b, c, d);
+		}
+		// Spigot end
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

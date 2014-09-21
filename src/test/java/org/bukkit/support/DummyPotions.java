@@ -7,11 +7,12 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffectType;
 
 public class DummyPotions {
-    static {
-        Potion.setPotionBrewer(new CraftPotionBrewer());
-        MobEffectList.BLINDNESS.getClass();
-        PotionEffectType.stopAcceptingRegistrations();
-    }
+	static {
+		Potion.setPotionBrewer(new CraftPotionBrewer());
+		MobEffectList.BLINDNESS.getClass();
+		PotionEffectType.stopAcceptingRegistrations();
+	}
 
-    public static void setup() {}
+	public static void setup() {
+	}
 }

@@ -1,165 +1,164 @@
 package net.minecraft.server;
 
-
 public class IntHashMap {
 
-    private transient IntHashMapEntry[] a = new IntHashMapEntry[16];
-    private transient int b;
-    private int c = 12;
-    private final float d = 0.75F;
-    private transient volatile int e;
-    // private Set f = new HashSet(); // CraftBukkit - expensive and unused
+	private transient IntHashMapEntry[] a = new IntHashMapEntry[16];
+	private transient int b;
+	private int c = 12;
+	private final float d = 0.75F;
+	private transient volatile int e;
 
-    public IntHashMap() {}
+	// private Set f = new HashSet(); // CraftBukkit - expensive and unused
 
-    private static int g(int i) {
-        i ^= i >>> 20 ^ i >>> 12;
-        return i ^ i >>> 7 ^ i >>> 4;
-    }
+	public IntHashMap() {
+	}
 
-    private static int a(int i, int j) {
-        return i & j - 1;
-    }
+	private static int g(int i) {
+		i ^= i >>> 20 ^ i >>> 12;
+		return i ^ i >>> 7 ^ i >>> 4;
+	}
 
-    public Object get(int i) {
-        int j = g(i);
+	private static int a(int i, int j) {
+		return i & j - 1;
+	}
 
-        for (IntHashMapEntry inthashmapentry = this.a[a(j, this.a.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.c) {
-            if (inthashmapentry.a == i) {
-                return inthashmapentry.b;
-            }
-        }
+	public Object get(int i) {
+		int j = g(i);
 
-        return null;
-    }
+		for (IntHashMapEntry inthashmapentry = a[a(j, a.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.c) {
+			if (inthashmapentry.a == i)
+				return inthashmapentry.b;
+		}
 
-    public boolean b(int i) {
-        return this.c(i) != null;
-    }
+		return null;
+	}
 
-    final IntHashMapEntry c(int i) {
-        int j = g(i);
+	public boolean b(int i) {
+		return this.c(i) != null;
+	}
 
-        for (IntHashMapEntry inthashmapentry = this.a[a(j, this.a.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.c) {
-            if (inthashmapentry.a == i) {
-                return inthashmapentry;
-            }
-        }
+	final IntHashMapEntry c(int i) {
+		int j = g(i);
 
-        return null;
-    }
+		for (IntHashMapEntry inthashmapentry = a[a(j, a.length)]; inthashmapentry != null; inthashmapentry = inthashmapentry.c) {
+			if (inthashmapentry.a == i)
+				return inthashmapentry;
+		}
 
-    public void a(int i, Object object) {
-        // this.f.add(Integer.valueOf(i)); // CraftBukkit
-        int j = g(i);
-        int k = a(j, this.a.length);
+		return null;
+	}
 
-        for (IntHashMapEntry inthashmapentry = this.a[k]; inthashmapentry != null; inthashmapentry = inthashmapentry.c) {
-            if (inthashmapentry.a == i) {
-                inthashmapentry.b = object;
-                return;
-            }
-        }
+	public void a(int i, Object object) {
+		// this.f.add(Integer.valueOf(i)); // CraftBukkit
+		int j = g(i);
+		int k = a(j, a.length);
 
-        ++this.e;
-        this.a(j, i, object, k);
-    }
+		for (IntHashMapEntry inthashmapentry = a[k]; inthashmapentry != null; inthashmapentry = inthashmapentry.c) {
+			if (inthashmapentry.a == i) {
+				inthashmapentry.b = object;
+				return;
+			}
+		}
 
-    private void h(int i) {
-        IntHashMapEntry[] ainthashmapentry = this.a;
-        int j = ainthashmapentry.length;
+		++e;
+		this.a(j, i, object, k);
+	}
 
-        if (j == 1073741824) {
-            this.c = Integer.MAX_VALUE;
-        } else {
-            IntHashMapEntry[] ainthashmapentry1 = new IntHashMapEntry[i];
+	private void h(int i) {
+		IntHashMapEntry[] ainthashmapentry = a;
+		int j = ainthashmapentry.length;
 
-            this.a(ainthashmapentry1);
-            this.a = ainthashmapentry1;
-            this.c = (int) ((float) i * this.d);
-        }
-    }
+		if (j == 1073741824) {
+			c = Integer.MAX_VALUE;
+		} else {
+			IntHashMapEntry[] ainthashmapentry1 = new IntHashMapEntry[i];
 
-    private void a(IntHashMapEntry[] ainthashmapentry) {
-        IntHashMapEntry[] ainthashmapentry1 = this.a;
-        int i = ainthashmapentry.length;
+			this.a(ainthashmapentry1);
+			a = ainthashmapentry1;
+			c = (int) (i * d);
+		}
+	}
 
-        for (int j = 0; j < ainthashmapentry1.length; ++j) {
-            IntHashMapEntry inthashmapentry = ainthashmapentry1[j];
+	private void a(IntHashMapEntry[] ainthashmapentry) {
+		IntHashMapEntry[] ainthashmapentry1 = a;
+		int i = ainthashmapentry.length;
 
-            if (inthashmapentry != null) {
-                ainthashmapentry1[j] = null;
+		for (int j = 0; j < ainthashmapentry1.length; ++j) {
+			IntHashMapEntry inthashmapentry = ainthashmapentry1[j];
 
-                IntHashMapEntry inthashmapentry1;
+			if (inthashmapentry != null) {
+				ainthashmapentry1[j] = null;
 
-                do {
-                    inthashmapentry1 = inthashmapentry.c;
-                    int k = a(inthashmapentry.d, i);
+				IntHashMapEntry inthashmapentry1;
 
-                    inthashmapentry.c = ainthashmapentry[k];
-                    ainthashmapentry[k] = inthashmapentry;
-                    inthashmapentry = inthashmapentry1;
-                } while (inthashmapentry1 != null);
-            }
-        }
-    }
+				do {
+					inthashmapentry1 = inthashmapentry.c;
+					int k = a(inthashmapentry.d, i);
 
-    public Object d(int i) {
-        // this.f.remove(Integer.valueOf(i)); // CraftBukkit
-        IntHashMapEntry inthashmapentry = this.e(i);
+					inthashmapentry.c = ainthashmapentry[k];
+					ainthashmapentry[k] = inthashmapentry;
+					inthashmapentry = inthashmapentry1;
+				} while (inthashmapentry1 != null);
+			}
+		}
+	}
 
-        return inthashmapentry == null ? null : inthashmapentry.b;
-    }
+	public Object d(int i) {
+		// this.f.remove(Integer.valueOf(i)); // CraftBukkit
+		IntHashMapEntry inthashmapentry = e(i);
 
-    final IntHashMapEntry e(int i) {
-        int j = g(i);
-        int k = a(j, this.a.length);
-        IntHashMapEntry inthashmapentry = this.a[k];
+		return inthashmapentry == null ? null : inthashmapentry.b;
+	}
 
-        IntHashMapEntry inthashmapentry1;
-        IntHashMapEntry inthashmapentry2;
+	final IntHashMapEntry e(int i) {
+		int j = g(i);
+		int k = a(j, a.length);
+		IntHashMapEntry inthashmapentry = a[k];
 
-        for (inthashmapentry1 = inthashmapentry; inthashmapentry1 != null; inthashmapentry1 = inthashmapentry2) {
-            inthashmapentry2 = inthashmapentry1.c;
-            if (inthashmapentry1.a == i) {
-                ++this.e;
-                --this.b;
-                if (inthashmapentry == inthashmapentry1) {
-                    this.a[k] = inthashmapentry2;
-                } else {
-                    inthashmapentry.c = inthashmapentry2;
-                }
+		IntHashMapEntry inthashmapentry1;
+		IntHashMapEntry inthashmapentry2;
 
-                return inthashmapentry1;
-            }
+		for (inthashmapentry1 = inthashmapentry; inthashmapentry1 != null; inthashmapentry1 = inthashmapentry2) {
+			inthashmapentry2 = inthashmapentry1.c;
+			if (inthashmapentry1.a == i) {
+				++e;
+				--b;
+				if (inthashmapentry == inthashmapentry1) {
+					a[k] = inthashmapentry2;
+				} else {
+					inthashmapentry.c = inthashmapentry2;
+				}
 
-            inthashmapentry = inthashmapentry1;
-        }
+				return inthashmapentry1;
+			}
 
-        return inthashmapentry1;
-    }
+			inthashmapentry = inthashmapentry1;
+		}
 
-    public void c() {
-        ++this.e;
-        IntHashMapEntry[] ainthashmapentry = this.a;
+		return inthashmapentry1;
+	}
 
-        for (int i = 0; i < ainthashmapentry.length; ++i) {
-            ainthashmapentry[i] = null;
-        }
+	public void c() {
+		++e;
+		IntHashMapEntry[] ainthashmapentry = a;
 
-        this.b = 0;
-    }
+		for (int i = 0; i < ainthashmapentry.length; ++i) {
+			ainthashmapentry[i] = null;
+		}
 
-    private void a(int i, int j, Object object, int k) {
-        IntHashMapEntry inthashmapentry = this.a[k];
+		b = 0;
+	}
 
-        this.a[k] = new IntHashMapEntry(i, j, object, inthashmapentry);
-        if (this.b++ >= this.c) {
-            this.h(2 * this.a.length);
-        }
-    }
+	private void a(int i, int j, Object object, int k) {
+		IntHashMapEntry inthashmapentry = a[k];
 
-    static int f(int i) {
-        return g(i);
-    }
+		a[k] = new IntHashMapEntry(i, j, object, inthashmapentry);
+		if (b++ >= c) {
+			h(2 * a.length);
+		}
+	}
+
+	static int f(int i) {
+		return g(i);
+	}
 }

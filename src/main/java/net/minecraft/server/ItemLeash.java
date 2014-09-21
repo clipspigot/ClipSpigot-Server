@@ -7,64 +7,64 @@ import org.bukkit.event.hanging.HangingPlaceEvent; // CraftBukkit
 
 public class ItemLeash extends Item {
 
-    public ItemLeash() {
-        this.a(CreativeModeTab.i);
-    }
+	public ItemLeash() {
+		this.a(CreativeModeTab.i);
+	}
 
-    public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, int i, int j, int k, int l, float f, float f1, float f2) {
-        Block block = world.getType(i, j, k);
+	@Override
+	public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, int i, int j, int k, int l, float f, float f1, float f2) {
+		Block block = world.getType(i, j, k);
 
-        if (block.b() == 11) {
-            if (world.isStatic) {
-                return true;
-            } else {
-                a(entityhuman, world, i, j, k);
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
+		if (block.b() == 11) {
+			if (world.isStatic)
+				return true;
+			else {
+				a(entityhuman, world, i, j, k);
+				return true;
+			}
+		} else
+			return false;
+	}
 
-    public static boolean a(EntityHuman entityhuman, World world, int i, int j, int k) {
-        EntityLeash entityleash = EntityLeash.b(world, i, j, k);
-        boolean flag = false;
-        double d0 = 7.0D;
-        List list = world.a(EntityInsentient.class, AxisAlignedBB.a((double) i - d0, (double) j - d0, (double) k - d0, (double) i + d0, (double) j + d0, (double) k + d0));
+	public static boolean a(EntityHuman entityhuman, World world, int i, int j, int k) {
+		EntityLeash entityleash = EntityLeash.b(world, i, j, k);
+		boolean flag = false;
+		double d0 = 7.0D;
+		List list = world.a(EntityInsentient.class, AxisAlignedBB.a(i - d0, j - d0, k - d0, i + d0, j + d0, k + d0));
 
-        if (list != null) {
-            Iterator iterator = list.iterator();
+		if (list != null) {
+			Iterator iterator = list.iterator();
 
-            while (iterator.hasNext()) {
-                EntityInsentient entityinsentient = (EntityInsentient) iterator.next();
+			while (iterator.hasNext()) {
+				EntityInsentient entityinsentient = (EntityInsentient) iterator.next();
 
-                if (entityinsentient.bN() && entityinsentient.getLeashHolder() == entityhuman) {
-                    if (entityleash == null) {
-                        entityleash = EntityLeash.a(world, i, j, k);
+				if (entityinsentient.bN() && entityinsentient.getLeashHolder() == entityhuman) {
+					if (entityleash == null) {
+						entityleash = EntityLeash.a(world, i, j, k);
 
-                        // CraftBukkit start - fire HangingPlaceEvent
-                        HangingPlaceEvent event = new HangingPlaceEvent((org.bukkit.entity.Hanging) entityleash.getBukkitEntity(), entityhuman != null ? (org.bukkit.entity.Player) entityhuman.getBukkitEntity() : null, world.getWorld().getBlockAt(i, j, k), org.bukkit.block.BlockFace.SELF);
-                        world.getServer().getPluginManager().callEvent(event);
+						// CraftBukkit start - fire HangingPlaceEvent
+						HangingPlaceEvent event = new HangingPlaceEvent((org.bukkit.entity.Hanging) entityleash.getBukkitEntity(), entityhuman != null ? (org.bukkit.entity.Player) entityhuman.getBukkitEntity() : null, world.getWorld().getBlockAt(i, j, k), org.bukkit.block.BlockFace.SELF);
+						world.getServer().getPluginManager().callEvent(event);
 
-                        if (event.isCancelled()) {
-                            entityleash.die();
-                            return false;
-                        }
-                        // CraftBukkit end
-                    }
+						if (event.isCancelled()) {
+							entityleash.die();
+							return false;
+						}
+						// CraftBukkit end
+					}
 
-                    // CraftBukkit start
-                    if (org.bukkit.craftbukkit.event.CraftEventFactory.callPlayerLeashEntityEvent(entityinsentient, entityleash, entityhuman).isCancelled()) {
-                        continue;
-                    }
-                    // CraftBukkit end
+					// CraftBukkit start
+					if (org.bukkit.craftbukkit.event.CraftEventFactory.callPlayerLeashEntityEvent(entityinsentient, entityleash, entityhuman).isCancelled()) {
+						continue;
+					}
+					// CraftBukkit end
 
-                    entityinsentient.setLeashHolder(entityleash, true);
-                    flag = true;
-                }
-            }
-        }
+					entityinsentient.setLeashHolder(entityleash, true);
+					flag = true;
+				}
+			}
+		}
 
-        return flag;
-    }
+		return flag;
+	}
 }

@@ -6,25 +6,28 @@ import org.hamcrest.Matcher;
 
 public final class Matchers {
 
-    private Matchers() {}
+	private Matchers() {
+	}
 
-    public static <T> Matcher<T> sameHash(T value) {
-        return new SameHash<T>(value);
-    }
+	public static <T> Matcher<T> sameHash(T value) {
+		return new SameHash<T>(value);
+	}
 
-    static class SameHash<T> extends BaseMatcher<T> {
-        private final int expected;
+	static class SameHash<T> extends BaseMatcher<T> {
+		private final int expected;
 
-        SameHash(T object) {
-            expected = object.hashCode();
-        }
+		SameHash(T object) {
+			expected = object.hashCode();
+		}
 
-        public boolean matches(Object item) {
-            return item.hashCode() == expected;
-        }
+		@Override
+		public boolean matches(Object item) {
+			return item.hashCode() == expected;
+		}
 
-        public void describeTo(Description description) {
-            description.appendValue(expected);
-        }
-    }
+		@Override
+		public void describeTo(Description description) {
+			description.appendValue(expected);
+		}
+	}
 }

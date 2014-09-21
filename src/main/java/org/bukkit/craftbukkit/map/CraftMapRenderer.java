@@ -12,38 +12,38 @@ import org.bukkit.map.MapView;
 
 public class CraftMapRenderer extends MapRenderer {
 
-    private final WorldMap worldMap;
+	private final WorldMap worldMap;
 
-    public CraftMapRenderer(CraftMapView mapView, WorldMap worldMap) {
-        super(false);
-        this.worldMap = worldMap;
-    }
+	public CraftMapRenderer(CraftMapView mapView, WorldMap worldMap) {
+		super(false);
+		this.worldMap = worldMap;
+	}
 
-    @Override
-    public void render(MapView map, MapCanvas canvas, Player player) {
-        // Map
-        for (int x = 0; x < 128; ++x) {
-            for (int y = 0; y < 128; ++y) {
-                canvas.setPixel(x, y, worldMap.colors[y * 128 + x]);
-            }
-        }
+	@Override
+	public void render(MapView map, MapCanvas canvas, Player player) {
+		// Map
+		for (int x = 0; x < 128; ++x) {
+			for (int y = 0; y < 128; ++y) {
+				canvas.setPixel(x, y, worldMap.colors[y * 128 + x]);
+			}
+		}
 
-        // Cursors
-        MapCursorCollection cursors = canvas.getCursors();
-        while (cursors.size() > 0) {
-            cursors.removeCursor(cursors.getCursor(0));
-        }
+		// Cursors
+		MapCursorCollection cursors = canvas.getCursors();
+		while (cursors.size() > 0) {
+			cursors.removeCursor(cursors.getCursor(0));
+		}
 
-        for (Object key : worldMap.decorations.keySet()) {
-            // If this cursor is for a player check visibility with vanish system
-            Player other = Bukkit.getPlayerExact((String) key);
-            if (other != null && !player.canSee(other)) {
-                continue;
-            }
+		for (Object key : worldMap.decorations.keySet()) {
+			// If this cursor is for a player check visibility with vanish system
+			Player other = Bukkit.getPlayerExact((String) key);
+			if (other != null && !player.canSee(other)) {
+				continue;
+			}
 
-            WorldMapDecoration decoration = (WorldMapDecoration) worldMap.decorations.get(key);
-            cursors.addCursor(decoration.locX, decoration.locY, (byte) (decoration.rotation & 15), decoration.type);
-        }
-    }
+			WorldMapDecoration decoration = (WorldMapDecoration) worldMap.decorations.get(key);
+			cursors.addCursor(decoration.locX, decoration.locY, (byte) (decoration.rotation & 15), decoration.type);
+		}
+	}
 
 }

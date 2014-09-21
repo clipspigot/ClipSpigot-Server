@@ -13,86 +13,91 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 
 public class CraftItemFrame extends CraftHanging implements ItemFrame {
-    public CraftItemFrame(CraftServer server, EntityItemFrame entity) {
-        super(server, entity);
-    }
+	public CraftItemFrame(CraftServer server, EntityItemFrame entity) {
+		super(server, entity);
+	}
 
-    public boolean setFacingDirection(BlockFace face, boolean force) {
-        if (!super.setFacingDirection(face, force)) {
-            return false;
-        }
+	@Override
+	public boolean setFacingDirection(BlockFace face, boolean force) {
+		if (!super.setFacingDirection(face, force))
+			return false;
 
-        WorldServer world = ((CraftWorld) this.getWorld()).getHandle();
-        world.getTracker().untrackEntity(this.getHandle());
-        world.getTracker().track(this.getHandle());
-        return true;
-    }
+		WorldServer world = ((CraftWorld) getWorld()).getHandle();
+		world.getTracker().untrackEntity(getHandle());
+		world.getTracker().track(getHandle());
+		return true;
+	}
 
-    public void setItem(org.bukkit.inventory.ItemStack item) {
-        if (item == null || item.getTypeId() == 0) {
-            getHandle().getDataWatcher().add(2, 5);
-            getHandle().getDataWatcher().update(2);
-        } else {
-            getHandle().setItem(CraftItemStack.asNMSCopy(item));
-        }
-    }
+	@Override
+	public void setItem(org.bukkit.inventory.ItemStack item) {
+		if (item == null || item.getTypeId() == 0) {
+			getHandle().getDataWatcher().add(2, 5);
+			getHandle().getDataWatcher().update(2);
+		} else {
+			getHandle().setItem(CraftItemStack.asNMSCopy(item));
+		}
+	}
 
-    public org.bukkit.inventory.ItemStack getItem() {
-        return CraftItemStack.asBukkitCopy(getHandle().getItem());
-    }
+	@Override
+	public org.bukkit.inventory.ItemStack getItem() {
+		return CraftItemStack.asBukkitCopy(getHandle().getItem());
+	}
 
-    public Rotation getRotation() {
-        return toBukkitRotation(getHandle().getRotation());
-    }
+	@Override
+	public Rotation getRotation() {
+		return toBukkitRotation(getHandle().getRotation());
+	}
 
-    Rotation toBukkitRotation(int value) {
-        // Translate NMS rotation integer to Bukkit API
-        switch (value) {
-        case 0:
-            return Rotation.NONE;
-        case 1:
-            return Rotation.CLOCKWISE;
-        case 2:
-            return Rotation.FLIPPED;
-        case 3:
-            return Rotation.COUNTER_CLOCKWISE;
-        default:
-            throw new AssertionError("Unknown rotation " + value + " for " + getHandle());
-        }
-    }
+	Rotation toBukkitRotation(int value) {
+		// Translate NMS rotation integer to Bukkit API
+		switch (value) {
+		case 0:
+			return Rotation.NONE;
+		case 1:
+			return Rotation.CLOCKWISE;
+		case 2:
+			return Rotation.FLIPPED;
+		case 3:
+			return Rotation.COUNTER_CLOCKWISE;
+		default:
+			throw new AssertionError("Unknown rotation " + value + " for " + getHandle());
+		}
+	}
 
-    public void setRotation(Rotation rotation) {
-        Validate.notNull(rotation, "Rotation cannot be null");
-        getHandle().setRotation(toInteger(rotation));
-    }
+	@Override
+	public void setRotation(Rotation rotation) {
+		Validate.notNull(rotation, "Rotation cannot be null");
+		getHandle().setRotation(toInteger(rotation));
+	}
 
-    static int toInteger(Rotation rotation) {
-        // Translate Bukkit API rotation to NMS integer
-        switch (rotation) {
-        case NONE:
-            return 0;
-        case CLOCKWISE:
-            return 1;
-        case FLIPPED:
-            return 2;
-        case COUNTER_CLOCKWISE:
-            return 3;
-        default:
-            throw new IllegalArgumentException(rotation + " is not applicable to an ItemFrame");
-        }
-    }
+	static int toInteger(Rotation rotation) {
+		// Translate Bukkit API rotation to NMS integer
+		switch (rotation) {
+		case NONE:
+			return 0;
+		case CLOCKWISE:
+			return 1;
+		case FLIPPED:
+			return 2;
+		case COUNTER_CLOCKWISE:
+			return 3;
+		default:
+			throw new IllegalArgumentException(rotation + " is not applicable to an ItemFrame");
+		}
+	}
 
-    @Override
-    public EntityItemFrame getHandle() {
-        return (EntityItemFrame) entity;
-    }
+	@Override
+	public EntityItemFrame getHandle() {
+		return (EntityItemFrame) entity;
+	}
 
-    @Override
-    public String toString() {
-        return "CraftItemFrame{item=" + getItem() + ", rotation=" + getRotation() + "}";
-    }
+	@Override
+	public String toString() {
+		return "CraftItemFrame{item=" + getItem() + ", rotation=" + getRotation() + "}";
+	}
 
-    public EntityType getType() {
-        return EntityType.ITEM_FRAME;
-    }
+	@Override
+	public EntityType getType() {
+		return EntityType.ITEM_FRAME;
+	}
 }

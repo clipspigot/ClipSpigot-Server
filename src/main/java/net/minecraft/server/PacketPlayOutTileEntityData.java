@@ -2,51 +2,53 @@ package net.minecraft.server;
 
 public class PacketPlayOutTileEntityData extends Packet {
 
-    private int a;
-    private int b;
-    private int c;
-    private int d;
-    private NBTTagCompound e;
+	private int a;
+	private int b;
+	private int c;
+	private int d;
+	private NBTTagCompound e;
 
-    public PacketPlayOutTileEntityData() {}
+	public PacketPlayOutTileEntityData() {
+	}
 
-    public PacketPlayOutTileEntityData(int i, int j, int k, int l, NBTTagCompound nbttagcompound) {
-        this.a = i;
-        this.b = j;
-        this.c = k;
-        this.d = l;
-        this.e = nbttagcompound;
-    }
+	public PacketPlayOutTileEntityData(int i, int j, int k, int l, NBTTagCompound nbttagcompound) {
+		a = i;
+		b = j;
+		c = k;
+		d = l;
+		e = nbttagcompound;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.readInt();
-        this.b = packetdataserializer.readShort();
-        this.c = packetdataserializer.readInt();
-        this.d = packetdataserializer.readUnsignedByte();
-        this.e = packetdataserializer.b();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.readInt();
+		b = packetdataserializer.readShort();
+		c = packetdataserializer.readInt();
+		d = packetdataserializer.readUnsignedByte();
+		e = packetdataserializer.b();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeInt( this.a );
-            packetdataserializer.writeShort( this.b );
-            packetdataserializer.writeInt( this.c );
-        } else
-        {
-            packetdataserializer.writePosition( a, b, c );
-        }
-        // Spigot end
-        packetdataserializer.writeByte((byte) this.d);
-        packetdataserializer.a(this.e);
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeInt(a);
+			packetdataserializer.writeShort(b);
+			packetdataserializer.writeInt(c);
+		} else {
+			packetdataserializer.writePosition(a, b, c);
+		}
+		// Spigot end
+		packetdataserializer.writeByte((byte) d);
+		packetdataserializer.a(e);
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

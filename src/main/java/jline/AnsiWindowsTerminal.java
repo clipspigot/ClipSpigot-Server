@@ -30,62 +30,59 @@ import org.fusesource.jansi.WindowsAnsiOutputStream;
  *
  * @since 2.0
  */
-public class AnsiWindowsTerminal
-    extends WindowsTerminal
-{
-    private final boolean ansiSupported = detectAnsiSupport();
+public class AnsiWindowsTerminal extends WindowsTerminal {
+	private final boolean ansiSupported = detectAnsiSupport();
 
-    @Override
-    public OutputStream wrapOutIfNeeded(OutputStream out) {
-        return wrapOutputStream(out);
-    }
+	@Override
+	public OutputStream wrapOutIfNeeded(OutputStream out) {
+		return wrapOutputStream(out);
+	}
 
-    /**
-     * Returns an ansi output stream handler. We return whatever was
-     * passed if we determine we cannot handle ansi based on Kernel32 calls.
-     * 
-     * @return an @{link AltWindowAnsiOutputStream} instance or the passed 
-     * stream.
-     */
-    private static OutputStream wrapOutputStream(final OutputStream stream) {
-        String os = System.getProperty("os.name");
-        if( os.startsWith("Windows") ) {
-            // On windows we know the console does not interpret ANSI codes..
-            try {
-                return new WindowsAnsiOutputStream(stream);
-            } catch (Throwable ignore) {
-                // this happens when JNA is not in the path.. or
-                // this happens when the stdout is being redirected to a file.
-            }
-            // Use the ANSIOutputStream to strip out the ANSI escape sequences.
-            return new AnsiOutputStream(stream);
-        }
-        return stream;
-    }
+	/**
+	 * Returns an ansi output stream handler. We return whatever was
+	 * passed if we determine we cannot handle ansi based on Kernel32 calls.
+	 * 
+	 * @return an @{link AltWindowAnsiOutputStream} instance or the passed 
+	 * stream.
+	 */
+	private static OutputStream wrapOutputStream(final OutputStream stream) {
+		String os = System.getProperty("os.name");
+		if (os.startsWith("Windows")) {
+			// On windows we know the console does not interpret ANSI codes..
+			try {
+				return new WindowsAnsiOutputStream(stream);
+			} catch (Throwable ignore) {
+				// this happens when JNA is not in the path.. or
+				// this happens when the stdout is being redirected to a file.
+			}
+			// Use the ANSIOutputStream to strip out the ANSI escape sequences.
+			return new AnsiOutputStream(stream);
+		}
+		return stream;
+	}
 
-    private static boolean detectAnsiSupport() {
-        AnsiConsole.systemInstall(); // CraftBukkit - install Windows JNI library
-        OutputStream out = AnsiConsole.wrapOutputStream(new ByteArrayOutputStream());
-        try {
-            out.close();
-        }
-        catch (Exception e) {
-            // ignore;
-        }
-        return out instanceof WindowsAnsiOutputStream;
-    }
+	private static boolean detectAnsiSupport() {
+		AnsiConsole.systemInstall(); // CraftBukkit - install Windows JNI library
+		OutputStream out = AnsiConsole.wrapOutputStream(new ByteArrayOutputStream());
+		try {
+			out.close();
+		} catch (Exception e) {
+			// ignore;
+		}
+		return out instanceof WindowsAnsiOutputStream;
+	}
 
-    public AnsiWindowsTerminal() throws Exception {
-        super();
-    }
+	public AnsiWindowsTerminal() throws Exception {
+		super();
+	}
 
-    @Override
-    public boolean isAnsiSupported() {
-        return ansiSupported;
-    }
+	@Override
+	public boolean isAnsiSupported() {
+		return ansiSupported;
+	}
 
-    @Override
-    public boolean hasWeirdWrap() {
-        return false;
-    }
+	@Override
+	public boolean hasWeirdWrap() {
+		return false;
+	}
 }

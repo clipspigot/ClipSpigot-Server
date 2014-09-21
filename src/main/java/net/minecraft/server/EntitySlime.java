@@ -5,261 +5,273 @@ import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.SlimeSplitEvent;
+
 // CraftBukkit end
 
 public class EntitySlime extends EntityInsentient implements IMonster {
 
-    public float h;
-    public float i;
-    public float bm;
-    private int jumpDelay;
-    private Entity lastTarget; // CraftBukkit
+	public float h;
+	public float i;
+	public float bm;
+	private int jumpDelay;
+	private Entity lastTarget; // CraftBukkit
 
-    public EntitySlime(World world) {
-        super(world);
-        int i = 1 << this.random.nextInt(3);
+	public EntitySlime(World world) {
+		super(world);
+		int i = 1 << random.nextInt(3);
 
-        this.height = 0.0F;
-        this.jumpDelay = this.random.nextInt(20) + 10;
-        this.setSize(i);
-    }
+		height = 0.0F;
+		jumpDelay = random.nextInt(20) + 10;
+		setSize(i);
+	}
 
-    protected void c() {
-        super.c();
-        this.datawatcher.a(16, new Byte((byte) 1));
-    }
+	@Override
+	protected void c() {
+		super.c();
+		datawatcher.a(16, new Byte((byte) 1));
+	}
 
-    // CraftBukkit - protected -> public
-    public void setSize(int i) {
-        this.datawatcher.watch(16, new Byte((byte) i));
-        this.a(0.6F * (float) i, 0.6F * (float) i);
-        this.setPosition(this.locX, this.locY, this.locZ);
-        this.getAttributeInstance(GenericAttributes.maxHealth).setValue((double) (i * i));
-        this.setHealth(this.getMaxHealth());
-        this.b = i;
-    }
+	// CraftBukkit - protected -> public
+	public void setSize(int i) {
+		datawatcher.watch(16, new Byte((byte) i));
+		this.a(0.6F * i, 0.6F * i);
+		setPosition(locX, locY, locZ);
+		getAttributeInstance(GenericAttributes.maxHealth).setValue(i * i);
+		setHealth(getMaxHealth());
+		b = i;
+	}
 
-    public int getSize() {
-        return this.datawatcher.getByte(16);
-    }
+	public int getSize() {
+		return datawatcher.getByte(16);
+	}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        nbttagcompound.setInt("Size", this.getSize() - 1);
-    }
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		nbttagcompound.setInt("Size", getSize() - 1);
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        int i = nbttagcompound.getInt("Size");
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		int i = nbttagcompound.getInt("Size");
 
-        if (i < 0) {
-            i = 0;
-        }
+		if (i < 0) {
+			i = 0;
+		}
 
-        this.setSize(i + 1);
-    }
+		setSize(i + 1);
+	}
 
-    protected String bP() {
-        return "slime";
-    }
+	protected String bP() {
+		return "slime";
+	}
 
-    protected String bV() {
-        return "mob.slime." + (this.getSize() > 1 ? "big" : "small");
-    }
+	protected String bV() {
+		return "mob.slime." + (getSize() > 1 ? "big" : "small");
+	}
 
-    public void h() {
-        if (!this.world.isStatic && this.world.difficulty == EnumDifficulty.PEACEFUL && this.getSize() > 0) {
-            this.dead = true;
-        }
+	@Override
+	public void h() {
+		if (!world.isStatic && world.difficulty == EnumDifficulty.PEACEFUL && getSize() > 0) {
+			dead = true;
+		}
 
-        this.i += (this.h - this.i) * 0.5F;
-        this.bm = this.i;
-        boolean flag = this.onGround;
+		i += (h - i) * 0.5F;
+		bm = i;
+		boolean flag = onGround;
 
-        super.h();
-        int i;
+		super.h();
+		int i;
 
-        if (this.onGround && !flag) {
-            i = this.getSize();
+		if (onGround && !flag) {
+			i = getSize();
 
-            for (int j = 0; j < i * 8; ++j) {
-                float f = this.random.nextFloat() * 3.1415927F * 2.0F;
-                float f1 = this.random.nextFloat() * 0.5F + 0.5F;
-                float f2 = MathHelper.sin(f) * (float) i * 0.5F * f1;
-                float f3 = MathHelper.cos(f) * (float) i * 0.5F * f1;
+			for (int j = 0; j < i * 8; ++j) {
+				float f = random.nextFloat() * 3.1415927F * 2.0F;
+				float f1 = random.nextFloat() * 0.5F + 0.5F;
+				float f2 = MathHelper.sin(f) * i * 0.5F * f1;
+				float f3 = MathHelper.cos(f) * i * 0.5F * f1;
 
-                this.world.addParticle(this.bP(), this.locX + (double) f2, this.boundingBox.b, this.locZ + (double) f3, 0.0D, 0.0D, 0.0D);
-            }
+				world.addParticle(bP(), locX + f2, boundingBox.b, locZ + f3, 0.0D, 0.0D, 0.0D);
+			}
 
-            if (this.bW()) {
-                this.makeSound(this.bV(), this.bf(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) / 0.8F);
-            }
+			if (bW()) {
+				makeSound(bV(), bf(), ((random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F) / 0.8F);
+			}
 
-            this.h = -0.5F;
-        } else if (!this.onGround && flag) {
-            this.h = 1.0F;
-        }
+			h = -0.5F;
+		} else if (!onGround && flag) {
+			h = 1.0F;
+		}
 
-        this.bS();
-        if (this.world.isStatic) {
-            i = this.getSize();
-            this.a(0.6F * (float) i, 0.6F * (float) i);
-        }
-    }
+		bS();
+		if (world.isStatic) {
+			i = getSize();
+			this.a(0.6F * i, 0.6F * i);
+		}
+	}
 
-    protected void bq() {
-        this.w();
-        // CraftBukkit start
-        Entity entityhuman = this.world.findNearbyVulnerablePlayer(this, 16.0D); // EntityHuman -> Entity
-        EntityTargetEvent event = null;
+	@Override
+	protected void bq() {
+		w();
+		// CraftBukkit start
+		Entity entityhuman = world.findNearbyVulnerablePlayer(this, 16.0D); // EntityHuman -> Entity
+		EntityTargetEvent event = null;
 
-        if (entityhuman != null && !entityhuman.equals(lastTarget)) {
-            event = CraftEventFactory.callEntityTargetEvent(this, entityhuman, EntityTargetEvent.TargetReason.CLOSEST_PLAYER);
-        } else if (lastTarget != null && entityhuman == null) {
-            event = CraftEventFactory.callEntityTargetEvent(this, entityhuman, EntityTargetEvent.TargetReason.FORGOT_TARGET);
-        }
+		if (entityhuman != null && !entityhuman.equals(lastTarget)) {
+			event = CraftEventFactory.callEntityTargetEvent(this, entityhuman, EntityTargetEvent.TargetReason.CLOSEST_PLAYER);
+		} else if (lastTarget != null && entityhuman == null) {
+			event = CraftEventFactory.callEntityTargetEvent(this, entityhuman, EntityTargetEvent.TargetReason.FORGOT_TARGET);
+		}
 
-        if (event != null && !event.isCancelled()) {
-            entityhuman = event.getTarget() == null ? null : ((CraftEntity) event.getTarget()).getHandle();
-        }
+		if (event != null && !event.isCancelled()) {
+			entityhuman = event.getTarget() == null ? null : ((CraftEntity) event.getTarget()).getHandle();
+		}
 
-        this.lastTarget = entityhuman;
-        // CraftBukkit end
+		lastTarget = entityhuman;
+		// CraftBukkit end
 
-        if (entityhuman != null) {
-            this.a(entityhuman, 10.0F, 20.0F);
-        }
+		if (entityhuman != null) {
+			this.a(entityhuman, 10.0F, 20.0F);
+		}
 
-        if (this.onGround && this.jumpDelay-- <= 0) {
-            this.jumpDelay = this.bR();
-            if (entityhuman != null) {
-                this.jumpDelay /= 3;
-            }
+		if (onGround && jumpDelay-- <= 0) {
+			jumpDelay = bR();
+			if (entityhuman != null) {
+				jumpDelay /= 3;
+			}
 
-            this.bc = true;
-            if (this.bY()) {
-                this.makeSound(this.bV(), this.bf(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) * 0.8F);
-            }
+			bc = true;
+			if (bY()) {
+				makeSound(bV(), bf(), ((random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F) * 0.8F);
+			}
 
-            this.bd = 1.0F - this.random.nextFloat() * 2.0F;
-            this.be = (float) (1 * this.getSize());
-        } else {
-            this.bc = false;
-            if (this.onGround) {
-                this.bd = this.be = 0.0F;
-            }
-        }
-    }
+			bd = 1.0F - random.nextFloat() * 2.0F;
+			be = 1 * getSize();
+		} else {
+			bc = false;
+			if (onGround) {
+				bd = be = 0.0F;
+			}
+		}
+	}
 
-    protected void bS() {
-        this.h *= 0.6F;
-    }
+	protected void bS() {
+		h *= 0.6F;
+	}
 
-    protected int bR() {
-        return this.random.nextInt(20) + 10;
-    }
+	protected int bR() {
+		return random.nextInt(20) + 10;
+	}
 
-    protected EntitySlime bQ() {
-        return new EntitySlime(this.world);
-    }
+	protected EntitySlime bQ() {
+		return new EntitySlime(world);
+	}
 
-    public void die() {
-        int i = this.getSize();
+	@Override
+	public void die() {
+		int i = getSize();
 
-        if (!this.world.isStatic && i > 1 && this.getHealth() <= 0.0F) {
-            int j = 2 + this.random.nextInt(3);
+		if (!world.isStatic && i > 1 && getHealth() <= 0.0F) {
+			int j = 2 + random.nextInt(3);
 
-            // CraftBukkit start
-            SlimeSplitEvent event = new SlimeSplitEvent((org.bukkit.entity.Slime) this.getBukkitEntity(), j);
-            this.world.getServer().getPluginManager().callEvent(event);
+			// CraftBukkit start
+			SlimeSplitEvent event = new SlimeSplitEvent((org.bukkit.entity.Slime) getBukkitEntity(), j);
+			world.getServer().getPluginManager().callEvent(event);
 
-            if (!event.isCancelled() && event.getCount() > 0) {
-                j = event.getCount();
-            } else {
-                super.die();
-                return;
-            }
-            // CraftBukkit end
+			if (!event.isCancelled() && event.getCount() > 0) {
+				j = event.getCount();
+			} else {
+				super.die();
+				return;
+			}
+			// CraftBukkit end
 
-            for (int k = 0; k < j; ++k) {
-                float f = ((float) (k % 2) - 0.5F) * (float) i / 4.0F;
-                float f1 = ((float) (k / 2) - 0.5F) * (float) i / 4.0F;
-                EntitySlime entityslime = this.bQ();
+			for (int k = 0; k < j; ++k) {
+				float f = (k % 2 - 0.5F) * i / 4.0F;
+				float f1 = (k / 2 - 0.5F) * i / 4.0F;
+				EntitySlime entityslime = bQ();
 
-                entityslime.setSize(i / 2);
-                entityslime.setPositionRotation(this.locX + (double) f, this.locY + 0.5D, this.locZ + (double) f1, this.random.nextFloat() * 360.0F, 0.0F);
-                this.world.addEntity(entityslime, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SLIME_SPLIT); // CraftBukkit - SpawnReason
-            }
-        }
+				entityslime.setSize(i / 2);
+				entityslime.setPositionRotation(locX + f, locY + 0.5D, locZ + f1, random.nextFloat() * 360.0F, 0.0F);
+				world.addEntity(entityslime, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SLIME_SPLIT); // CraftBukkit - SpawnReason
+			}
+		}
 
-        super.die();
-    }
+		super.die();
+	}
 
-    public void b_(EntityHuman entityhuman) {
-        if (this.bT()) {
-            int i = this.getSize();
+	@Override
+	public void b_(EntityHuman entityhuman) {
+		if (bT()) {
+			int i = getSize();
 
-            if (this.hasLineOfSight(entityhuman) && this.f(entityhuman) < 0.6D * (double) i * 0.6D * (double) i && entityhuman.damageEntity(DamageSource.mobAttack(this), (float) this.bU())) {
-                this.makeSound("mob.attack", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            }
-        }
-    }
+			if (hasLineOfSight(entityhuman) && this.f(entityhuman) < 0.6D * i * 0.6D * i && entityhuman.damageEntity(DamageSource.mobAttack(this), bU())) {
+				makeSound("mob.attack", 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
+			}
+		}
+	}
 
-    protected boolean bT() {
-        return this.getSize() > 1;
-    }
+	protected boolean bT() {
+		return getSize() > 1;
+	}
 
-    protected int bU() {
-        return this.getSize();
-    }
+	protected int bU() {
+		return getSize();
+	}
 
-    protected String aT() {
-        return "mob.slime." + (this.getSize() > 1 ? "big" : "small");
-    }
+	@Override
+	protected String aT() {
+		return "mob.slime." + (getSize() > 1 ? "big" : "small");
+	}
 
-    protected String aU() {
-        return "mob.slime." + (this.getSize() > 1 ? "big" : "small");
-    }
+	@Override
+	protected String aU() {
+		return "mob.slime." + (getSize() > 1 ? "big" : "small");
+	}
 
-    protected Item getLoot() {
-        return this.getSize() == 1 ? Items.SLIME_BALL : Item.getById(0);
-    }
+	@Override
+	protected Item getLoot() {
+		return getSize() == 1 ? Items.SLIME_BALL : Item.getById(0);
+	}
 
-    public boolean canSpawn() {
-        Chunk chunk = this.world.getChunkAtWorldCoords(MathHelper.floor(this.locX), MathHelper.floor(this.locZ));
+	@Override
+	public boolean canSpawn() {
+		Chunk chunk = world.getChunkAtWorldCoords(MathHelper.floor(locX), MathHelper.floor(locZ));
 
-        if (this.world.getWorldData().getType() == WorldType.FLAT && this.random.nextInt(4) != 1) {
-            return false;
-        } else {
-            if (this.getSize() == 1 || this.world.difficulty != EnumDifficulty.PEACEFUL) {
-                BiomeBase biomebase = this.world.getBiome(MathHelper.floor(this.locX), MathHelper.floor(this.locZ));
+		if (world.getWorldData().getType() == WorldType.FLAT && random.nextInt(4) != 1)
+			return false;
+		else {
+			if (getSize() == 1 || world.difficulty != EnumDifficulty.PEACEFUL) {
+				BiomeBase biomebase = world.getBiome(MathHelper.floor(locX), MathHelper.floor(locZ));
 
-                if (biomebase == BiomeBase.SWAMPLAND && this.locY > 50.0D && this.locY < 70.0D && this.random.nextFloat() < 0.5F && this.random.nextFloat() < this.world.y() && this.world.getLightLevel(MathHelper.floor(this.locX), MathHelper.floor(this.locY), MathHelper.floor(this.locZ)) <= this.random.nextInt(8)) {
-                    return super.canSpawn();
-                }
+				if (biomebase == BiomeBase.SWAMPLAND && locY > 50.0D && locY < 70.0D && random.nextFloat() < 0.5F && random.nextFloat() < world.y() && world.getLightLevel(MathHelper.floor(locX), MathHelper.floor(locY), MathHelper.floor(locZ)) <= random.nextInt(8))
+					return super.canSpawn();
 
-                if (this.random.nextInt(10) == 0 && chunk.a(987234911L).nextInt(10) == 0 && this.locY < 40.0D) {
-                    return super.canSpawn();
-                }
-            }
+				if (random.nextInt(10) == 0 && chunk.a(987234911L).nextInt(10) == 0 && locY < 40.0D)
+					return super.canSpawn();
+			}
 
-            return false;
-        }
-    }
+			return false;
+		}
+	}
 
-    protected float bf() {
-        return 0.4F * (float) this.getSize();
-    }
+	@Override
+	protected float bf() {
+		return 0.4F * getSize();
+	}
 
-    public int x() {
-        return 0;
-    }
+	@Override
+	public int x() {
+		return 0;
+	}
 
-    protected boolean bY() {
-        return this.getSize() > 0;
-    }
+	protected boolean bY() {
+		return getSize() > 0;
+	}
 
-    protected boolean bW() {
-        return this.getSize() > 2;
-    }
+	protected boolean bW() {
+		return getSize() > 2;
+	}
 }

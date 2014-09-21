@@ -11,24 +11,24 @@ import java.io.IOException;
 import org.junit.Test;
 
 public class BukkitDLUpdaterServiceTest {
-    @Test(expected=IOException.class)
-    public void testHostNotFound() throws IOException {
-        BukkitDLUpdaterService service = new BukkitDLUpdaterService("404.example.org");
+	@Test(expected = IOException.class)
+	public void testHostNotFound() throws IOException {
+		BukkitDLUpdaterService service = new BukkitDLUpdaterService("404.example.org");
 
-        service.fetchArtifact("rb");
-    }
+		service.fetchArtifact("rb");
+	}
 
-    @Test(expected=FileNotFoundException.class)
-    public void testArtifactNotFound() throws IOException {
-        BukkitDLUpdaterService service = new BukkitDLUpdaterService("dl.bukkit.org");
+	@Test(expected = FileNotFoundException.class)
+	public void testArtifactNotFound() throws IOException {
+		BukkitDLUpdaterService service = new BukkitDLUpdaterService("dl.bukkit.org");
 
-        service.fetchArtifact("meep");
-    }
+		service.fetchArtifact("meep");
+	}
 
-    @Test
-    public void testArtifactExists() throws IOException {
-        BukkitDLUpdaterService service = new BukkitDLUpdaterService("dl.bukkit.org");
+	@Test
+	public void testArtifactExists() throws IOException {
+		BukkitDLUpdaterService service = new BukkitDLUpdaterService("dl.bukkit.org");
 
-        assertThat(service.fetchArtifact("latest-dev"), is(not(nullValue())));
-    }
+		assertThat(service.fetchArtifact("latest-dev"), is(not(nullValue())));
+	}
 }

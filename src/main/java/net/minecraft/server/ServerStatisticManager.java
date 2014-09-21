@@ -23,191 +23,193 @@ import org.apache.logging.log4j.Logger;
 
 public class ServerStatisticManager extends StatisticManager {
 
-    private static final Logger b = LogManager.getLogger();
-    private final MinecraftServer c;
-    private final File d;
-    private final Set e = Sets.newHashSet();
-    private int f = -300;
-    private boolean g = false;
+	private static final Logger b = LogManager.getLogger();
+	private final MinecraftServer c;
+	private final File d;
+	private final Set e = Sets.newHashSet();
+	private int f = -300;
+	private boolean g = false;
 
-    public ServerStatisticManager(MinecraftServer minecraftserver, File file1) {
-        this.c = minecraftserver;
-        this.d = file1;
-        // Spigot start
-        for ( String name : org.spigotmc.SpigotConfig.forcedStats.keySet() )
-        {
-            StatisticWrapper wrapper = new StatisticWrapper();
-            wrapper.a( org.spigotmc.SpigotConfig.forcedStats.get( name ) );
-            a.put( StatisticList.getStatistic( name ), wrapper );
-        }
-        // Spigot end
-    }
+	public ServerStatisticManager(MinecraftServer minecraftserver, File file1) {
+		c = minecraftserver;
+		d = file1;
+		// Spigot start
+		for (String name : org.spigotmc.SpigotConfig.forcedStats.keySet()) {
+			StatisticWrapper wrapper = new StatisticWrapper();
+			wrapper.a(org.spigotmc.SpigotConfig.forcedStats.get(name));
+			a.put(StatisticList.getStatistic(name), wrapper);
+		}
+		// Spigot end
+	}
 
-    public void a() {
-        if (this.d.isFile()) {
-            try {
-                this.a.clear();
-                this.a.putAll(this.a(FileUtils.readFileToString(this.d)));
-            } catch (IOException ioexception) {
-                b.error("Couldn\'t read statistics file " + this.d, ioexception);
-            } catch (JsonParseException jsonparseexception) {
-                b.error("Couldn\'t parse statistics file " + this.d, jsonparseexception);
-            }
-        }
-    }
+	public void a() {
+		if (d.isFile()) {
+			try {
+				a.clear();
+				a.putAll(this.a(FileUtils.readFileToString(d)));
+			} catch (IOException ioexception) {
+				b.error("Couldn\'t read statistics file " + d, ioexception);
+			} catch (JsonParseException jsonparseexception) {
+				b.error("Couldn\'t parse statistics file " + d, jsonparseexception);
+			}
+		}
+	}
 
-    public void b() {
-        if ( org.spigotmc.SpigotConfig.disableStatSaving ) return; // Spigot
-        try {
-            FileUtils.writeStringToFile(this.d, a(this.a));
-        } catch (IOException ioexception) {
-            b.error("Couldn\'t save stats", ioexception);
-        }
-    }
+	public void b() {
+		if (org.spigotmc.SpigotConfig.disableStatSaving)
+			return; // Spigot
+		try {
+			FileUtils.writeStringToFile(d, a(a));
+		} catch (IOException ioexception) {
+			b.error("Couldn\'t save stats", ioexception);
+		}
+	}
 
-    public void setStatistic(EntityHuman entityhuman, Statistic statistic, int i) {
-        if ( org.spigotmc.SpigotConfig.disableStatSaving ) return; // Spigot
-        int j = statistic.d() ? this.getStatisticValue(statistic) : 0;
+	@Override
+	public void setStatistic(EntityHuman entityhuman, Statistic statistic, int i) {
+		if (org.spigotmc.SpigotConfig.disableStatSaving)
+			return; // Spigot
+		int j = statistic.d() ? getStatisticValue(statistic) : 0;
 
-        super.setStatistic(entityhuman, statistic, i);
-        this.e.add(statistic);
-        if (statistic.d() && j == 0 && i > 0) {
-            this.g = true;
-            if (this.c.at()) {
-                this.c.getPlayerList().sendMessage(new ChatMessage("chat.type.achievement", new Object[] { entityhuman.getScoreboardDisplayName(), statistic.j()}));
-            }
-        }
-    }
+		super.setStatistic(entityhuman, statistic, i);
+		e.add(statistic);
+		if (statistic.d() && j == 0 && i > 0) {
+			g = true;
+			if (c.at()) {
+				c.getPlayerList().sendMessage(new ChatMessage("chat.type.achievement", new Object[] { entityhuman.getScoreboardDisplayName(), statistic.j() }));
+			}
+		}
+	}
 
-    public Set c() {
-        HashSet hashset = Sets.newHashSet(this.e);
+	public Set c() {
+		HashSet hashset = Sets.newHashSet(e);
 
-        this.e.clear();
-        this.g = false;
-        return hashset;
-    }
+		e.clear();
+		g = false;
+		return hashset;
+	}
 
-    public Map a(String s) {
-        JsonElement jsonelement = (new JsonParser()).parse(s);
+	public Map a(String s) {
+		JsonElement jsonelement = new JsonParser().parse(s);
 
-        if (!jsonelement.isJsonObject()) {
-            return Maps.newHashMap();
-        } else {
-            JsonObject jsonobject = jsonelement.getAsJsonObject();
-            HashMap hashmap = Maps.newHashMap();
-            Iterator iterator = jsonobject.entrySet().iterator();
+		if (!jsonelement.isJsonObject())
+			return Maps.newHashMap();
+		else {
+			JsonObject jsonobject = jsonelement.getAsJsonObject();
+			HashMap hashmap = Maps.newHashMap();
+			Iterator iterator = jsonobject.entrySet().iterator();
 
-            while (iterator.hasNext()) {
-                Entry entry = (Entry) iterator.next();
-                Statistic statistic = StatisticList.getStatistic((String) entry.getKey());
+			while (iterator.hasNext()) {
+				Entry entry = (Entry) iterator.next();
+				Statistic statistic = StatisticList.getStatistic((String) entry.getKey());
 
-                if (statistic != null) {
-                    StatisticWrapper statisticwrapper = new StatisticWrapper();
+				if (statistic != null) {
+					StatisticWrapper statisticwrapper = new StatisticWrapper();
 
-                    if (((JsonElement) entry.getValue()).isJsonPrimitive() && ((JsonElement) entry.getValue()).getAsJsonPrimitive().isNumber()) {
-                        statisticwrapper.a(((JsonElement) entry.getValue()).getAsInt());
-                    } else if (((JsonElement) entry.getValue()).isJsonObject()) {
-                        JsonObject jsonobject1 = ((JsonElement) entry.getValue()).getAsJsonObject();
+					if (((JsonElement) entry.getValue()).isJsonPrimitive() && ((JsonElement) entry.getValue()).getAsJsonPrimitive().isNumber()) {
+						statisticwrapper.a(((JsonElement) entry.getValue()).getAsInt());
+					} else if (((JsonElement) entry.getValue()).isJsonObject()) {
+						JsonObject jsonobject1 = ((JsonElement) entry.getValue()).getAsJsonObject();
 
-                        if (jsonobject1.has("value") && jsonobject1.get("value").isJsonPrimitive() && jsonobject1.get("value").getAsJsonPrimitive().isNumber()) {
-                            statisticwrapper.a(jsonobject1.getAsJsonPrimitive("value").getAsInt());
-                        }
+						if (jsonobject1.has("value") && jsonobject1.get("value").isJsonPrimitive() && jsonobject1.get("value").getAsJsonPrimitive().isNumber()) {
+							statisticwrapper.a(jsonobject1.getAsJsonPrimitive("value").getAsInt());
+						}
 
-                        if (jsonobject1.has("progress") && statistic.l() != null) {
-                            try {
-                                Constructor constructor = statistic.l().getConstructor(new Class[0]);
-                                IJsonStatistic ijsonstatistic = (IJsonStatistic) constructor.newInstance(new Object[0]);
+						if (jsonobject1.has("progress") && statistic.l() != null) {
+							try {
+								Constructor constructor = statistic.l().getConstructor(new Class[0]);
+								IJsonStatistic ijsonstatistic = (IJsonStatistic) constructor.newInstance(new Object[0]);
 
-                                ijsonstatistic.a(jsonobject1.get("progress"));
-                                statisticwrapper.a(ijsonstatistic);
-                            } catch (Throwable throwable) {
-                                b.warn("Invalid statistic progress in " + this.d, throwable);
-                            }
-                        }
-                    }
+								ijsonstatistic.a(jsonobject1.get("progress"));
+								statisticwrapper.a(ijsonstatistic);
+							} catch (Throwable throwable) {
+								b.warn("Invalid statistic progress in " + d, throwable);
+							}
+						}
+					}
 
-                    hashmap.put(statistic, statisticwrapper);
-                } else {
-                    b.warn("Invalid statistic in " + this.d + ": Don\'t know what " + (String) entry.getKey() + " is");
-                }
-            }
+					hashmap.put(statistic, statisticwrapper);
+				} else {
+					b.warn("Invalid statistic in " + d + ": Don\'t know what " + (String) entry.getKey() + " is");
+				}
+			}
 
-            return hashmap;
-        }
-    }
+			return hashmap;
+		}
+	}
 
-    public static String a(Map map) {
-        JsonObject jsonobject = new JsonObject();
-        Iterator iterator = map.entrySet().iterator();
+	public static String a(Map map) {
+		JsonObject jsonobject = new JsonObject();
+		Iterator iterator = map.entrySet().iterator();
 
-        while (iterator.hasNext()) {
-            Entry entry = (Entry) iterator.next();
+		while (iterator.hasNext()) {
+			Entry entry = (Entry) iterator.next();
 
-            if (((StatisticWrapper) entry.getValue()).b() != null) {
-                JsonObject jsonobject1 = new JsonObject();
+			if (((StatisticWrapper) entry.getValue()).b() != null) {
+				JsonObject jsonobject1 = new JsonObject();
 
-                jsonobject1.addProperty("value", Integer.valueOf(((StatisticWrapper) entry.getValue()).a()));
+				jsonobject1.addProperty("value", Integer.valueOf(((StatisticWrapper) entry.getValue()).a()));
 
-                try {
-                    jsonobject1.add("progress", ((StatisticWrapper) entry.getValue()).b().a());
-                } catch (Throwable throwable) {
-                    b.warn("Couldn\'t save statistic " + ((Statistic) entry.getKey()).e() + ": error serializing progress", throwable);
-                }
+				try {
+					jsonobject1.add("progress", ((StatisticWrapper) entry.getValue()).b().a());
+				} catch (Throwable throwable) {
+					b.warn("Couldn\'t save statistic " + ((Statistic) entry.getKey()).e() + ": error serializing progress", throwable);
+				}
 
-                jsonobject.add(((Statistic) entry.getKey()).name, jsonobject1);
-            } else {
-                jsonobject.addProperty(((Statistic) entry.getKey()).name, Integer.valueOf(((StatisticWrapper) entry.getValue()).a()));
-            }
-        }
+				jsonobject.add(((Statistic) entry.getKey()).name, jsonobject1);
+			} else {
+				jsonobject.addProperty(((Statistic) entry.getKey()).name, Integer.valueOf(((StatisticWrapper) entry.getValue()).a()));
+			}
+		}
 
-        return jsonobject.toString();
-    }
+		return jsonobject.toString();
+	}
 
-    public void d() {
-        Iterator iterator = this.a.keySet().iterator();
+	public void d() {
+		Iterator iterator = a.keySet().iterator();
 
-        while (iterator.hasNext()) {
-            Statistic statistic = (Statistic) iterator.next();
+		while (iterator.hasNext()) {
+			Statistic statistic = (Statistic) iterator.next();
 
-            this.e.add(statistic);
-        }
-    }
+			e.add(statistic);
+		}
+	}
 
-    public void a(EntityPlayer entityplayer) {
-        int i = this.c.al();
-        HashMap hashmap = Maps.newHashMap();
+	public void a(EntityPlayer entityplayer) {
+		int i = c.al();
+		HashMap hashmap = Maps.newHashMap();
 
-        if (this.g || i - this.f > 300) {
-            this.f = i;
-            Iterator iterator = this.c().iterator();
+		if (g || i - f > 300) {
+			f = i;
+			Iterator iterator = c().iterator();
 
-            while (iterator.hasNext()) {
-                Statistic statistic = (Statistic) iterator.next();
+			while (iterator.hasNext()) {
+				Statistic statistic = (Statistic) iterator.next();
 
-                hashmap.put(statistic, Integer.valueOf(this.getStatisticValue(statistic)));
-            }
-        }
+				hashmap.put(statistic, Integer.valueOf(getStatisticValue(statistic)));
+			}
+		}
 
-        entityplayer.playerConnection.sendPacket(new PacketPlayOutStatistic(hashmap));
-    }
+		entityplayer.playerConnection.sendPacket(new PacketPlayOutStatistic(hashmap));
+	}
 
-    public void updateStatistics(EntityPlayer entityplayer) {
-        HashMap hashmap = Maps.newHashMap();
-        Iterator iterator = AchievementList.e.iterator();
+	public void updateStatistics(EntityPlayer entityplayer) {
+		HashMap hashmap = Maps.newHashMap();
+		Iterator iterator = AchievementList.e.iterator();
 
-        while (iterator.hasNext()) {
-            Achievement achievement = (Achievement) iterator.next();
+		while (iterator.hasNext()) {
+			Achievement achievement = (Achievement) iterator.next();
 
-            if (this.hasAchievement(achievement)) {
-                hashmap.put(achievement, Integer.valueOf(this.getStatisticValue(achievement)));
-                this.e.remove(achievement);
-            }
-        }
+			if (hasAchievement(achievement)) {
+				hashmap.put(achievement, Integer.valueOf(getStatisticValue(achievement)));
+				e.remove(achievement);
+			}
+		}
 
-        entityplayer.playerConnection.sendPacket(new PacketPlayOutStatistic(hashmap));
-    }
+		entityplayer.playerConnection.sendPacket(new PacketPlayOutStatistic(hashmap));
+	}
 
-    public boolean e() {
-        return this.g;
-    }
+	public boolean e() {
+		return g;
+	}
 }

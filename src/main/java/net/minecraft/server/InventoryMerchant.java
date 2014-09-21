@@ -5,189 +5,210 @@ import java.util.List;
 
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
+
 // CraftBukkit end
 
 public class InventoryMerchant implements IInventory {
 
-    private final IMerchant merchant;
-    private ItemStack[] itemsInSlots = new ItemStack[3];
-    private final EntityHuman player;
-    private MerchantRecipe recipe;
-    private int e;
+	private final IMerchant merchant;
+	private ItemStack[] itemsInSlots = new ItemStack[3];
+	private final EntityHuman player;
+	private MerchantRecipe recipe;
+	private int e;
 
-    // CraftBukkit start - add fields and methods
-    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
-    private int maxStack = MAX_STACK;
+	// CraftBukkit start - add fields and methods
+	public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
+	private int maxStack = MAX_STACK;
 
-    public ItemStack[] getContents() {
-        return this.itemsInSlots;
-    }
+	@Override
+	public ItemStack[] getContents() {
+		return itemsInSlots;
+	}
 
-    public void onOpen(CraftHumanEntity who) {
-        transaction.add(who);
-    }
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+		transaction.add(who);
+	}
 
-    public void onClose(CraftHumanEntity who) {
-        transaction.remove(who);
-    }
+	@Override
+	public void onClose(CraftHumanEntity who) {
+		transaction.remove(who);
+	}
 
-    public List<HumanEntity> getViewers() {
-        return transaction;
-    }
+	@Override
+	public List<HumanEntity> getViewers() {
+		return transaction;
+	}
 
-    public void setMaxStackSize(int i) {
-        maxStack = i;
-    }
+	@Override
+	public void setMaxStackSize(int i) {
+		maxStack = i;
+	}
 
-    public org.bukkit.inventory.InventoryHolder getOwner() {
-        return player.getBukkitEntity();
-    }
-    // CraftBukkit end
+	@Override
+	public org.bukkit.inventory.InventoryHolder getOwner() {
+		return player.getBukkitEntity();
+	}
 
-    public InventoryMerchant(EntityHuman entityhuman, IMerchant imerchant) {
-        this.player = entityhuman;
-        this.merchant = imerchant;
-    }
+	// CraftBukkit end
 
-    public int getSize() {
-        return this.itemsInSlots.length;
-    }
+	public InventoryMerchant(EntityHuman entityhuman, IMerchant imerchant) {
+		player = entityhuman;
+		merchant = imerchant;
+	}
 
-    public ItemStack getItem(int i) {
-        return this.itemsInSlots[i];
-    }
+	@Override
+	public int getSize() {
+		return itemsInSlots.length;
+	}
 
-    public ItemStack splitStack(int i, int j) {
-        if (this.itemsInSlots[i] != null) {
-            ItemStack itemstack;
+	@Override
+	public ItemStack getItem(int i) {
+		return itemsInSlots[i];
+	}
 
-            if (i == 2) {
-                itemstack = this.itemsInSlots[i];
-                this.itemsInSlots[i] = null;
-                return itemstack;
-            } else if (this.itemsInSlots[i].count <= j) {
-                itemstack = this.itemsInSlots[i];
-                this.itemsInSlots[i] = null;
-                if (this.d(i)) {
-                    this.h();
-                }
+	@Override
+	public ItemStack splitStack(int i, int j) {
+		if (itemsInSlots[i] != null) {
+			ItemStack itemstack;
 
-                return itemstack;
-            } else {
-                itemstack = this.itemsInSlots[i].a(j);
-                if (this.itemsInSlots[i].count == 0) {
-                    this.itemsInSlots[i] = null;
-                }
+			if (i == 2) {
+				itemstack = itemsInSlots[i];
+				itemsInSlots[i] = null;
+				return itemstack;
+			} else if (itemsInSlots[i].count <= j) {
+				itemstack = itemsInSlots[i];
+				itemsInSlots[i] = null;
+				if (d(i)) {
+					h();
+				}
 
-                if (this.d(i)) {
-                    this.h();
-                }
+				return itemstack;
+			} else {
+				itemstack = itemsInSlots[i].a(j);
+				if (itemsInSlots[i].count == 0) {
+					itemsInSlots[i] = null;
+				}
 
-                return itemstack;
-            }
-        } else {
-            return null;
-        }
-    }
+				if (d(i)) {
+					h();
+				}
 
-    private boolean d(int i) {
-        return i == 0 || i == 1;
-    }
+				return itemstack;
+			}
+		} else
+			return null;
+	}
 
-    public ItemStack splitWithoutUpdate(int i) {
-        if (this.itemsInSlots[i] != null) {
-            ItemStack itemstack = this.itemsInSlots[i];
+	private boolean d(int i) {
+		return i == 0 || i == 1;
+	}
 
-            this.itemsInSlots[i] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public ItemStack splitWithoutUpdate(int i) {
+		if (itemsInSlots[i] != null) {
+			ItemStack itemstack = itemsInSlots[i];
 
-    public void setItem(int i, ItemStack itemstack) {
-        this.itemsInSlots[i] = itemstack;
-        if (itemstack != null && itemstack.count > this.getMaxStackSize()) {
-            itemstack.count = this.getMaxStackSize();
-        }
+			itemsInSlots[i] = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-        if (this.d(i)) {
-            this.h();
-        }
-    }
+	@Override
+	public void setItem(int i, ItemStack itemstack) {
+		itemsInSlots[i] = itemstack;
+		if (itemstack != null && itemstack.count > getMaxStackSize()) {
+			itemstack.count = getMaxStackSize();
+		}
 
-    public String getInventoryName() {
-        return "mob.villager";
-    }
+		if (d(i)) {
+			h();
+		}
+	}
 
-    public boolean k_() {
-        return false;
-    }
+	@Override
+	public String getInventoryName() {
+		return "mob.villager";
+	}
 
-    public int getMaxStackSize() {
-        return maxStack; // CraftBukkit
-    }
+	@Override
+	public boolean k_() {
+		return false;
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return this.merchant.b() == entityhuman;
-    }
+	@Override
+	public int getMaxStackSize() {
+		return maxStack; // CraftBukkit
+	}
 
-    public void startOpen() {}
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return merchant.b() == entityhuman;
+	}
 
-    public void closeContainer() {}
+	@Override
+	public void startOpen() {
+	}
 
-    public boolean b(int i, ItemStack itemstack) {
-        return true;
-    }
+	@Override
+	public void closeContainer() {
+	}
 
-    public void update() {
-        this.h();
-    }
+	@Override
+	public boolean b(int i, ItemStack itemstack) {
+		return true;
+	}
 
-    public void h() {
-        this.recipe = null;
-        ItemStack itemstack = this.itemsInSlots[0];
-        ItemStack itemstack1 = this.itemsInSlots[1];
+	@Override
+	public void update() {
+		h();
+	}
 
-        if (itemstack == null) {
-            itemstack = itemstack1;
-            itemstack1 = null;
-        }
+	public void h() {
+		recipe = null;
+		ItemStack itemstack = itemsInSlots[0];
+		ItemStack itemstack1 = itemsInSlots[1];
 
-        if (itemstack == null) {
-            this.setItem(2, (ItemStack) null);
-        } else {
-            MerchantRecipeList merchantrecipelist = this.merchant.getOffers(this.player);
+		if (itemstack == null) {
+			itemstack = itemstack1;
+			itemstack1 = null;
+		}
 
-            if (merchantrecipelist != null) {
-                MerchantRecipe merchantrecipe = merchantrecipelist.a(itemstack, itemstack1, this.e);
+		if (itemstack == null) {
+			setItem(2, (ItemStack) null);
+		} else {
+			MerchantRecipeList merchantrecipelist = merchant.getOffers(player);
 
-                if (merchantrecipe != null && !merchantrecipe.g()) {
-                    this.recipe = merchantrecipe;
-                    this.setItem(2, merchantrecipe.getBuyItem3().cloneItemStack());
-                } else if (itemstack1 != null) {
-                    merchantrecipe = merchantrecipelist.a(itemstack1, itemstack, this.e);
-                    if (merchantrecipe != null && !merchantrecipe.g()) {
-                        this.recipe = merchantrecipe;
-                        this.setItem(2, merchantrecipe.getBuyItem3().cloneItemStack());
-                    } else {
-                        this.setItem(2, (ItemStack) null);
-                    }
-                } else {
-                    this.setItem(2, (ItemStack) null);
-                }
-            }
-        }
+			if (merchantrecipelist != null) {
+				MerchantRecipe merchantrecipe = merchantrecipelist.a(itemstack, itemstack1, e);
 
-        this.merchant.a_(this.getItem(2));
-    }
+				if (merchantrecipe != null && !merchantrecipe.g()) {
+					recipe = merchantrecipe;
+					setItem(2, merchantrecipe.getBuyItem3().cloneItemStack());
+				} else if (itemstack1 != null) {
+					merchantrecipe = merchantrecipelist.a(itemstack1, itemstack, e);
+					if (merchantrecipe != null && !merchantrecipe.g()) {
+						recipe = merchantrecipe;
+						setItem(2, merchantrecipe.getBuyItem3().cloneItemStack());
+					} else {
+						setItem(2, (ItemStack) null);
+					}
+				} else {
+					setItem(2, (ItemStack) null);
+				}
+			}
+		}
 
-    public MerchantRecipe getRecipe() {
-        return this.recipe;
-    }
+		merchant.a_(getItem(2));
+	}
 
-    public void c(int i) {
-        this.e = i;
-        this.h();
-    }
+	public MerchantRecipe getRecipe() {
+		return recipe;
+	}
+
+	public void c(int i) {
+		e = i;
+		h();
+	}
 }

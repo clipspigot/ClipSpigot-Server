@@ -2,73 +2,75 @@ package net.minecraft.server;
 
 public class Slot {
 
-    public final int index; // CraftBukkit - private -> public
-    public final IInventory inventory;
-    public int rawSlotIndex;
-    public int h;
-    public int i;
+	public final int index; // CraftBukkit - private -> public
+	public final IInventory inventory;
+	public int rawSlotIndex;
+	public int h;
+	public int i;
 
-    public Slot(IInventory iinventory, int i, int j, int k) {
-        this.inventory = iinventory;
-        this.index = i;
-        this.h = j;
-        this.i = k;
-    }
+	public Slot(IInventory iinventory, int i, int j, int k) {
+		inventory = iinventory;
+		index = i;
+		h = j;
+		this.i = k;
+	}
 
-    public void a(ItemStack itemstack, ItemStack itemstack1) {
-        if (itemstack != null && itemstack1 != null) {
-            if (itemstack.getItem() == itemstack1.getItem()) {
-                int i = itemstack1.count - itemstack.count;
+	public void a(ItemStack itemstack, ItemStack itemstack1) {
+		if (itemstack != null && itemstack1 != null) {
+			if (itemstack.getItem() == itemstack1.getItem()) {
+				int i = itemstack1.count - itemstack.count;
 
-                if (i > 0) {
-                    this.a(itemstack, i);
-                }
-            }
-        }
-    }
+				if (i > 0) {
+					this.a(itemstack, i);
+				}
+			}
+		}
+	}
 
-    protected void a(ItemStack itemstack, int i) {}
+	protected void a(ItemStack itemstack, int i) {
+	}
 
-    protected void b(ItemStack itemstack) {}
+	protected void b(ItemStack itemstack) {
+	}
 
-    public void a(EntityHuman entityhuman, ItemStack itemstack) {
-        this.f();
-    }
+	public void a(EntityHuman entityhuman, ItemStack itemstack) {
+		f();
+	}
 
-    public boolean isAllowed(ItemStack itemstack) {
-        return true;
-    }
+	public boolean isAllowed(ItemStack itemstack) {
+		return true;
+	}
 
-    public ItemStack getItem() {
-        return this.inventory.getItem(this.index);
-    }
+	public ItemStack getItem() {
+		return inventory.getItem(index);
+	}
 
-    public boolean hasItem() {
-        return this.getItem() != null;
-    }
+	public boolean hasItem() {
+		return getItem() != null;
+	}
 
-    public void set(ItemStack itemstack) {
-        this.inventory.setItem(this.index, itemstack);
-        this.f();
-    }
+	public void set(ItemStack itemstack) {
+		inventory.setItem(index, itemstack);
+		f();
+	}
 
-    public void f() {
-        this.inventory.update();
-    }
+	public void f() {
+		inventory.update();
+	}
 
-    public int getMaxStackSize() {
-        return this.inventory.getMaxStackSize();
-    }
+	public int getMaxStackSize() {
+		return inventory.getMaxStackSize();
+	}
 
-    public ItemStack a(int i) {
-        return this.inventory.splitStack(this.index, i);
-    }
+	public ItemStack a(int i) {
+		return inventory.splitStack(index, i);
+	}
 
-    public boolean a(IInventory iinventory, int i) {
-        return iinventory == this.inventory && i == this.index;
-    }
+	public boolean a(IInventory iinventory, int i) {
+		return iinventory == inventory && i == index;
+	}
 
-    public boolean isAllowed(EntityHuman entityhuman) {
-        return true;
-    }
+	public boolean isAllowed(EntityHuman entityhuman) {
+		return true;
+	}
 }

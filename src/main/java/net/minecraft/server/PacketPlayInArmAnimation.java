@@ -2,41 +2,45 @@ package net.minecraft.server;
 
 public class PacketPlayInArmAnimation extends Packet {
 
-    private int a;
-    private int b;
+	private int a;
+	private int b;
 
-    public PacketPlayInArmAnimation() {}
+	public PacketPlayInArmAnimation() {
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            this.a = packetdataserializer.readInt();
-            this.b = packetdataserializer.readByte();
-        } else {
-            b = 1;
-        }
-        // Spigot end
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			a = packetdataserializer.readInt();
+			b = packetdataserializer.readByte();
+		} else {
+			b = 1;
+		}
+		// Spigot end
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        packetdataserializer.writeInt(this.a);
-        packetdataserializer.writeByte(this.b);
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		packetdataserializer.writeInt(a);
+		packetdataserializer.writeByte(b);
+	}
 
-    public void a(PacketPlayInListener packetplayinlistener) {
-        packetplayinlistener.a(this);
-    }
+	public void a(PacketPlayInListener packetplayinlistener) {
+		packetplayinlistener.a(this);
+	}
 
-    public String b() {
-        return String.format("id=%d, type=%d", new Object[] { Integer.valueOf(this.a), Integer.valueOf(this.b)});
-    }
+	@Override
+	public String b() {
+		return String.format("id=%d, type=%d", new Object[] { Integer.valueOf(a), Integer.valueOf(b) });
+	}
 
-    public int d() {
-        return this.b;
-    }
+	public int d() {
+		return b;
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayInListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayInListener) packetlistener);
+	}
 }

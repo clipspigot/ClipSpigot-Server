@@ -2,7 +2,6 @@ package net.minecraft.server;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,225 +10,228 @@ import org.spigotmc.CustomTimingsHandler; // Spigot
 
 public class TileEntity {
 
-    public CustomTimingsHandler tickTimer = org.bukkit.craftbukkit.SpigotTimings.getTileEntityTimings(this); // Spigot
-    private static final Logger a = LogManager.getLogger();
-    private static Map i = new HashMap();
-    private static Map j = new HashMap();
-    protected World world;
-    public int x;
-    public int y;
-    public int z;
-    protected boolean f;
-    public int g = -1;
-    public Block h;
+	public CustomTimingsHandler tickTimer = org.bukkit.craftbukkit.SpigotTimings.getTileEntityTimings(this); // Spigot
+	private static final Logger a = LogManager.getLogger();
+	private static Map i = new HashMap();
+	private static Map j = new HashMap();
+	protected World world;
+	public int x;
+	public int y;
+	public int z;
+	protected boolean f;
+	public int g = -1;
+	public Block h;
 
-    // Spigot start
-    // Helper method for scheduleTicks. If the hopper at x0, y0, z0 is pointed
-    // at this tile entity, then make it active.
-    private void scheduleTick(int x0, int y0, int z0) {
-        TileEntity tileEntity = this.world.getTileEntity(x0, y0, z0);
-        if (tileEntity instanceof TileEntityHopper && tileEntity.world != null) {
-            // i is the metadeta assoiated with the direction the hopper faces.
-            int i = BlockHopper.b(tileEntity.p());
-            // Facing class provides arrays for direction offset.
-            if (tileEntity.x + Facing.b[i] == this.x && tileEntity.y + Facing.c[i] == this.y && tileEntity.z + Facing.d[i] == this.z) {
-                ((TileEntityHopper) tileEntity).makeTick();
-            }
-        }
-    }
-    
-    // Called from update when the contents have changed, so hoppers need updates.
-    // Check all 6 faces.
-    public void scheduleTicks() {
-        if (this.world != null && this.world.spigotConfig.altHopperTicking) {
-            // Check the top
-            this.scheduleTick(this.x, this.y + 1, this.z);
-            // Check the sides
-            for (int i = 2; i < 6; i++) {
-                this.scheduleTick(this.x + Facing.b[i], this.y, this.z + Facing.d[i]);
-            }
-            // Check the bottom.
-            TileEntity tileEntity = this.world.getTileEntity(this.x, this.y - 1, this.z);
-            if (tileEntity instanceof TileEntityHopper && tileEntity.world != null) {
-                ((TileEntityHopper) tileEntity).makeTick();
-            }
-        }
-    }
+	// Spigot start
+	// Helper method for scheduleTicks. If the hopper at x0, y0, z0 is pointed
+	// at this tile entity, then make it active.
+	private void scheduleTick(int x0, int y0, int z0) {
+		TileEntity tileEntity = world.getTileEntity(x0, y0, z0);
+		if (tileEntity instanceof TileEntityHopper && tileEntity.world != null) {
+			// i is the metadeta assoiated with the direction the hopper faces.
+			int i = BlockHopper.b(tileEntity.p());
+			// Facing class provides arrays for direction offset.
+			if (tileEntity.x + Facing.b[i] == x && tileEntity.y + Facing.c[i] == y && tileEntity.z + Facing.d[i] == z) {
+				((TileEntityHopper) tileEntity).makeTick();
+			}
+		}
+	}
 
-    // Optimized TileEntity Tick changes
-    private static int tileEntityCounter = 0;
-    public boolean isAdded = false;
-    public int tileId = tileEntityCounter++;
+	// Called from update when the contents have changed, so hoppers need updates.
+	// Check all 6 faces.
+	public void scheduleTicks() {
+		if (world != null && world.spigotConfig.altHopperTicking) {
+			// Check the top
+			scheduleTick(x, y + 1, z);
+			// Check the sides
+			for (int i = 2; i < 6; i++) {
+				scheduleTick(x + Facing.b[i], y, z + Facing.d[i]);
+			}
+			// Check the bottom.
+			TileEntity tileEntity = world.getTileEntity(x, y - 1, z);
+			if (tileEntity instanceof TileEntityHopper && tileEntity.world != null) {
+				((TileEntityHopper) tileEntity).makeTick();
+			}
+		}
+	}
 
-    // Spigot end
+	// Optimized TileEntity Tick changes
+	private static int tileEntityCounter = 0;
+	public boolean isAdded = false;
+	public int tileId = tileEntityCounter++;
 
-    public TileEntity() {}
+	// Spigot end
 
-    private static void a(Class oclass, String s) {
-        if (i.containsKey(s)) {
-            throw new IllegalArgumentException("Duplicate id: " + s);
-        } else {
-            i.put(s, oclass);
-            j.put(oclass, s);
-        }
-    }
+	public TileEntity() {
+	}
 
-    public World getWorld() {
-        return this.world;
-    }
+	private static void a(Class oclass, String s) {
+		if (i.containsKey(s))
+			throw new IllegalArgumentException("Duplicate id: " + s);
+		else {
+			i.put(s, oclass);
+			j.put(oclass, s);
+		}
+	}
 
-    public void a(World world) {
-        this.world = world;
-    }
+	public World getWorld() {
+		return world;
+	}
 
-    public boolean o() {
-        return this.world != null;
-    }
+	public void a(World world) {
+		this.world = world;
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        this.x = nbttagcompound.getInt("x");
-        this.y = nbttagcompound.getInt("y");
-        this.z = nbttagcompound.getInt("z");
-    }
+	public boolean o() {
+		return world != null;
+	}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        String s = (String) j.get(this.getClass());
+	public void a(NBTTagCompound nbttagcompound) {
+		x = nbttagcompound.getInt("x");
+		y = nbttagcompound.getInt("y");
+		z = nbttagcompound.getInt("z");
+	}
 
-        if (s == null) {
-            throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
-        } else {
-            nbttagcompound.setString("id", s);
-            nbttagcompound.setInt("x", this.x);
-            nbttagcompound.setInt("y", this.y);
-            nbttagcompound.setInt("z", this.z);
-        }
-    }
+	public void b(NBTTagCompound nbttagcompound) {
+		String s = (String) j.get(this.getClass());
 
-    public void h() {}
+		if (s == null)
+			throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
+		else {
+			nbttagcompound.setString("id", s);
+			nbttagcompound.setInt("x", x);
+			nbttagcompound.setInt("y", y);
+			nbttagcompound.setInt("z", z);
+		}
+	}
 
-    public static TileEntity c(NBTTagCompound nbttagcompound) {
-        TileEntity tileentity = null;
+	public void h() {
+	}
 
-        try {
-            Class oclass = (Class) i.get(nbttagcompound.getString("id"));
+	public static TileEntity c(NBTTagCompound nbttagcompound) {
+		TileEntity tileentity = null;
 
-            if (oclass != null) {
-                tileentity = (TileEntity) oclass.newInstance();
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+		try {
+			Class oclass = (Class) i.get(nbttagcompound.getString("id"));
 
-        if (tileentity != null) {
-            tileentity.a(nbttagcompound);
-        } else {
-            a.warn("Skipping BlockEntity with id " + nbttagcompound.getString("id"));
-        }
+			if (oclass != null) {
+				tileentity = (TileEntity) oclass.newInstance();
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 
-        return tileentity;
-    }
+		if (tileentity != null) {
+			tileentity.a(nbttagcompound);
+		} else {
+			a.warn("Skipping BlockEntity with id " + nbttagcompound.getString("id"));
+		}
 
-    public int p() {
-        if (this.g == -1) {
-            this.g = this.world.getData(this.x, this.y, this.z);
-        }
+		return tileentity;
+	}
 
-        return this.g;
-    }
+	public int p() {
+		if (g == -1) {
+			g = world.getData(x, y, z);
+		}
 
-    public void update() {
-        if (this.world != null) {
-            this.g = this.world.getData(this.x, this.y, this.z);
-            this.world.b(this.x, this.y, this.z, this);
-            if (this.q() != Blocks.AIR) {
-                this.world.updateAdjacentComparators(this.x, this.y, this.z, this.q());
-            }
-            // Spigot start - Called when the contents have changed, so hoppers around this
-            // tile need updating.
-            this.scheduleTicks();
-            // Spigot end
-        }
-    }
+		return g;
+	}
 
-    public Block q() {
-        if (this.h == null) {
-            this.h = this.world.getType(this.x, this.y, this.z);
-        }
+	public void update() {
+		if (world != null) {
+			g = world.getData(x, y, z);
+			world.b(x, y, z, this);
+			if (q() != Blocks.AIR) {
+				world.updateAdjacentComparators(x, y, z, q());
+			}
+			// Spigot start - Called when the contents have changed, so hoppers around this
+			// tile need updating.
+			scheduleTicks();
+			// Spigot end
+		}
+	}
 
-        return this.h;
-    }
+	public Block q() {
+		if (h == null) {
+			h = world.getType(x, y, z);
+		}
 
-    public Packet getUpdatePacket() {
-        return null;
-    }
+		return h;
+	}
 
-    public boolean r() {
-        return this.f;
-    }
+	public Packet getUpdatePacket() {
+		return null;
+	}
 
-    public void s() {
-        this.f = true;
-    }
+	public boolean r() {
+		return f;
+	}
 
-    public void t() {
-        this.f = false;
-    }
+	public void s() {
+		f = true;
+	}
 
-    public boolean c(int i, int j) {
-        return false;
-    }
+	public void t() {
+		f = false;
+	}
 
-    public void u() {
-        this.h = null;
-        this.g = -1;
-    }
+	public boolean c(int i, int j) {
+		return false;
+	}
 
-    public void a(CrashReportSystemDetails crashreportsystemdetails) {
-        crashreportsystemdetails.a("Name", (Callable) (new CrashReportTileEntityName(this)));
-        CrashReportSystemDetails.a(crashreportsystemdetails, this.x, this.y, this.z, this.q(), this.p());
-        crashreportsystemdetails.a("Actual block type", (Callable) (new CrashReportTileEntityType(this)));
-        crashreportsystemdetails.a("Actual block data value", (Callable) (new CrashReportTileEntityData(this)));
-    }
+	public void u() {
+		h = null;
+		g = -1;
+	}
 
-    static Map v() {
-        return j;
-    }
+	public void a(CrashReportSystemDetails crashreportsystemdetails) {
+		crashreportsystemdetails.a("Name", new CrashReportTileEntityName(this));
+		CrashReportSystemDetails.a(crashreportsystemdetails, x, y, z, q(), p());
+		crashreportsystemdetails.a("Actual block type", new CrashReportTileEntityType(this));
+		crashreportsystemdetails.a("Actual block data value", new CrashReportTileEntityData(this));
+	}
 
-    static {
-        a(TileEntityFurnace.class, "Furnace");
-        a(TileEntityChest.class, "Chest");
-        a(TileEntityEnderChest.class, "EnderChest");
-        a(TileEntityRecordPlayer.class, "RecordPlayer");
-        a(TileEntityDispenser.class, "Trap");
-        a(TileEntityDropper.class, "Dropper");
-        a(TileEntitySign.class, "Sign");
-        a(TileEntityMobSpawner.class, "MobSpawner");
-        a(TileEntityNote.class, "Music");
-        a(TileEntityPiston.class, "Piston");
-        a(TileEntityBrewingStand.class, "Cauldron");
-        a(TileEntityEnchantTable.class, "EnchantTable");
-        a(TileEntityEnderPortal.class, "Airportal");
-        a(TileEntityCommand.class, "Control");
-        a(TileEntityBeacon.class, "Beacon");
-        a(TileEntitySkull.class, "Skull");
-        a(TileEntityLightDetector.class, "DLDetector");
-        a(TileEntityHopper.class, "Hopper");
-        a(TileEntityComparator.class, "Comparator");
-        a(TileEntityFlowerPot.class, "FlowerPot");
-    }
+	static Map v() {
+		return j;
+	}
 
-    // CraftBukkit start - add method
-    public InventoryHolder getOwner() {
-        // Spigot start
-        org.bukkit.block.Block block = world.getWorld().getBlockAt(x, y, z);
-        if (block == null) {
-            org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.WARNING, "No block for owner at %s %d %d %d", new Object[]{world.getWorld(), x, y, z});
-            return null;
-        }
-        // Spigot end
-        org.bukkit.block.BlockState state = block.getState();
-        if (state instanceof InventoryHolder) return (InventoryHolder) state;
-        return null;
-    }
-    // CraftBukkit end
+	static {
+		a(TileEntityFurnace.class, "Furnace");
+		a(TileEntityChest.class, "Chest");
+		a(TileEntityEnderChest.class, "EnderChest");
+		a(TileEntityRecordPlayer.class, "RecordPlayer");
+		a(TileEntityDispenser.class, "Trap");
+		a(TileEntityDropper.class, "Dropper");
+		a(TileEntitySign.class, "Sign");
+		a(TileEntityMobSpawner.class, "MobSpawner");
+		a(TileEntityNote.class, "Music");
+		a(TileEntityPiston.class, "Piston");
+		a(TileEntityBrewingStand.class, "Cauldron");
+		a(TileEntityEnchantTable.class, "EnchantTable");
+		a(TileEntityEnderPortal.class, "Airportal");
+		a(TileEntityCommand.class, "Control");
+		a(TileEntityBeacon.class, "Beacon");
+		a(TileEntitySkull.class, "Skull");
+		a(TileEntityLightDetector.class, "DLDetector");
+		a(TileEntityHopper.class, "Hopper");
+		a(TileEntityComparator.class, "Comparator");
+		a(TileEntityFlowerPot.class, "FlowerPot");
+	}
+
+	// CraftBukkit start - add method
+	public InventoryHolder getOwner() {
+		// Spigot start
+		org.bukkit.block.Block block = world.getWorld().getBlockAt(x, y, z);
+		if (block == null) {
+			org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.WARNING, "No block for owner at %s %d %d %d", new Object[] { world.getWorld(), x, y, z });
+			return null;
+		}
+		// Spigot end
+		org.bukkit.block.BlockState state = block.getState();
+		if (state instanceof InventoryHolder)
+			return (InventoryHolder) state;
+		return null;
+	}
+	// CraftBukkit end
 }

@@ -8,29 +8,32 @@ import org.bukkit.entity.Slime;
 
 public class CraftSlime extends CraftLivingEntity implements Slime {
 
-    public CraftSlime(CraftServer server, EntitySlime entity) {
-        super(server, entity);
-    }
+	public CraftSlime(CraftServer server, EntitySlime entity) {
+		super(server, entity);
+	}
 
-    public int getSize() {
-        return getHandle().getSize();
-    }
+	@Override
+	public int getSize() {
+		return getHandle().getSize();
+	}
 
-    public void setSize(int size) {
-        getHandle().setSize(size);
-    }
+	@Override
+	public void setSize(int size) {
+		getHandle().setSize(size);
+	}
 
-    @Override
-    public EntitySlime getHandle() {
-        return (EntitySlime) entity;
-    }
+	@Override
+	public EntitySlime getHandle() {
+		return (EntitySlime) entity;
+	}
 
-    @Override
-    public String toString() {
-        return "CraftSlime";
-    }
+	@Override
+	public String toString() {
+		return "CraftSlime";
+	}
 
-    public EntityType getType() {
-        return EntityType.SLIME;
-    }
+	@Override
+	public EntityType getType() {
+		return EntityType.SLIME;
+	}
 }

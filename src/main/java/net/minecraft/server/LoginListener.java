@@ -20,177 +20,175 @@ import org.apache.logging.log4j.Logger;
 
 public class LoginListener implements PacketLoginInListener {
 
-    private static final AtomicInteger b = new AtomicInteger(0);
-    private static final Logger c = LogManager.getLogger();
-    private static final Random random = new Random();
-    private final byte[] e = new byte[4];
-    private final MinecraftServer server;
-    public final NetworkManager networkManager;
-    private EnumProtocolState g;
-    private int h;
-    private GameProfile i;
-    private String j;
-    private SecretKey loginKey;
-    public String hostname = ""; // CraftBukkit - add field
+	private static final AtomicInteger b = new AtomicInteger(0);
+	private static final Logger c = LogManager.getLogger();
+	private static final Random random = new Random();
+	private final byte[] e = new byte[4];
+	private final MinecraftServer server;
+	public final NetworkManager networkManager;
+	private EnumProtocolState g;
+	private int h;
+	private GameProfile i;
+	private String j;
+	private SecretKey loginKey;
+	public String hostname = ""; // CraftBukkit - add field
 
-    public LoginListener(MinecraftServer minecraftserver, NetworkManager networkmanager) {
-        this.g = EnumProtocolState.HELLO;
-        this.j = "";
-        this.server = minecraftserver;
-        this.networkManager = networkmanager;
-        random.nextBytes(this.e);
-    }
+	public LoginListener(MinecraftServer minecraftserver, NetworkManager networkmanager) {
+		g = EnumProtocolState.HELLO;
+		j = "";
+		server = minecraftserver;
+		networkManager = networkmanager;
+		random.nextBytes(e);
+	}
 
-    public void a() {
-        if (this.g == EnumProtocolState.READY_TO_ACCEPT) {
-            this.c();
-        }
+	@Override
+	public void a() {
+		if (g == EnumProtocolState.READY_TO_ACCEPT) {
+			this.c();
+		}
 
-        if (this.h++ == 600) {
-            this.disconnect("Took too long to log in");
-        }
-    }
+		if (h++ == 600) {
+			disconnect("Took too long to log in");
+		}
+	}
 
-    public void disconnect(String s) {
-        try {
-            c.info("Disconnecting " + this.getName() + ": " + s);
-            ChatComponentText chatcomponenttext = new ChatComponentText(s);
+	public void disconnect(String s) {
+		try {
+			c.info("Disconnecting " + getName() + ": " + s);
+			ChatComponentText chatcomponenttext = new ChatComponentText(s);
 
-            this.networkManager.handle(new PacketLoginOutDisconnect(chatcomponenttext), new GenericFutureListener[0]);
-            this.networkManager.close(chatcomponenttext);
-        } catch (Exception exception) {
-            c.error("Error whilst disconnecting player", exception);
-        }
-    }
+			networkManager.handle(new PacketLoginOutDisconnect(chatcomponenttext), new GenericFutureListener[0]);
+			networkManager.close(chatcomponenttext);
+		} catch (Exception exception) {
+			c.error("Error whilst disconnecting player", exception);
+		}
+	}
 
-    // Spigot start
-    public void initUUID()
-    {
-        UUID uuid;
-        if ( networkManager.spoofedUUID != null )
-        {
-            uuid = networkManager.spoofedUUID;
-        } else
-        {
-            uuid = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + this.i.getName() ).getBytes( Charsets.UTF_8 ) );
-        }
+	// Spigot start
+	public void initUUID() {
+		UUID uuid;
+		if (networkManager.spoofedUUID != null) {
+			uuid = networkManager.spoofedUUID;
+		} else {
+			uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + i.getName()).getBytes(Charsets.UTF_8));
+		}
 
-        this.i = new GameProfile( uuid, this.i.getName() );
+		i = new GameProfile(uuid, i.getName());
 
-        if (networkManager.spoofedProfile != null)
-        {
-            for ( Property property : networkManager.spoofedProfile )
-            {
-                this.i.getProperties().put( property.getName(), property );
-            }
-        }
-    }
-    // Spigot end
+		if (networkManager.spoofedProfile != null) {
+			for (Property property : networkManager.spoofedProfile) {
+				i.getProperties().put(property.getName(), property);
+			}
+		}
+	}
 
-    public void c() {
-        // Spigot start - Moved to initUUID
-        /*
-        if (!this.i.isComplete()) {
-            this.i = this.a(this.i);
-        }
-        */
-        // Spigot end
+	// Spigot end
 
-        // CraftBukkit start - fire PlayerLoginEvent
-        EntityPlayer s = this.server.getPlayerList().attemptLogin(this, this.i, this.hostname);
+	public void c() {
+		// Spigot start - Moved to initUUID
+		/*
+		if (!this.i.isComplete()) {
+		    this.i = this.a(this.i);
+		}
+		*/
+		// Spigot end
 
-        if (s == null) {
-            // this.disconnect(s);
-            // CraftBukkit end
-        } else {
-            this.g = EnumProtocolState.e;
-            // Spigot start
-            if ( networkManager.getVersion() >= 27 )
-            {
-                this.networkManager.handle( new org.spigotmc.ProtocolInjector.PacketLoginCompression( 256 ), new GenericFutureListener()
-                {
-                    @Override
-                    public void operationComplete(Future future) throws Exception
-                    {
-                        networkManager.enableCompression();
-                    }
-                } );
-            }
-            // Spigot end
-            this.networkManager.handle(new PacketLoginOutSuccess(this.i), new GenericFutureListener[0]);
-            this.server.getPlayerList().a(this.networkManager, this.server.getPlayerList().processLogin(this.i, s)); // CraftBukkit - add player reference
-        }
-    }
+		// CraftBukkit start - fire PlayerLoginEvent
+		EntityPlayer s = server.getPlayerList().attemptLogin(this, i, hostname);
 
-    public void a(IChatBaseComponent ichatbasecomponent) {
-        c.info(this.getName() + " lost connection: " + ichatbasecomponent.c());
-    }
+		if (s == null) {
+			// this.disconnect(s);
+			// CraftBukkit end
+		} else {
+			g = EnumProtocolState.e;
+			// Spigot start
+			if (networkManager.getVersion() >= 27) {
+				networkManager.handle(new org.spigotmc.ProtocolInjector.PacketLoginCompression(256), new GenericFutureListener() {
+					@Override
+					public void operationComplete(Future future) throws Exception {
+						networkManager.enableCompression();
+					}
+				});
+			}
+			// Spigot end
+			networkManager.handle(new PacketLoginOutSuccess(i), new GenericFutureListener[0]);
+			server.getPlayerList().a(networkManager, server.getPlayerList().processLogin(i, s)); // CraftBukkit - add player reference
+		}
+	}
 
-    public String getName() {
-        return this.i != null ? this.i.toString() + " (" + this.networkManager.getSocketAddress().toString() + ")" : String.valueOf(this.networkManager.getSocketAddress());
-    }
+	@Override
+	public void a(IChatBaseComponent ichatbasecomponent) {
+		c.info(getName() + " lost connection: " + ichatbasecomponent.c());
+	}
 
-    public void a(EnumProtocol enumprotocol, EnumProtocol enumprotocol1) {
-        Validate.validState(this.g == EnumProtocolState.e || this.g == EnumProtocolState.HELLO, "Unexpected change in protocol", new Object[0]);
-        Validate.validState(enumprotocol1 == EnumProtocol.PLAY || enumprotocol1 == EnumProtocol.LOGIN, "Unexpected protocol " + enumprotocol1, new Object[0]);
-    }
+	public String getName() {
+		return i != null ? i.toString() + " (" + networkManager.getSocketAddress().toString() + ")" : String.valueOf(networkManager.getSocketAddress());
+	}
 
-    public void a(PacketLoginInStart packetlogininstart) {
-        Validate.validState(this.g == EnumProtocolState.HELLO, "Unexpected hello packet", new Object[0]);
-        this.i = packetlogininstart.c();
-        if (this.server.getOnlineMode() && !this.networkManager.c()) {
-            this.g = EnumProtocolState.KEY;
-            this.networkManager.handle(new PacketLoginOutEncryptionBegin(this.j, this.server.K().getPublic(), this.e), new GenericFutureListener[0]);
-        } else {
-            (new ThreadPlayerLookupUUID(this, "User Authenticator #" + b.incrementAndGet())).start(); // Spigot
-        }
-    }
+	@Override
+	public void a(EnumProtocol enumprotocol, EnumProtocol enumprotocol1) {
+		Validate.validState(g == EnumProtocolState.e || g == EnumProtocolState.HELLO, "Unexpected change in protocol", new Object[0]);
+		Validate.validState(enumprotocol1 == EnumProtocol.PLAY || enumprotocol1 == EnumProtocol.LOGIN, "Unexpected protocol " + enumprotocol1, new Object[0]);
+	}
 
-    public void a(PacketLoginInEncryptionBegin packetlogininencryptionbegin) {
-        Validate.validState(this.g == EnumProtocolState.KEY, "Unexpected key packet", new Object[0]);
-        PrivateKey privatekey = this.server.K().getPrivate();
+	@Override
+	public void a(PacketLoginInStart packetlogininstart) {
+		Validate.validState(g == EnumProtocolState.HELLO, "Unexpected hello packet", new Object[0]);
+		i = packetlogininstart.c();
+		if (server.getOnlineMode() && !networkManager.c()) {
+			g = EnumProtocolState.KEY;
+			networkManager.handle(new PacketLoginOutEncryptionBegin(j, server.K().getPublic(), e), new GenericFutureListener[0]);
+		} else {
+			new ThreadPlayerLookupUUID(this, "User Authenticator #" + b.incrementAndGet()).start(); // Spigot
+		}
+	}
 
-        if (!Arrays.equals(this.e, packetlogininencryptionbegin.b(privatekey))) {
-            throw new IllegalStateException("Invalid nonce!");
-        } else {
-            this.loginKey = packetlogininencryptionbegin.a(privatekey);
-            this.g = EnumProtocolState.AUTHENTICATING;
-            this.networkManager.a(this.loginKey);
-            (new ThreadPlayerLookupUUID(this, "User Authenticator #" + b.incrementAndGet())).start();
-        }
-    }
+	@Override
+	public void a(PacketLoginInEncryptionBegin packetlogininencryptionbegin) {
+		Validate.validState(g == EnumProtocolState.KEY, "Unexpected key packet", new Object[0]);
+		PrivateKey privatekey = server.K().getPrivate();
 
-    protected GameProfile a(GameProfile gameprofile) {
-        UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + gameprofile.getName()).getBytes(Charsets.UTF_8));
+		if (!Arrays.equals(e, packetlogininencryptionbegin.b(privatekey)))
+			throw new IllegalStateException("Invalid nonce!");
+		else {
+			loginKey = packetlogininencryptionbegin.a(privatekey);
+			g = EnumProtocolState.AUTHENTICATING;
+			networkManager.a(loginKey);
+			new ThreadPlayerLookupUUID(this, "User Authenticator #" + b.incrementAndGet()).start();
+		}
+	}
 
-        return new GameProfile(uuid, gameprofile.getName());
-    }
+	protected GameProfile a(GameProfile gameprofile) {
+		UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + gameprofile.getName()).getBytes(Charsets.UTF_8));
 
-    static GameProfile a(LoginListener loginlistener) {
-        return loginlistener.i;
-    }
+		return new GameProfile(uuid, gameprofile.getName());
+	}
 
-    static String b(LoginListener loginlistener) {
-        return loginlistener.j;
-    }
+	static GameProfile a(LoginListener loginlistener) {
+		return loginlistener.i;
+	}
 
-    static MinecraftServer c(LoginListener loginlistener) {
-        return loginlistener.server;
-    }
+	static String b(LoginListener loginlistener) {
+		return loginlistener.j;
+	}
 
-    static SecretKey d(LoginListener loginlistener) {
-        return loginlistener.loginKey;
-    }
+	static MinecraftServer c(LoginListener loginlistener) {
+		return loginlistener.server;
+	}
 
-    static GameProfile a(LoginListener loginlistener, GameProfile gameprofile) {
-        return loginlistener.i = gameprofile;
-    }
+	static SecretKey d(LoginListener loginlistener) {
+		return loginlistener.loginKey;
+	}
 
-    static Logger e() {
-        return c;
-    }
+	static GameProfile a(LoginListener loginlistener, GameProfile gameprofile) {
+		return loginlistener.i = gameprofile;
+	}
 
-    static EnumProtocolState a(LoginListener loginlistener, EnumProtocolState enumprotocolstate) {
-        return loginlistener.g = enumprotocolstate;
-    }
+	static Logger e() {
+		return c;
+	}
+
+	static EnumProtocolState a(LoginListener loginlistener, EnumProtocolState enumprotocolstate) {
+		return loginlistener.g = enumprotocolstate;
+	}
 }

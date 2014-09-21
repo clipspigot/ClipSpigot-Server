@@ -7,69 +7,74 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 
 public class PathfinderGoalEatTile extends PathfinderGoal {
 
-    private EntityInsentient b;
-    private World c;
-    int a;
+	private EntityInsentient b;
+	private World c;
+	int a;
 
-    public PathfinderGoalEatTile(EntityInsentient entityinsentient) {
-        this.b = entityinsentient;
-        this.c = entityinsentient.world;
-        this.a(7);
-    }
+	public PathfinderGoalEatTile(EntityInsentient entityinsentient) {
+		b = entityinsentient;
+		c = entityinsentient.world;
+		this.a(7);
+	}
 
-    public boolean a() {
-        if (this.b.aI().nextInt(this.b.isBaby() ? 50 : 1000) != 0) {
-            return false;
-        } else {
-            int i = MathHelper.floor(this.b.locX);
-            int j = MathHelper.floor(this.b.locY);
-            int k = MathHelper.floor(this.b.locZ);
+	@Override
+	public boolean a() {
+		if (b.aI().nextInt(b.isBaby() ? 50 : 1000) != 0)
+			return false;
+		else {
+			int i = MathHelper.floor(b.locX);
+			int j = MathHelper.floor(b.locY);
+			int k = MathHelper.floor(b.locZ);
 
-            return this.c.getType(i, j, k) == Blocks.LONG_GRASS && this.c.getData(i, j, k) == 1 ? true : this.c.getType(i, j - 1, k) == Blocks.GRASS;
-        }
-    }
+			return c.getType(i, j, k) == Blocks.LONG_GRASS && c.getData(i, j, k) == 1 ? true : c.getType(i, j - 1, k) == Blocks.GRASS;
+		}
+	}
 
-    public void c() {
-        this.a = 40;
-        this.c.broadcastEntityEffect(this.b, (byte) 10);
-        this.b.getNavigation().h();
-    }
+	@Override
+	public void c() {
+		a = 40;
+		c.broadcastEntityEffect(b, (byte) 10);
+		b.getNavigation().h();
+	}
 
-    public void d() {
-        this.a = 0;
-    }
+	@Override
+	public void d() {
+		a = 0;
+	}
 
-    public boolean b() {
-        return this.a > 0;
-    }
+	@Override
+	public boolean b() {
+		return a > 0;
+	}
 
-    public int f() {
-        return this.a;
-    }
+	public int f() {
+		return a;
+	}
 
-    public void e() {
-        this.a = Math.max(0, this.a - 1);
-        if (this.a == 4) {
-            int i = MathHelper.floor(this.b.locX);
-            int j = MathHelper.floor(this.b.locY);
-            int k = MathHelper.floor(this.b.locZ);
+	@Override
+	public void e() {
+		a = Math.max(0, a - 1);
+		if (a == 4) {
+			int i = MathHelper.floor(b.locX);
+			int j = MathHelper.floor(b.locY);
+			int k = MathHelper.floor(b.locZ);
 
-            if (this.c.getType(i, j, k) == Blocks.LONG_GRASS) {
-                // CraftBukkit
-                if (!CraftEventFactory.callEntityChangeBlockEvent(this.b, this.b.world.getWorld().getBlockAt(i, j, k), Material.AIR, !this.c.getGameRules().getBoolean("mobGriefing")).isCancelled()) {
-                    this.c.setAir(i, j, k, false);
-                }
+			if (c.getType(i, j, k) == Blocks.LONG_GRASS) {
+				// CraftBukkit
+				if (!CraftEventFactory.callEntityChangeBlockEvent(b, b.world.getWorld().getBlockAt(i, j, k), Material.AIR, !c.getGameRules().getBoolean("mobGriefing")).isCancelled()) {
+					c.setAir(i, j, k, false);
+				}
 
-                this.b.p();
-            } else if (this.c.getType(i, j - 1, k) == Blocks.GRASS) {
-                // CraftBukkit
-                if (!CraftEventFactory.callEntityChangeBlockEvent(this.b, this.b.world.getWorld().getBlockAt(i, j - 1, k), Material.DIRT, !this.c.getGameRules().getBoolean("mobGriefing")).isCancelled()) {
-                    this.c.triggerEffect(2001, i, j - 1, k, Block.getId(Blocks.GRASS));
-                    this.c.setTypeAndData(i, j - 1, k, Blocks.DIRT, 0, 2);
-                }
+				b.p();
+			} else if (c.getType(i, j - 1, k) == Blocks.GRASS) {
+				// CraftBukkit
+				if (!CraftEventFactory.callEntityChangeBlockEvent(b, b.world.getWorld().getBlockAt(i, j - 1, k), Material.DIRT, !c.getGameRules().getBoolean("mobGriefing")).isCancelled()) {
+					c.triggerEffect(2001, i, j - 1, k, Block.getId(Blocks.GRASS));
+					c.setTypeAndData(i, j - 1, k, Blocks.DIRT, 0, 2);
+				}
 
-                this.b.p();
-            }
-        }
-    }
+				b.p();
+			}
+		}
+	}
 }

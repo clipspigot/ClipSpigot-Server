@@ -8,37 +8,42 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Sheep;
 
 public class CraftSheep extends CraftAnimals implements Sheep {
-    public CraftSheep(CraftServer server, EntitySheep entity) {
-        super(server, entity);
-    }
+	public CraftSheep(CraftServer server, EntitySheep entity) {
+		super(server, entity);
+	}
 
-    public DyeColor getColor() {
-        return DyeColor.getByWoolData((byte) getHandle().getColor());
-    }
+	@Override
+	public DyeColor getColor() {
+		return DyeColor.getByWoolData((byte) getHandle().getColor());
+	}
 
-    public void setColor(DyeColor color) {
-        getHandle().setColor(color.getWoolData());
-    }
+	@Override
+	public void setColor(DyeColor color) {
+		getHandle().setColor(color.getWoolData());
+	}
 
-    public boolean isSheared() {
-        return getHandle().isSheared();
-    }
+	@Override
+	public boolean isSheared() {
+		return getHandle().isSheared();
+	}
 
-    public void setSheared(boolean flag) {
-        getHandle().setSheared(flag);
-    }
+	@Override
+	public void setSheared(boolean flag) {
+		getHandle().setSheared(flag);
+	}
 
-    @Override
-    public EntitySheep getHandle() {
-        return (EntitySheep) entity;
-    }
+	@Override
+	public EntitySheep getHandle() {
+		return (EntitySheep) entity;
+	}
 
-    @Override
-    public String toString() {
-        return "CraftSheep";
-    }
+	@Override
+	public String toString() {
+		return "CraftSheep";
+	}
 
-    public EntityType getType() {
-        return EntityType.SHEEP;
-    }
+	@Override
+	public EntityType getType() {
+		return EntityType.SHEEP;
+	}
 }

@@ -4,102 +4,105 @@ import org.bukkit.event.entity.EntityTargetEvent; // CraftBukkit
 
 public class PathfinderGoalArrowAttack extends PathfinderGoal {
 
-    private final EntityInsentient a;
-    private final IRangedEntity b;
-    private EntityLiving c;
-    private int d;
-    private double e;
-    private int f;
-    private int g;
-    private int h;
-    private float i;
-    private float j;
+	private final EntityInsentient a;
+	private final IRangedEntity b;
+	private EntityLiving c;
+	private int d;
+	private double e;
+	private int f;
+	private int g;
+	private int h;
+	private float i;
+	private float j;
 
-    public PathfinderGoalArrowAttack(IRangedEntity irangedentity, double d0, int i, float f) {
-        this(irangedentity, d0, i, i, f);
-    }
+	public PathfinderGoalArrowAttack(IRangedEntity irangedentity, double d0, int i, float f) {
+		this(irangedentity, d0, i, i, f);
+	}
 
-    public PathfinderGoalArrowAttack(IRangedEntity irangedentity, double d0, int i, int j, float f) {
-        this.d = -1;
-        if (!(irangedentity instanceof EntityLiving)) {
-            throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
-        } else {
-            this.b = irangedentity;
-            this.a = (EntityInsentient) irangedentity;
-            this.e = d0;
-            this.g = i;
-            this.h = j;
-            this.i = f;
-            this.j = f * f;
-            this.a(3);
-        }
-    }
+	public PathfinderGoalArrowAttack(IRangedEntity irangedentity, double d0, int i, int j, float f) {
+		d = -1;
+		if (!(irangedentity instanceof EntityLiving))
+			throw new IllegalArgumentException("ArrowAttackGoal requires Mob implements RangedAttackMob");
+		else {
+			b = irangedentity;
+			a = (EntityInsentient) irangedentity;
+			e = d0;
+			g = i;
+			h = j;
+			this.i = f;
+			this.j = f * f;
+			this.a(3);
+		}
+	}
 
-    public boolean a() {
-        EntityLiving entityliving = this.a.getGoalTarget();
+	@Override
+	public boolean a() {
+		EntityLiving entityliving = a.getGoalTarget();
 
-        if (entityliving == null) {
-            return false;
-        } else {
-            this.c = entityliving;
-            return true;
-        }
-    }
+		if (entityliving == null)
+			return false;
+		else {
+			c = entityliving;
+			return true;
+		}
+	}
 
-    public boolean b() {
-        return this.a() || !this.a.getNavigation().g();
-    }
+	@Override
+	public boolean b() {
+		return this.a() || !a.getNavigation().g();
+	}
 
-    public void d() {
-        // CraftBukkit start
-        EntityTargetEvent.TargetReason reason = this.c.isAlive() ? EntityTargetEvent.TargetReason.FORGOT_TARGET : EntityTargetEvent.TargetReason.TARGET_DIED;
-        org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTargetEvent((Entity) b, null, reason);
-        // CraftBukkit end
-        this.c = null;
-        this.f = 0;
-        this.d = -1;
-    }
+	@Override
+	public void d() {
+		// CraftBukkit start
+		EntityTargetEvent.TargetReason reason = c.isAlive() ? EntityTargetEvent.TargetReason.FORGOT_TARGET : EntityTargetEvent.TargetReason.TARGET_DIED;
+		org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTargetEvent((Entity) b, null, reason);
+		// CraftBukkit end
+		c = null;
+		f = 0;
+		d = -1;
+	}
 
-    public void e() {
-        double d0 = this.a.e(this.c.locX, this.c.boundingBox.b, this.c.locZ);
-        boolean flag = this.a.getEntitySenses().canSee(this.c);
+	@Override
+	public void e() {
+		double d0 = a.e(c.locX, c.boundingBox.b, c.locZ);
+		boolean flag = a.getEntitySenses().canSee(c);
 
-        if (flag) {
-            ++this.f;
-        } else {
-            this.f = 0;
-        }
+		if (flag) {
+			++f;
+		} else {
+			f = 0;
+		}
 
-        if (d0 <= (double) this.j && this.f >= 20) {
-            this.a.getNavigation().h();
-        } else {
-            this.a.getNavigation().a((Entity) this.c, this.e);
-        }
+		if (d0 <= j && f >= 20) {
+			a.getNavigation().h();
+		} else {
+			a.getNavigation().a(c, e);
+		}
 
-        this.a.getControllerLook().a(this.c, 30.0F, 30.0F);
-        float f;
+		a.getControllerLook().a(c, 30.0F, 30.0F);
+		float f;
 
-        if (--this.d == 0) {
-            if (d0 > (double) this.j || !flag) {
-                return;
-            }
+		if (--d == 0) {
+			if (d0 > j || !flag)
+				return;
 
-            f = MathHelper.sqrt(d0) / this.i;
-            float f1 = f;
+			f = MathHelper.sqrt(d0) / i;
+			float f1 = f;
 
-            if (f < 0.1F) {
-                f1 = 0.1F;
-            }
+			if (f < 0.1F) {
+				f1 = 0.1F;
+			}
 
-            if (f1 > 1.0F) {
-                f1 = 1.0F;
-            }
+			if (f1 > 1.0F) {
+				f1 = 1.0F;
+			}
 
-            this.b.a(this.c, f1);
-            this.d = MathHelper.d(f * (float) (this.h - this.g) + (float) this.g);
-        } else if (this.d < 0) {
-            f = MathHelper.sqrt(d0) / this.i;
-            this.d = MathHelper.d(f * (float) (this.h - this.g) + (float) this.g);
-        }
-    }
+			b.a(c, f1);
+			d = MathHelper.d(f * (h - g) + g);
+		} else if (d < 0) {
+			f = MathHelper.sqrt(d0) / i;
+			d = MathHelper.d(f * (h - g) + g);
+		}
+	}
 }

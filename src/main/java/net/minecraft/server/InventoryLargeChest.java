@@ -5,125 +5,146 @@ import java.util.List;
 
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
+
 // CraftBukkit end
 
 public class InventoryLargeChest implements IInventory {
 
-    private String a;
-    public IInventory left; // CraftBukkit - private -> public
-    public IInventory right; // CraftBukkit - private -> public
+	private String a;
+	public IInventory left; // CraftBukkit - private -> public
+	public IInventory right; // CraftBukkit - private -> public
 
-    // CraftBukkit start - add fields and methods
-    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
+	// CraftBukkit start - add fields and methods
+	public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
 
-    public ItemStack[] getContents() {
-        ItemStack[] result = new ItemStack[this.getSize()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = this.getItem(i);
-        }
-        return result;
-    }
+	@Override
+	public ItemStack[] getContents() {
+		ItemStack[] result = new ItemStack[getSize()];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = getItem(i);
+		}
+		return result;
+	}
 
-    public void onOpen(CraftHumanEntity who) {
-        this.left.onOpen(who);
-        this.right.onOpen(who);
-        transaction.add(who);
-    }
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+		left.onOpen(who);
+		right.onOpen(who);
+		transaction.add(who);
+	}
 
-    public void onClose(CraftHumanEntity who) {
-        this.left.onClose(who);
-        this.right.onClose(who);
-        transaction.remove(who);
-    }
+	@Override
+	public void onClose(CraftHumanEntity who) {
+		left.onClose(who);
+		right.onClose(who);
+		transaction.remove(who);
+	}
 
-    public List<HumanEntity> getViewers() {
-        return transaction;
-    }
+	@Override
+	public List<HumanEntity> getViewers() {
+		return transaction;
+	}
 
-    public org.bukkit.inventory.InventoryHolder getOwner() {
-        return null; // This method won't be called since CraftInventoryDoubleChest doesn't defer to here
-    }
+	@Override
+	public org.bukkit.inventory.InventoryHolder getOwner() {
+		return null; // This method won't be called since CraftInventoryDoubleChest doesn't defer to here
+	}
 
-    public void setMaxStackSize(int size) {
-        this.left.setMaxStackSize(size);
-        this.right.setMaxStackSize(size);
-    }
-    // CraftBukkit end
+	@Override
+	public void setMaxStackSize(int size) {
+		left.setMaxStackSize(size);
+		right.setMaxStackSize(size);
+	}
 
-    public InventoryLargeChest(String s, IInventory iinventory, IInventory iinventory1) {
-        this.a = s;
-        if (iinventory == null) {
-            iinventory = iinventory1;
-        }
+	// CraftBukkit end
 
-        if (iinventory1 == null) {
-            iinventory1 = iinventory;
-        }
+	public InventoryLargeChest(String s, IInventory iinventory, IInventory iinventory1) {
+		a = s;
+		if (iinventory == null) {
+			iinventory = iinventory1;
+		}
 
-        this.left = iinventory;
-        this.right = iinventory1;
-    }
+		if (iinventory1 == null) {
+			iinventory1 = iinventory;
+		}
 
-    public int getSize() {
-        return this.left.getSize() + this.right.getSize();
-    }
+		left = iinventory;
+		right = iinventory1;
+	}
 
-    public boolean a(IInventory iinventory) {
-        return this.left == iinventory || this.right == iinventory;
-    }
+	@Override
+	public int getSize() {
+		return left.getSize() + right.getSize();
+	}
 
-    public String getInventoryName() {
-        return this.left.k_() ? this.left.getInventoryName() : (this.right.k_() ? this.right.getInventoryName() : this.a);
-    }
+	public boolean a(IInventory iinventory) {
+		return left == iinventory || right == iinventory;
+	}
 
-    public boolean k_() {
-        return this.left.k_() || this.right.k_();
-    }
+	@Override
+	public String getInventoryName() {
+		return left.k_() ? left.getInventoryName() : right.k_() ? right.getInventoryName() : a;
+	}
 
-    public ItemStack getItem(int i) {
-        return i >= this.left.getSize() ? this.right.getItem(i - this.left.getSize()) : this.left.getItem(i);
-    }
+	@Override
+	public boolean k_() {
+		return left.k_() || right.k_();
+	}
 
-    public ItemStack splitStack(int i, int j) {
-        return i >= this.left.getSize() ? this.right.splitStack(i - this.left.getSize(), j) : this.left.splitStack(i, j);
-    }
+	@Override
+	public ItemStack getItem(int i) {
+		return i >= left.getSize() ? right.getItem(i - left.getSize()) : left.getItem(i);
+	}
 
-    public ItemStack splitWithoutUpdate(int i) {
-        return i >= this.left.getSize() ? this.right.splitWithoutUpdate(i - this.left.getSize()) : this.left.splitWithoutUpdate(i);
-    }
+	@Override
+	public ItemStack splitStack(int i, int j) {
+		return i >= left.getSize() ? right.splitStack(i - left.getSize(), j) : left.splitStack(i, j);
+	}
 
-    public void setItem(int i, ItemStack itemstack) {
-        if (i >= this.left.getSize()) {
-            this.right.setItem(i - this.left.getSize(), itemstack);
-        } else {
-            this.left.setItem(i, itemstack);
-        }
-    }
+	@Override
+	public ItemStack splitWithoutUpdate(int i) {
+		return i >= left.getSize() ? right.splitWithoutUpdate(i - left.getSize()) : left.splitWithoutUpdate(i);
+	}
 
-    public int getMaxStackSize() {
-        return Math.min(this.left.getMaxStackSize(), this.right.getMaxStackSize()); // CraftBukkit - check both sides
-    }
+	@Override
+	public void setItem(int i, ItemStack itemstack) {
+		if (i >= left.getSize()) {
+			right.setItem(i - left.getSize(), itemstack);
+		} else {
+			left.setItem(i, itemstack);
+		}
+	}
 
-    public void update() {
-        this.left.update();
-        this.right.update();
-    }
+	@Override
+	public int getMaxStackSize() {
+		return Math.min(left.getMaxStackSize(), right.getMaxStackSize()); // CraftBukkit - check both sides
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return this.left.a(entityhuman) && this.right.a(entityhuman);
-    }
+	@Override
+	public void update() {
+		left.update();
+		right.update();
+	}
 
-    public void startOpen() {
-        this.left.startOpen();
-        this.right.startOpen();
-    }
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return left.a(entityhuman) && right.a(entityhuman);
+	}
 
-    public void closeContainer() {
-        this.left.closeContainer();
-        this.right.closeContainer();
-    }
+	@Override
+	public void startOpen() {
+		left.startOpen();
+		right.startOpen();
+	}
 
-    public boolean b(int i, ItemStack itemstack) {
-        return true;
-    }
+	@Override
+	public void closeContainer() {
+		left.closeContainer();
+		right.closeContainer();
+	}
+
+	@Override
+	public boolean b(int i, ItemStack itemstack) {
+		return true;
+	}
 }

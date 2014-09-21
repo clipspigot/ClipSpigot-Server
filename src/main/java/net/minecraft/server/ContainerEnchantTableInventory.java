@@ -5,54 +5,64 @@ import java.util.List;
 
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
+
 // CraftBukkit end
 
 public class ContainerEnchantTableInventory extends InventorySubcontainer { // CraftBukkit -> public
 
-    final ContainerEnchantTable enchantTable;
+	final ContainerEnchantTable enchantTable;
 
-    // CraftBukkit start
-    public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
-    public org.bukkit.entity.Player player;
-    private int maxStack = MAX_STACK;
+	// CraftBukkit start
+	public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
+	public org.bukkit.entity.Player player;
+	private int maxStack = MAX_STACK;
 
-    public ItemStack[] getContents() {
-        return this.items;
-    }
+	@Override
+	public ItemStack[] getContents() {
+		return items;
+	}
 
-    public void onOpen(CraftHumanEntity who) {
-        transaction.add(who);
-    }
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+		transaction.add(who);
+	}
 
-    public void onClose(CraftHumanEntity who) {
-        transaction.remove(who);
-    }
+	@Override
+	public void onClose(CraftHumanEntity who) {
+		transaction.remove(who);
+	}
 
-    public List<HumanEntity> getViewers() {
-        return transaction;
-    }
+	@Override
+	public List<HumanEntity> getViewers() {
+		return transaction;
+	}
 
-    public org.bukkit.inventory.InventoryHolder getOwner() {
-        return this.player;
-    }
+	@Override
+	public org.bukkit.inventory.InventoryHolder getOwner() {
+		return player;
+	}
 
-    public void setMaxStackSize(int size) {
-        maxStack = size;
-    }
-    // CraftBukkit end
+	@Override
+	public void setMaxStackSize(int size) {
+		maxStack = size;
+	}
 
-    ContainerEnchantTableInventory(ContainerEnchantTable containerenchanttable, String s, boolean flag, int i) {
-        super(s, flag, i);
-        this.enchantTable = containerenchanttable;
-        this.setMaxStackSize(1); // CraftBukkit
-    }
+	// CraftBukkit end
 
-    public int getMaxStackSize() {
-        return maxStack; // CraftBukkit
-    }
+	ContainerEnchantTableInventory(ContainerEnchantTable containerenchanttable, String s, boolean flag, int i) {
+		super(s, flag, i);
+		enchantTable = containerenchanttable;
+		setMaxStackSize(1); // CraftBukkit
+	}
 
-    public void update() {
-        super.update();
-        this.enchantTable.a((IInventory) this);
-    }
+	@Override
+	public int getMaxStackSize() {
+		return maxStack; // CraftBukkit
+	}
+
+	@Override
+	public void update() {
+		super.update();
+		enchantTable.a(this);
+	}
 }

@@ -4,105 +4,110 @@ import java.util.List;
 
 public class PacketPlayOutSpawnEntityLiving extends Packet {
 
-    private int a;
-    private int b;
-    private int c;
-    private int d;
-    private int e;
-    private int f;
-    private int g;
-    private int h;
-    private byte i;
-    private byte j;
-    private byte k;
-    private DataWatcher l;
-    private List m;
+	private int a;
+	private int b;
+	private int c;
+	private int d;
+	private int e;
+	private int f;
+	private int g;
+	private int h;
+	private byte i;
+	private byte j;
+	private byte k;
+	private DataWatcher l;
+	private List m;
 
-    public PacketPlayOutSpawnEntityLiving() {}
+	public PacketPlayOutSpawnEntityLiving() {
+	}
 
-    public PacketPlayOutSpawnEntityLiving(EntityLiving entityliving) {
-        this.a = entityliving.getId();
-        this.b = (byte) EntityTypes.a(entityliving);
-        this.c = entityliving.as.a(entityliving.locX);
-        this.d = MathHelper.floor(entityliving.locY * 32.0D);
-        this.e = entityliving.as.a(entityliving.locZ);
-        this.i = (byte) ((int) (entityliving.yaw * 256.0F / 360.0F));
-        this.j = (byte) ((int) (entityliving.pitch * 256.0F / 360.0F));
-        this.k = (byte) ((int) (entityliving.aO * 256.0F / 360.0F));
-        double d0 = 3.9D;
-        double d1 = entityliving.motX;
-        double d2 = entityliving.motY;
-        double d3 = entityliving.motZ;
+	public PacketPlayOutSpawnEntityLiving(EntityLiving entityliving) {
+		a = entityliving.getId();
+		b = (byte) EntityTypes.a(entityliving);
+		c = entityliving.as.a(entityliving.locX);
+		d = MathHelper.floor(entityliving.locY * 32.0D);
+		e = entityliving.as.a(entityliving.locZ);
+		i = (byte) (int) (entityliving.yaw * 256.0F / 360.0F);
+		j = (byte) (int) (entityliving.pitch * 256.0F / 360.0F);
+		k = (byte) (int) (entityliving.aO * 256.0F / 360.0F);
+		double d0 = 3.9D;
+		double d1 = entityliving.motX;
+		double d2 = entityliving.motY;
+		double d3 = entityliving.motZ;
 
-        if (d1 < -d0) {
-            d1 = -d0;
-        }
+		if (d1 < -d0) {
+			d1 = -d0;
+		}
 
-        if (d2 < -d0) {
-            d2 = -d0;
-        }
+		if (d2 < -d0) {
+			d2 = -d0;
+		}
 
-        if (d3 < -d0) {
-            d3 = -d0;
-        }
+		if (d3 < -d0) {
+			d3 = -d0;
+		}
 
-        if (d1 > d0) {
-            d1 = d0;
-        }
+		if (d1 > d0) {
+			d1 = d0;
+		}
 
-        if (d2 > d0) {
-            d2 = d0;
-        }
+		if (d2 > d0) {
+			d2 = d0;
+		}
 
-        if (d3 > d0) {
-            d3 = d0;
-        }
+		if (d3 > d0) {
+			d3 = d0;
+		}
 
-        this.f = (int) (d1 * 8000.0D);
-        this.g = (int) (d2 * 8000.0D);
-        this.h = (int) (d3 * 8000.0D);
-        this.l = entityliving.getDataWatcher();
-    }
+		f = (int) (d1 * 8000.0D);
+		g = (int) (d2 * 8000.0D);
+		h = (int) (d3 * 8000.0D);
+		l = entityliving.getDataWatcher();
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = packetdataserializer.a();
-        this.b = packetdataserializer.readByte() & 255;
-        this.c = packetdataserializer.readInt();
-        this.d = packetdataserializer.readInt();
-        this.e = packetdataserializer.readInt();
-        this.i = packetdataserializer.readByte();
-        this.j = packetdataserializer.readByte();
-        this.k = packetdataserializer.readByte();
-        this.f = packetdataserializer.readShort();
-        this.g = packetdataserializer.readShort();
-        this.h = packetdataserializer.readShort();
-        this.m = DataWatcher.b(packetdataserializer);
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = packetdataserializer.a();
+		b = packetdataserializer.readByte() & 255;
+		c = packetdataserializer.readInt();
+		d = packetdataserializer.readInt();
+		e = packetdataserializer.readInt();
+		i = packetdataserializer.readByte();
+		j = packetdataserializer.readByte();
+		k = packetdataserializer.readByte();
+		f = packetdataserializer.readShort();
+		g = packetdataserializer.readShort();
+		h = packetdataserializer.readShort();
+		m = DataWatcher.b(packetdataserializer);
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        packetdataserializer.b(this.a);
-        packetdataserializer.writeByte(this.b & 255);
-        packetdataserializer.writeInt(this.c);
-        packetdataserializer.writeInt(this.d);
-        packetdataserializer.writeInt(this.e);
-        packetdataserializer.writeByte(this.i);
-        packetdataserializer.writeByte(this.j);
-        packetdataserializer.writeByte(this.k);
-        packetdataserializer.writeShort(this.f);
-        packetdataserializer.writeShort(this.g);
-        packetdataserializer.writeShort(this.h);
-        this.l.a(packetdataserializer, packetdataserializer.version); // Spigot
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		packetdataserializer.b(a);
+		packetdataserializer.writeByte(b & 255);
+		packetdataserializer.writeInt(c);
+		packetdataserializer.writeInt(d);
+		packetdataserializer.writeInt(e);
+		packetdataserializer.writeByte(i);
+		packetdataserializer.writeByte(j);
+		packetdataserializer.writeByte(k);
+		packetdataserializer.writeShort(f);
+		packetdataserializer.writeShort(g);
+		packetdataserializer.writeShort(h);
+		l.a(packetdataserializer, packetdataserializer.version); // Spigot
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public String b() {
-        return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f, xd=%.2f, yd=%.2f, zd=%.2f", new Object[] { Integer.valueOf(this.a), Integer.valueOf(this.b), Float.valueOf((float) this.c / 32.0F), Float.valueOf((float) this.d / 32.0F), Float.valueOf((float) this.e / 32.0F), Float.valueOf((float) this.f / 8000.0F), Float.valueOf((float) this.g / 8000.0F), Float.valueOf((float) this.h / 8000.0F)});
-    }
+	@Override
+	public String b() {
+		return String.format("id=%d, type=%d, x=%.2f, y=%.2f, z=%.2f, xd=%.2f, yd=%.2f, zd=%.2f", new Object[] { Integer.valueOf(a), Integer.valueOf(b), Float.valueOf(c / 32.0F), Float.valueOf(d / 32.0F), Float.valueOf(e / 32.0F), Float.valueOf(f / 8000.0F), Float.valueOf(g / 8000.0F), Float.valueOf(h / 8000.0F) });
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

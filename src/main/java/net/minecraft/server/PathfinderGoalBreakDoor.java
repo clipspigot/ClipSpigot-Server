@@ -2,58 +2,63 @@ package net.minecraft.server;
 
 public class PathfinderGoalBreakDoor extends PathfinderGoalDoorInteract {
 
-    private int i;
-    private int j = -1;
+	private int i;
+	private int j = -1;
 
-    public PathfinderGoalBreakDoor(EntityInsentient entityinsentient) {
-        super(entityinsentient);
-    }
+	public PathfinderGoalBreakDoor(EntityInsentient entityinsentient) {
+		super(entityinsentient);
+	}
 
-    public boolean a() {
-        return !super.a() ? false : (!this.a.world.getGameRules().getBoolean("mobGriefing") ? false : !this.e.f((IBlockAccess) this.a.world, this.b, this.c, this.d)); // CraftBukkit - Fix decompilation issue by casting world to IBlockAccess
-    }
+	@Override
+	public boolean a() {
+		return !super.a() ? false : !a.world.getGameRules().getBoolean("mobGriefing") ? false : !e.f((IBlockAccess) a.world, b, c, d); // CraftBukkit - Fix decompilation issue by casting world to IBlockAccess
+	}
 
-    public void c() {
-        super.c();
-        this.i = 0;
-    }
+	@Override
+	public void c() {
+		super.c();
+		i = 0;
+	}
 
-    public boolean b() {
-        double d0 = this.a.e((double) this.b, (double) this.c, (double) this.d);
+	@Override
+	public boolean b() {
+		double d0 = a.e(b, c, d);
 
-        return this.i <= 240 && !this.e.f((IBlockAccess) this.a.world, this.b, this.c, this.d) && d0 < 4.0D; // CraftBukkit - Fix decompilation issue by casting world to IBlockAccess
-    }
+		return i <= 240 && !e.f((IBlockAccess) a.world, b, c, d) && d0 < 4.0D; // CraftBukkit - Fix decompilation issue by casting world to IBlockAccess
+	}
 
-    public void d() {
-        super.d();
-        this.a.world.d(this.a.getId(), this.b, this.c, this.d, -1);
-    }
+	@Override
+	public void d() {
+		super.d();
+		a.world.d(a.getId(), b, c, d, -1);
+	}
 
-    public void e() {
-        super.e();
-        if (this.a.aI().nextInt(20) == 0) {
-            this.a.world.triggerEffect(1010, this.b, this.c, this.d, 0);
-        }
+	@Override
+	public void e() {
+		super.e();
+		if (a.aI().nextInt(20) == 0) {
+			a.world.triggerEffect(1010, b, c, d, 0);
+		}
 
-        ++this.i;
-        int i = (int) ((float) this.i / 240.0F * 10.0F);
+		++i;
+		int i = (int) (this.i / 240.0F * 10.0F);
 
-        if (i != this.j) {
-            this.a.world.d(this.a.getId(), this.b, this.c, this.d, i);
-            this.j = i;
-        }
+		if (i != j) {
+			a.world.d(a.getId(), b, c, d, i);
+			j = i;
+		}
 
-        if (this.i == 240 && this.a.world.difficulty == EnumDifficulty.HARD) {
-            // CraftBukkit start
-            if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityBreakDoorEvent(this.a, this.b, this.c, this.d).isCancelled()) {
-                this.c();
-                return;
-            }
-            // CraftBukkit end
+		if (this.i == 240 && a.world.difficulty == EnumDifficulty.HARD) {
+			// CraftBukkit start
+			if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityBreakDoorEvent(a, b, c, d).isCancelled()) {
+				c();
+				return;
+			}
+			// CraftBukkit end
 
-            this.a.world.setAir(this.b, this.c, this.d);
-            this.a.world.triggerEffect(1012, this.b, this.c, this.d, 0);
-            this.a.world.triggerEffect(2001, this.b, this.c, this.d, Block.getId(this.e));
-        }
-    }
+			a.world.setAir(b, c, d);
+			a.world.triggerEffect(1012, b, c, d, 0);
+			a.world.triggerEffect(2001, b, c, d, Block.getId(e));
+		}
+	}
 }

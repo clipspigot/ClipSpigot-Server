@@ -1,6 +1,5 @@
 package net.minecraft.server;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -9,281 +8,280 @@ import java.util.Random;
 import org.bukkit.craftbukkit.util.LongHash;
 import org.bukkit.craftbukkit.util.LongObjectHashMap;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+
 // CraftBukkit end
 
 public final class SpawnerCreature {
 
-    private LongObjectHashMap<Boolean> a = new LongObjectHashMap<Boolean>(); // CraftBukkit - HashMap -> LongObjectHashMap
+	private LongObjectHashMap<Boolean> a = new LongObjectHashMap<Boolean>(); // CraftBukkit - HashMap -> LongObjectHashMap
 
-    public SpawnerCreature() {}
+	public SpawnerCreature() {
+	}
 
-    protected static ChunkPosition getRandomPosition(World world, int i, int j) {
-        Chunk chunk = world.getChunkAt(i, j);
-        int k = i * 16 + world.random.nextInt(16);
-        int l = j * 16 + world.random.nextInt(16);
-        int i1 = world.random.nextInt(chunk == null ? world.S() : chunk.h() + 16 - 1);
+	protected static ChunkPosition getRandomPosition(World world, int i, int j) {
+		Chunk chunk = world.getChunkAt(i, j);
+		int k = i * 16 + world.random.nextInt(16);
+		int l = j * 16 + world.random.nextInt(16);
+		int i1 = world.random.nextInt(chunk == null ? world.S() : chunk.h() + 16 - 1);
 
-        return new ChunkPosition(k, i1, l);
-    }
+		return new ChunkPosition(k, i1, l);
+	}
 
-    // Spigot start - get entity count only from chunks being processed in b
-    private int getEntityCount(WorldServer server, Class oClass)
-    {
-        int i = 0;
-        for ( Long coord : this.a.keySet() )
-        {
-            int x = LongHash.msw( coord );
-            int z = LongHash.lsw( coord );
-            if ( !server.chunkProviderServer.unloadQueue.contains( coord ) && server.isChunkLoaded( x, z ) )
-            {
-                i += server.getChunkAt( x, z ).entityCount.get( oClass );
-            }
-        }
-        return i;
-    }
-    // Spigot end
+	// Spigot start - get entity count only from chunks being processed in b
+	private int getEntityCount(WorldServer server, Class oClass) {
+		int i = 0;
+		for (Long coord : a.keySet()) {
+			int x = LongHash.msw(coord);
+			int z = LongHash.lsw(coord);
+			if (!server.chunkProviderServer.unloadQueue.contains(coord) && server.isChunkLoaded(x, z)) {
+				i += server.getChunkAt(x, z).entityCount.get(oClass);
+			}
+		}
+		return i;
+	}
 
-    public int spawnEntities(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2) {
-        if (!flag && !flag1) {
-            return 0;
-        } else {
-            this.a.clear();
+	// Spigot end
 
-            int i;
-            int j;
+	public int spawnEntities(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2) {
+		if (!flag && !flag1)
+			return 0;
+		else {
+			a.clear();
 
-            for (i = 0; i < worldserver.players.size(); ++i) {
-                EntityHuman entityhuman = (EntityHuman) worldserver.players.get(i);
-                // PaperSpigot start - Affects spawning API
-                if (!entityhuman.affectsSpawning)
-                    continue;
-                // PaperSpigot end
-                int k = MathHelper.floor(entityhuman.locX / 16.0D);
+			int i;
+			int j;
 
-                j = MathHelper.floor(entityhuman.locZ / 16.0D);
-                byte b0 = 8;
-                // Spigot Start
-                b0 = worldserver.spigotConfig.mobSpawnRange;
-                b0 = ( b0 > worldserver.spigotConfig.viewDistance ) ? (byte) worldserver.spigotConfig.viewDistance : b0;
-                b0 = ( b0 > 8 ) ? 8 : b0;
-                // Spigot End
+			for (i = 0; i < worldserver.players.size(); ++i) {
+				EntityHuman entityhuman = (EntityHuman) worldserver.players.get(i);
+				// PaperSpigot start - Affects spawning API
+				if (!entityhuman.affectsSpawning) {
+					continue;
+				}
+				// PaperSpigot end
+				int k = MathHelper.floor(entityhuman.locX / 16.0D);
 
-                for (int l = -b0; l <= b0; ++l) {
-                    for (int i1 = -b0; i1 <= b0; ++i1) {
-                        boolean flag3 = l == -b0 || l == b0 || i1 == -b0 || i1 == b0;
+				j = MathHelper.floor(entityhuman.locZ / 16.0D);
+				byte b0 = 8;
+				// Spigot Start
+				b0 = worldserver.spigotConfig.mobSpawnRange;
+				b0 = b0 > worldserver.spigotConfig.viewDistance ? (byte) worldserver.spigotConfig.viewDistance : b0;
+				b0 = b0 > 8 ? 8 : b0;
+				// Spigot End
 
-                        // CraftBukkit start - use LongHash and LongObjectHashMap
-                        long chunkCoords = LongHash.toLong(l + k, i1 + j);
+				for (int l = -b0; l <= b0; ++l) {
+					for (int i1 = -b0; i1 <= b0; ++i1) {
+						boolean flag3 = l == -b0 || l == b0 || i1 == -b0 || i1 == b0;
 
-                        if (!flag3) {
-                            this.a.put(chunkCoords, false);
-                        } else if (!this.a.containsKey(chunkCoords)) {
-                            this.a.put(chunkCoords, true);
-                        }
-                        // CraftBukkit end
-                    }
-                }
-            }
+						// CraftBukkit start - use LongHash and LongObjectHashMap
+						long chunkCoords = LongHash.toLong(l + k, i1 + j);
 
-            i = 0;
-            ChunkCoordinates chunkcoordinates = worldserver.getSpawn();
-            EnumCreatureType[] aenumcreaturetype = EnumCreatureType.values();
+						if (!flag3) {
+							a.put(chunkCoords, false);
+						} else if (!a.containsKey(chunkCoords)) {
+							a.put(chunkCoords, true);
+						}
+						// CraftBukkit end
+					}
+				}
+			}
 
-            j = aenumcreaturetype.length;
+			i = 0;
+			ChunkCoordinates chunkcoordinates = worldserver.getSpawn();
+			EnumCreatureType[] aenumcreaturetype = EnumCreatureType.values();
 
-            for (int j1 = 0; j1 < j; ++j1) {
-                EnumCreatureType enumcreaturetype = aenumcreaturetype[j1];
+			j = aenumcreaturetype.length;
 
-                // CraftBukkit start - Use per-world spawn limits
-                int limit = enumcreaturetype.b();
-                switch (enumcreaturetype) {
-                    case MONSTER:
-                        limit = worldserver.getWorld().getMonsterSpawnLimit();
-                        break;
-                    case CREATURE:
-                        limit = worldserver.getWorld().getAnimalSpawnLimit();
-                        break;
-                    case WATER_CREATURE:
-                        limit = worldserver.getWorld().getWaterAnimalSpawnLimit();
-                        break;
-                    case AMBIENT:
-                        limit = worldserver.getWorld().getAmbientSpawnLimit();
-                        break;
-                }
+			for (int j1 = 0; j1 < j; ++j1) {
+				EnumCreatureType enumcreaturetype = aenumcreaturetype[j1];
 
-                if (limit == 0) {
-                    continue;
-                }
-                int mobcnt = 0;
-                // CraftBukkit end
+				// CraftBukkit start - Use per-world spawn limits
+				int limit = enumcreaturetype.b();
+				switch (enumcreaturetype) {
+				case MONSTER:
+					limit = worldserver.getWorld().getMonsterSpawnLimit();
+					break;
+				case CREATURE:
+					limit = worldserver.getWorld().getAnimalSpawnLimit();
+					break;
+				case WATER_CREATURE:
+					limit = worldserver.getWorld().getWaterAnimalSpawnLimit();
+					break;
+				case AMBIENT:
+					limit = worldserver.getWorld().getAmbientSpawnLimit();
+					break;
+				}
 
-                if ((!enumcreaturetype.d() || flag1) && (enumcreaturetype.d() || flag) && (!enumcreaturetype.e() || flag2) && (mobcnt = getEntityCount(worldserver, enumcreaturetype.a())) <= limit * this.a.size() / 256) { // Spigot - use per-world limits and use all loaded chunks
-                    Iterator iterator = this.a.keySet().iterator();
+				if (limit == 0) {
+					continue;
+				}
+				int mobcnt = 0;
+				// CraftBukkit end
 
-                    int moblimit = (limit * this.a.size() / 256) - mobcnt + 1; // Spigot - up to 1 more than limit
-                    label110:
-                    while (iterator.hasNext() && (moblimit > 0)) { // Spigot - while more allowed
-                        // CraftBukkit start = use LongHash and LongObjectHashMap
-                        long key = ((Long) iterator.next()).longValue();
+				if ((!enumcreaturetype.d() || flag1) && (enumcreaturetype.d() || flag) && (!enumcreaturetype.e() || flag2) && (mobcnt = getEntityCount(worldserver, enumcreaturetype.a())) <= limit * a.size() / 256) { // Spigot - use per-world limits and use all loaded chunks
+					Iterator iterator = a.keySet().iterator();
 
-                        if (!this.a.get(key)) {
-                            ChunkPosition chunkposition = getRandomPosition(worldserver, LongHash.msw(key), LongHash.lsw(key));
-                            // CraftBukkit end
-                            int k1 = chunkposition.x;
-                            int l1 = chunkposition.y;
-                            int i2 = chunkposition.z;
+					int moblimit = limit * a.size() / 256 - mobcnt + 1; // Spigot - up to 1 more than limit
+					label110: while (iterator.hasNext() && moblimit > 0) { // Spigot - while more allowed
+						// CraftBukkit start = use LongHash and LongObjectHashMap
+						long key = ((Long) iterator.next()).longValue();
 
-                            if (!worldserver.getType(k1, l1, i2).r() && worldserver.getType(k1, l1, i2).getMaterial() == enumcreaturetype.c()) {
-                                int j2 = 0;
-                                int k2 = 0;
+						if (!a.get(key)) {
+							ChunkPosition chunkposition = getRandomPosition(worldserver, LongHash.msw(key), LongHash.lsw(key));
+							// CraftBukkit end
+							int k1 = chunkposition.x;
+							int l1 = chunkposition.y;
+							int i2 = chunkposition.z;
 
-                                while (k2 < 3) {
-                                    int l2 = k1;
-                                    int i3 = l1;
-                                    int j3 = i2;
-                                    byte b1 = 6;
-                                    BiomeMeta biomemeta = null;
-                                    GroupDataEntity groupdataentity = null;
-                                    int k3 = 0;
+							if (!worldserver.getType(k1, l1, i2).r() && worldserver.getType(k1, l1, i2).getMaterial() == enumcreaturetype.c()) {
+								int j2 = 0;
+								int k2 = 0;
 
-                                    while (true) {
-                                        if (k3 < 4) {
-                                            label103: {
-                                                l2 += worldserver.random.nextInt(b1) - worldserver.random.nextInt(b1);
-                                                i3 += worldserver.random.nextInt(1) - worldserver.random.nextInt(1);
-                                                j3 += worldserver.random.nextInt(b1) - worldserver.random.nextInt(b1);
-                                                if (a(enumcreaturetype, worldserver, l2, i3, j3)) {
-                                                    float f = (float) l2 + 0.5F;
-                                                    float f1 = (float) i3;
-                                                    float f2 = (float) j3 + 0.5F;
+								while (k2 < 3) {
+									int l2 = k1;
+									int i3 = l1;
+									int j3 = i2;
+									byte b1 = 6;
+									BiomeMeta biomemeta = null;
+									GroupDataEntity groupdataentity = null;
+									int k3 = 0;
 
-                                                    if (worldserver.findNearbyPlayerWhoAffectsSpawning((double) f, (double) f1, (double) f2, 24.0D) == null) { // PaperSpigot
-                                                        float f3 = f - (float) chunkcoordinates.x;
-                                                        float f4 = f1 - (float) chunkcoordinates.y;
-                                                        float f5 = f2 - (float) chunkcoordinates.z;
-                                                        float f6 = f3 * f3 + f4 * f4 + f5 * f5;
+									while (true) {
+										if (k3 < 4) {
+											label103: {
+												l2 += worldserver.random.nextInt(b1) - worldserver.random.nextInt(b1);
+												i3 += worldserver.random.nextInt(1) - worldserver.random.nextInt(1);
+												j3 += worldserver.random.nextInt(b1) - worldserver.random.nextInt(b1);
+												if (a(enumcreaturetype, worldserver, l2, i3, j3)) {
+													float f = l2 + 0.5F;
+													float f1 = i3;
+													float f2 = j3 + 0.5F;
 
-                                                        if (f6 >= 576.0F) {
-                                                            if (biomemeta == null) {
-                                                                biomemeta = worldserver.a(enumcreaturetype, l2, i3, j3);
-                                                                if (biomemeta == null) {
-                                                                    break label103;
-                                                                }
-                                                            }
+													if (worldserver.findNearbyPlayerWhoAffectsSpawning(f, f1, f2, 24.0D) == null) { // PaperSpigot
+														float f3 = f - chunkcoordinates.x;
+														float f4 = f1 - chunkcoordinates.y;
+														float f5 = f2 - chunkcoordinates.z;
+														float f6 = f3 * f3 + f4 * f4 + f5 * f5;
 
-                                                            EntityInsentient entityinsentient;
+														if (f6 >= 576.0F) {
+															if (biomemeta == null) {
+																biomemeta = worldserver.a(enumcreaturetype, l2, i3, j3);
+																if (biomemeta == null) {
+																	break label103;
+																}
+															}
 
-                                                            try {
-                                                                entityinsentient = (EntityInsentient) biomemeta.b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { worldserver});
-                                                            } catch (Exception exception) {
-                                                                exception.printStackTrace();
-                                                                return i;
-                                                            }
+															EntityInsentient entityinsentient;
 
-                                                            entityinsentient.setPositionRotation((double) f, (double) f1, (double) f2, worldserver.random.nextFloat() * 360.0F, 0.0F);
-                                                            if (entityinsentient.canSpawn()) {
-                                                                ++j2;
-                                                                // CraftBukkit start - Added a reason for spawning this creature, moved entityinsentient.a(groupdataentity) up
-                                                                groupdataentity = entityinsentient.prepare(groupdataentity);
-                                                                worldserver.addEntity(entityinsentient, SpawnReason.NATURAL);
-                                                                // CraftBukkit end
-                                                                // Spigot start
-                                                                if ( --moblimit <= 0 )
-                                                                {
-                                                                    // If we're past limit, stop spawn
-                                                                    continue label110;
-                                                                }
-                                                                // Spigot end
-                                                                if (j2 >= entityinsentient.bB()) {
-                                                                    continue label110;
-                                                                }
-                                                            }
+															try {
+																entityinsentient = (EntityInsentient) biomemeta.b.getConstructor(new Class[] { World.class }).newInstance(new Object[] { worldserver });
+															} catch (Exception exception) {
+																exception.printStackTrace();
+																return i;
+															}
 
-                                                            i += j2;
-                                                        }
-                                                    }
-                                                }
+															entityinsentient.setPositionRotation(f, f1, f2, worldserver.random.nextFloat() * 360.0F, 0.0F);
+															if (entityinsentient.canSpawn()) {
+																++j2;
+																// CraftBukkit start - Added a reason for spawning this creature, moved entityinsentient.a(groupdataentity) up
+																groupdataentity = entityinsentient.prepare(groupdataentity);
+																worldserver.addEntity(entityinsentient, SpawnReason.NATURAL);
+																// CraftBukkit end
+																// Spigot start
+																if (--moblimit <= 0) {
+																	// If we're past limit, stop spawn
+																	continue label110;
+																}
+																// Spigot end
+																if (j2 >= entityinsentient.bB()) {
+																	continue label110;
+																}
+															}
 
-                                                ++k3;
-                                                continue;
-                                            }
-                                        }
+															i += j2;
+														}
+													}
+												}
 
-                                        ++k2;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+												++k3;
+												continue;
+											}
+										}
 
-            return i;
-        }
-    }
+										++k2;
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
-    public static boolean a(EnumCreatureType enumcreaturetype, World world, int i, int j, int k) {
-        if (enumcreaturetype.c() == Material.WATER) {
-            return world.getType(i, j, k).getMaterial().isLiquid() && world.getType(i, j - 1, k).getMaterial().isLiquid() && !world.getType(i, j + 1, k).r();
-        } else if (!World.a((IBlockAccess) world, i, j - 1, k)) {
-            return false;
-        } else {
-            Block block = world.getType(i, j - 1, k);
+			return i;
+		}
+	}
 
-            return block != Blocks.BEDROCK && !world.getType(i, j, k).r() && !world.getType(i, j, k).getMaterial().isLiquid() && !world.getType(i, j + 1, k).r();
-        }
-    }
+	public static boolean a(EnumCreatureType enumcreaturetype, World world, int i, int j, int k) {
+		if (enumcreaturetype.c() == Material.WATER)
+			return world.getType(i, j, k).getMaterial().isLiquid() && world.getType(i, j - 1, k).getMaterial().isLiquid() && !world.getType(i, j + 1, k).r();
+		else if (!World.a(world, i, j - 1, k))
+			return false;
+		else {
+			Block block = world.getType(i, j - 1, k);
 
-    public static void a(World world, BiomeBase biomebase, int i, int j, int k, int l, Random random) {
-        List list = biomebase.getMobs(EnumCreatureType.CREATURE);
+			return block != Blocks.BEDROCK && !world.getType(i, j, k).r() && !world.getType(i, j, k).getMaterial().isLiquid() && !world.getType(i, j + 1, k).r();
+		}
+	}
 
-        if (!list.isEmpty()) {
-            while (random.nextFloat() < biomebase.g()) {
-                BiomeMeta biomemeta = (BiomeMeta) WeightedRandom.a(world.random, (Collection) list);
-                GroupDataEntity groupdataentity = null;
-                int i1 = biomemeta.c + random.nextInt(1 + biomemeta.d - biomemeta.c);
-                int j1 = i + random.nextInt(k);
-                int k1 = j + random.nextInt(l);
-                int l1 = j1;
-                int i2 = k1;
+	public static void a(World world, BiomeBase biomebase, int i, int j, int k, int l, Random random) {
+		List list = biomebase.getMobs(EnumCreatureType.CREATURE);
 
-                for (int j2 = 0; j2 < i1; ++j2) {
-                    boolean flag = false;
+		if (!list.isEmpty()) {
+			while (random.nextFloat() < biomebase.g()) {
+				BiomeMeta biomemeta = (BiomeMeta) WeightedRandom.a(world.random, list);
+				GroupDataEntity groupdataentity = null;
+				int i1 = biomemeta.c + random.nextInt(1 + biomemeta.d - biomemeta.c);
+				int j1 = i + random.nextInt(k);
+				int k1 = j + random.nextInt(l);
+				int l1 = j1;
+				int i2 = k1;
 
-                    for (int k2 = 0; !flag && k2 < 4; ++k2) {
-                        int l2 = world.i(j1, k1);
+				for (int j2 = 0; j2 < i1; ++j2) {
+					boolean flag = false;
 
-                        if (a(EnumCreatureType.CREATURE, world, j1, l2, k1)) {
-                            float f = (float) j1 + 0.5F;
-                            float f1 = (float) l2;
-                            float f2 = (float) k1 + 0.5F;
+					for (int k2 = 0; !flag && k2 < 4; ++k2) {
+						int l2 = world.i(j1, k1);
 
-                            EntityInsentient entityinsentient;
+						if (a(EnumCreatureType.CREATURE, world, j1, l2, k1)) {
+							float f = j1 + 0.5F;
+							float f1 = l2;
+							float f2 = k1 + 0.5F;
 
-                            try {
-                                entityinsentient = (EntityInsentient) biomemeta.b.getConstructor(new Class[] { World.class}).newInstance(new Object[] { world});
-                            } catch (Exception exception) {
-                                exception.printStackTrace();
-                                continue;
-                            }
+							EntityInsentient entityinsentient;
 
-                            entityinsentient.setPositionRotation((double) f, (double) f1, (double) f2, random.nextFloat() * 360.0F, 0.0F);
-                            // CraftBukkit start - Added a reason for spawning this creature, moved entityinsentient.a(groupdataentity) up
-                            groupdataentity = entityinsentient.prepare(groupdataentity);
-                            world.addEntity(entityinsentient, SpawnReason.CHUNK_GEN);
-                            // CraftBukkit end
-                            flag = true;
-                        }
+							try {
+								entityinsentient = (EntityInsentient) biomemeta.b.getConstructor(new Class[] { World.class }).newInstance(new Object[] { world });
+							} catch (Exception exception) {
+								exception.printStackTrace();
+								continue;
+							}
 
-                        j1 += random.nextInt(5) - random.nextInt(5);
+							entityinsentient.setPositionRotation(f, f1, f2, random.nextFloat() * 360.0F, 0.0F);
+							// CraftBukkit start - Added a reason for spawning this creature, moved entityinsentient.a(groupdataentity) up
+							groupdataentity = entityinsentient.prepare(groupdataentity);
+							world.addEntity(entityinsentient, SpawnReason.CHUNK_GEN);
+							// CraftBukkit end
+							flag = true;
+						}
 
-                        for (k1 += random.nextInt(5) - random.nextInt(5); j1 < i || j1 >= i + k || k1 < j || k1 >= j + k; k1 = i2 + random.nextInt(5) - random.nextInt(5)) {
-                            j1 = l1 + random.nextInt(5) - random.nextInt(5);
-                        }
-                    }
-                }
-            }
-        }
-    }
+						j1 += random.nextInt(5) - random.nextInt(5);
+
+						for (k1 += random.nextInt(5) - random.nextInt(5); j1 < i || j1 >= i + k || k1 < j || k1 >= j + k; k1 = i2 + random.nextInt(5) - random.nextInt(5)) {
+							j1 = l1 + random.nextInt(5) - random.nextInt(5);
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -2,71 +2,73 @@ package net.minecraft.server;
 
 public class PathfinderGoalTame extends PathfinderGoal {
 
-    private EntityHorse entity;
-    private double b;
-    private double c;
-    private double d;
-    private double e;
+	private EntityHorse entity;
+	private double b;
+	private double c;
+	private double d;
+	private double e;
 
-    public PathfinderGoalTame(EntityHorse entityhorse, double d0) {
-        this.entity = entityhorse;
-        this.b = d0;
-        this.a(1);
-    }
+	public PathfinderGoalTame(EntityHorse entityhorse, double d0) {
+		entity = entityhorse;
+		b = d0;
+		this.a(1);
+	}
 
-    public boolean a() {
-        if (!this.entity.isTame() && this.entity.passenger != null) {
-            Vec3D vec3d = RandomPositionGenerator.a(this.entity, 5, 4);
+	@Override
+	public boolean a() {
+		if (!entity.isTame() && entity.passenger != null) {
+			Vec3D vec3d = RandomPositionGenerator.a(entity, 5, 4);
 
-            if (vec3d == null) {
-                return false;
-            } else {
-                this.c = vec3d.a;
-                this.d = vec3d.b;
-                this.e = vec3d.c;
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
+			if (vec3d == null)
+				return false;
+			else {
+				c = vec3d.a;
+				d = vec3d.b;
+				e = vec3d.c;
+				return true;
+			}
+		} else
+			return false;
+	}
 
-    public void c() {
-        this.entity.getNavigation().a(this.c, this.d, this.e, this.b);
-    }
+	@Override
+	public void c() {
+		entity.getNavigation().a(c, d, e, b);
+	}
 
-    public boolean b() {
-        return !this.entity.getNavigation().g() && this.entity.passenger != null;
-    }
+	@Override
+	public boolean b() {
+		return !entity.getNavigation().g() && entity.passenger != null;
+	}
 
-    public void e() {
-        if (this.entity.aI().nextInt(50) == 0) {
-            if (this.entity.passenger instanceof EntityHuman) {
-                int i = this.entity.getTemper();
-                int j = this.entity.getMaxDomestication();
+	@Override
+	public void e() {
+		if (entity.aI().nextInt(50) == 0) {
+			if (entity.passenger instanceof EntityHuman) {
+				int i = entity.getTemper();
+				int j = entity.getMaxDomestication();
 
-                // CraftBukkit - fire EntityTameEvent
-                if (j > 0 && this.entity.aI().nextInt(j) < i && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(this.entity, (EntityHuman) this.entity.passenger).isCancelled() && this.entity.passenger instanceof EntityHuman) {
-                    this.entity.h((EntityHuman) this.entity.passenger);
-                    this.entity.world.broadcastEntityEffect(this.entity, (byte) 7);
-                    return;
-                }
+				// CraftBukkit - fire EntityTameEvent
+				if (j > 0 && entity.aI().nextInt(j) < i && !org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTameEvent(entity, (EntityHuman) entity.passenger).isCancelled() && entity.passenger instanceof EntityHuman) {
+					entity.h((EntityHuman) entity.passenger);
+					entity.world.broadcastEntityEffect(entity, (byte) 7);
+					return;
+				}
 
-                this.entity.v(5);
-            }
+				entity.v(5);
+			}
 
-            // CraftBukkit start - Handle dismounting to account for VehicleExitEvent being fired.
-            if (this.entity.passenger != null) {
-                this.entity.passenger.mount((Entity) null);
-                // If the entity still has a passenger, then a plugin cancelled the event.
-                if (this.entity.passenger != null) {
-                    return;
-                }
-            }
-            // this.entity.passenger = null;
-            // CraftBukkit end
-            this.entity.cJ();
-            this.entity.world.broadcastEntityEffect(this.entity, (byte) 6);
-        }
-    }
+			// CraftBukkit start - Handle dismounting to account for VehicleExitEvent being fired.
+			if (entity.passenger != null) {
+				entity.passenger.mount((Entity) null);
+				// If the entity still has a passenger, then a plugin cancelled the event.
+				if (entity.passenger != null)
+					return;
+			}
+			// this.entity.passenger = null;
+			// CraftBukkit end
+			entity.cJ();
+			entity.world.broadcastEntityEffect(entity, (byte) 6);
+		}
+	}
 }

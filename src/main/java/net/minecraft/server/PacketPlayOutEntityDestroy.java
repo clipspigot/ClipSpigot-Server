@@ -2,60 +2,63 @@ package net.minecraft.server;
 
 public class PacketPlayOutEntityDestroy extends Packet {
 
-    private int[] a;
+	private int[] a;
 
-    public PacketPlayOutEntityDestroy() {}
+	public PacketPlayOutEntityDestroy() {
+	}
 
-    public PacketPlayOutEntityDestroy(int... aint) {
-        this.a = aint;
-    }
+	public PacketPlayOutEntityDestroy(int... aint) {
+		a = aint;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = new int[packetdataserializer.readByte()];
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		a = new int[packetdataserializer.readByte()];
 
-        for (int i = 0; i < this.a.length; ++i) {
-            this.a[i] = packetdataserializer.readInt();
-        }
-    }
+		for (int i = 0; i < a.length; ++i) {
+			a[i] = packetdataserializer.readInt();
+		}
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        // Spigot start - protocol lib
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeByte( this.a.length );
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		// Spigot start - protocol lib
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeByte(a.length);
 
-            for ( int i = 0; i < this.a.length; ++i )
-            {
-                packetdataserializer.writeInt( this.a[ i ] );
-            }
-        } else {
-            packetdataserializer.b( a.length );
-            for ( int i : a ) {
-                packetdataserializer.b( i );
-            }
-        }
-        // Spigot end
-    }
+			for (int i = 0; i < a.length; ++i) {
+				packetdataserializer.writeInt(a[i]);
+			}
+		} else {
+			packetdataserializer.b(a.length);
+			for (int i : a) {
+				packetdataserializer.b(i);
+			}
+		}
+		// Spigot end
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public String b() {
-        StringBuilder stringbuilder = new StringBuilder();
+	@Override
+	public String b() {
+		StringBuilder stringbuilder = new StringBuilder();
 
-        for (int i = 0; i < this.a.length; ++i) {
-            if (i > 0) {
-                stringbuilder.append(", ");
-            }
+		for (int i = 0; i < a.length; ++i) {
+			if (i > 0) {
+				stringbuilder.append(", ");
+			}
 
-            stringbuilder.append(this.a[i]);
-        }
+			stringbuilder.append(a[i]);
+		}
 
-        return String.format("entities=%d[%s]", new Object[] { Integer.valueOf(this.a.length), stringbuilder});
-    }
+		return String.format("entities=%d[%s]", new Object[] { Integer.valueOf(a.length), stringbuilder });
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

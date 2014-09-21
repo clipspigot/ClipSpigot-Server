@@ -3,102 +3,106 @@ package net.minecraft.server;
 // CraftBukkit start
 import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
+
 // CraftBukkit end
 
 public class ContainerChest extends Container {
 
-    public IInventory container; // CraftBukkit - private->public
-    private int f;
-    // CraftBukkit start
-    private CraftInventoryView bukkitEntity = null;
-    private PlayerInventory player;
+	public IInventory container; // CraftBukkit - private->public
+	private int f;
+	// CraftBukkit start
+	private CraftInventoryView bukkitEntity = null;
+	private PlayerInventory player;
 
-    public CraftInventoryView getBukkitView() {
-        if (bukkitEntity != null) {
-            return bukkitEntity;
-        }
+	@Override
+	public CraftInventoryView getBukkitView() {
+		if (bukkitEntity != null)
+			return bukkitEntity;
 
-        CraftInventory inventory;
-        if (this.container instanceof PlayerInventory) {
-            inventory = new org.bukkit.craftbukkit.inventory.CraftInventoryPlayer((PlayerInventory) this.container);
-        } else if (this.container instanceof InventoryLargeChest) {
-            inventory = new org.bukkit.craftbukkit.inventory.CraftInventoryDoubleChest((InventoryLargeChest) this.container);
-        } else {
-            inventory = new CraftInventory(this.container);
-        }
+		CraftInventory inventory;
+		if (container instanceof PlayerInventory) {
+			inventory = new org.bukkit.craftbukkit.inventory.CraftInventoryPlayer((PlayerInventory) container);
+		} else if (container instanceof InventoryLargeChest) {
+			inventory = new org.bukkit.craftbukkit.inventory.CraftInventoryDoubleChest((InventoryLargeChest) container);
+		} else {
+			inventory = new CraftInventory(container);
+		}
 
-        bukkitEntity = new CraftInventoryView(this.player.player.getBukkitEntity(), inventory, this);
-        return bukkitEntity;
-    }
-    // CraftBukkit end
+		bukkitEntity = new CraftInventoryView(player.player.getBukkitEntity(), inventory, this);
+		return bukkitEntity;
+	}
 
-    public ContainerChest(IInventory iinventory, IInventory iinventory1) {
-        this.container = iinventory1;
-        this.f = iinventory1.getSize() / 9;
-        iinventory1.startOpen();
-        int i = (this.f - 4) * 18;
-        // CraftBukkit start - Save player
-        // TODO: Should we check to make sure it really is an InventoryPlayer?
-        this.player = (PlayerInventory) iinventory;
-        // CraftBukkit end
+	// CraftBukkit end
 
-        int j;
-        int k;
+	public ContainerChest(IInventory iinventory, IInventory iinventory1) {
+		container = iinventory1;
+		f = iinventory1.getSize() / 9;
+		iinventory1.startOpen();
+		int i = (f - 4) * 18;
+		// CraftBukkit start - Save player
+		// TODO: Should we check to make sure it really is an InventoryPlayer?
+		player = (PlayerInventory) iinventory;
+		// CraftBukkit end
 
-        for (j = 0; j < this.f; ++j) {
-            for (k = 0; k < 9; ++k) {
-                this.a(new Slot(iinventory1, k + j * 9, 8 + k * 18, 18 + j * 18));
-            }
-        }
+		int j;
+		int k;
 
-        for (j = 0; j < 3; ++j) {
-            for (k = 0; k < 9; ++k) {
-                this.a(new Slot(iinventory, k + j * 9 + 9, 8 + k * 18, 103 + j * 18 + i));
-            }
-        }
+		for (j = 0; j < f; ++j) {
+			for (k = 0; k < 9; ++k) {
+				this.a(new Slot(iinventory1, k + j * 9, 8 + k * 18, 18 + j * 18));
+			}
+		}
 
-        for (j = 0; j < 9; ++j) {
-            this.a(new Slot(iinventory, j, 8 + j * 18, 161 + i));
-        }
-    }
+		for (j = 0; j < 3; ++j) {
+			for (k = 0; k < 9; ++k) {
+				this.a(new Slot(iinventory, k + j * 9 + 9, 8 + k * 18, 103 + j * 18 + i));
+			}
+		}
 
-    public boolean a(EntityHuman entityhuman) {
-        if (!this.checkReachable) return true; // CraftBukkit
-        return this.container.a(entityhuman);
-    }
+		for (j = 0; j < 9; ++j) {
+			this.a(new Slot(iinventory, j, 8 + j * 18, 161 + i));
+		}
+	}
 
-    public ItemStack b(EntityHuman entityhuman, int i) {
-        ItemStack itemstack = null;
-        Slot slot = (Slot) this.c.get(i);
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		if (!checkReachable)
+			return true; // CraftBukkit
+		return container.a(entityhuman);
+	}
 
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
+	@Override
+	public ItemStack b(EntityHuman entityhuman, int i) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) c.get(i);
 
-            itemstack = itemstack1.cloneItemStack();
-            if (i < this.f * 9) {
-                if (!this.a(itemstack1, this.f * 9, this.c.size(), true)) {
-                    return null;
-                }
-            } else if (!this.a(itemstack1, 0, this.f * 9, false)) {
-                return null;
-            }
+		if (slot != null && slot.hasItem()) {
+			ItemStack itemstack1 = slot.getItem();
 
-            if (itemstack1.count == 0) {
-                slot.set((ItemStack) null);
-            } else {
-                slot.f();
-            }
-        }
+			itemstack = itemstack1.cloneItemStack();
+			if (i < f * 9) {
+				if (!this.a(itemstack1, f * 9, c.size(), true))
+					return null;
+			} else if (!this.a(itemstack1, 0, f * 9, false))
+				return null;
 
-        return itemstack;
-    }
+			if (itemstack1.count == 0) {
+				slot.set((ItemStack) null);
+			} else {
+				slot.f();
+			}
+		}
 
-    public void b(EntityHuman entityhuman) {
-        super.b(entityhuman);
-        this.container.closeContainer();
-    }
+		return itemstack;
+	}
 
-    public IInventory e() {
-        return this.container;
-    }
+	@Override
+	public void b(EntityHuman entityhuman) {
+		super.b(entityhuman);
+		container.closeContainer();
+	}
+
+	public IInventory e() {
+		return container;
+	}
 }

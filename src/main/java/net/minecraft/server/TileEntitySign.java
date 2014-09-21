@@ -2,62 +2,66 @@ package net.minecraft.server;
 
 public class TileEntitySign extends TileEntity {
 
-    public String[] lines = new String[] { "", "", "", ""};
-    public int i = -1;
-    public boolean isEditable = true; // CraftBukkit - private -> public
-    private EntityHuman k;
+	public String[] lines = new String[] { "", "", "", "" };
+	public int i = -1;
+	public boolean isEditable = true; // CraftBukkit - private -> public
+	private EntityHuman k;
 
-    public TileEntitySign() {}
+	public TileEntitySign() {
+	}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        nbttagcompound.setString("Text1", this.lines[0]);
-        nbttagcompound.setString("Text2", this.lines[1]);
-        nbttagcompound.setString("Text3", this.lines[2]);
-        nbttagcompound.setString("Text4", this.lines[3]);
-    }
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		nbttagcompound.setString("Text1", lines[0]);
+		nbttagcompound.setString("Text2", lines[1]);
+		nbttagcompound.setString("Text3", lines[2]);
+		nbttagcompound.setString("Text4", lines[3]);
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        this.isEditable = false;
-        super.a(nbttagcompound);
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		isEditable = false;
+		super.a(nbttagcompound);
 
-        for (int i = 0; i < 4; ++i) {
-            this.lines[i] = nbttagcompound.getString("Text" + (i + 1));
-            if (this.lines[i].length() > 15) {
-                this.lines[i] = this.lines[i].substring(0, 15);
-            }
-        }
-    }
+		for (int i = 0; i < 4; ++i) {
+			lines[i] = nbttagcompound.getString("Text" + (i + 1));
+			if (lines[i].length() > 15) {
+				lines[i] = lines[i].substring(0, 15);
+			}
+		}
+	}
 
-    public Packet getUpdatePacket() {
-        String[] astring = sanitizeLines(this.lines); // CraftBukkit - call sign line sanitizer to limit line length
+	@Override
+	public Packet getUpdatePacket() {
+		String[] astring = sanitizeLines(lines); // CraftBukkit - call sign line sanitizer to limit line length
 
-        return new PacketPlayOutUpdateSign(this.x, this.y, this.z, astring);
-    }
+		return new PacketPlayOutUpdateSign(x, y, z, astring);
+	}
 
-    public boolean a() {
-        return this.isEditable;
-    }
+	public boolean a() {
+		return isEditable;
+	}
 
-    public void a(EntityHuman entityhuman) {
-        this.k = entityhuman;
-    }
+	public void a(EntityHuman entityhuman) {
+		k = entityhuman;
+	}
 
-    public EntityHuman b() {
-        return this.k;
-    }
+	public EntityHuman b() {
+		return k;
+	}
 
-    // CraftBukkit start - central method to limit sign text to 15 chars per line
-    public static String[] sanitizeLines(String[] lines) {
-        String[] astring = new String[4];
-        for (int i = 0; i < 4; ++i) {
-            astring[i] = lines[i];
+	// CraftBukkit start - central method to limit sign text to 15 chars per line
+	public static String[] sanitizeLines(String[] lines) {
+		String[] astring = new String[4];
+		for (int i = 0; i < 4; ++i) {
+			astring[i] = lines[i];
 
-            if (lines[i].length() > 15) {
-                astring[i] = lines[i].substring(0, 15);
-            }
-        }
-        return astring;
-    }
-    // CraftBukkit end
+			if (lines[i].length() > 15) {
+				astring[i] = lines[i].substring(0, 15);
+			}
+		}
+		return astring;
+	}
+	// CraftBukkit end
 }

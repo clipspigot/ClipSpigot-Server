@@ -4,100 +4,105 @@ import org.bukkit.event.entity.EntityTargetEvent; // CraftBukkit
 
 public class PathfinderGoalMeleeAttack extends PathfinderGoal {
 
-    World a;
-    EntityCreature b;
-    int c;
-    double d;
-    boolean e;
-    PathEntity f;
-    Class g;
-    private int h;
-    private double i;
-    private double j;
-    private double k;
+	World a;
+	EntityCreature b;
+	int c;
+	double d;
+	boolean e;
+	PathEntity f;
+	Class g;
+	private int h;
+	private double i;
+	private double j;
+	private double k;
 
-    public PathfinderGoalMeleeAttack(EntityCreature entitycreature, Class oclass, double d0, boolean flag) {
-        this(entitycreature, d0, flag);
-        this.g = oclass;
-    }
+	public PathfinderGoalMeleeAttack(EntityCreature entitycreature, Class oclass, double d0, boolean flag) {
+		this(entitycreature, d0, flag);
+		g = oclass;
+	}
 
-    public PathfinderGoalMeleeAttack(EntityCreature entitycreature, double d0, boolean flag) {
-        this.b = entitycreature;
-        this.a = entitycreature.world;
-        this.d = d0;
-        this.e = flag;
-        this.a(3);
-    }
+	public PathfinderGoalMeleeAttack(EntityCreature entitycreature, double d0, boolean flag) {
+		b = entitycreature;
+		a = entitycreature.world;
+		d = d0;
+		e = flag;
+		this.a(3);
+	}
 
-    public boolean a() {
-        EntityLiving entityliving = this.b.getGoalTarget();
+	@Override
+	public boolean a() {
+		EntityLiving entityliving = b.getGoalTarget();
 
-        if (entityliving == null) {
-            return false;
-        } else if (!entityliving.isAlive()) {
-            return false;
-        } else if (this.g != null && !this.g.isAssignableFrom(entityliving.getClass())) {
-            return false;
-        } else {
-            this.f = this.b.getNavigation().a(entityliving);
-            return this.f != null;
-        }
-    }
+		if (entityliving == null)
+			return false;
+		else if (!entityliving.isAlive())
+			return false;
+		else if (g != null && !g.isAssignableFrom(entityliving.getClass()))
+			return false;
+		else {
+			f = b.getNavigation().a(entityliving);
+			return f != null;
+		}
+	}
 
-    public boolean b() {
-        EntityLiving entityliving = this.b.getGoalTarget();
+	@Override
+	public boolean b() {
+		EntityLiving entityliving = b.getGoalTarget();
 
-        // CraftBukkit start
-        EntityTargetEvent.TargetReason reason = this.b.getGoalTarget() == null ? EntityTargetEvent.TargetReason.FORGOT_TARGET : EntityTargetEvent.TargetReason.TARGET_DIED;
-        if (this.b.getGoalTarget() == null || (this.b.getGoalTarget() != null && !this.b.getGoalTarget().isAlive())) {
-            org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTargetEvent(b, null, reason);
-        }
-        // CraftBukkit end
+		// CraftBukkit start
+		EntityTargetEvent.TargetReason reason = b.getGoalTarget() == null ? EntityTargetEvent.TargetReason.FORGOT_TARGET : EntityTargetEvent.TargetReason.TARGET_DIED;
+		if (b.getGoalTarget() == null || b.getGoalTarget() != null && !b.getGoalTarget().isAlive()) {
+			org.bukkit.craftbukkit.event.CraftEventFactory.callEntityTargetEvent(b, null, reason);
+		}
+		// CraftBukkit end
 
-        return entityliving == null ? false : (!entityliving.isAlive() ? false : (!this.e ? !this.b.getNavigation().g() : this.b.b(MathHelper.floor(entityliving.locX), MathHelper.floor(entityliving.locY), MathHelper.floor(entityliving.locZ))));
-    }
+		return entityliving == null ? false : !entityliving.isAlive() ? false : !e ? !b.getNavigation().g() : b.b(MathHelper.floor(entityliving.locX), MathHelper.floor(entityliving.locY), MathHelper.floor(entityliving.locZ));
+	}
 
-    public void c() {
-        this.b.getNavigation().a(this.f, this.d);
-        this.h = 0;
-    }
+	@Override
+	public void c() {
+		b.getNavigation().a(f, d);
+		h = 0;
+	}
 
-    public void d() {
-        this.b.getNavigation().h();
-    }
+	@Override
+	public void d() {
+		b.getNavigation().h();
+	}
 
-    public void e() {
-        EntityLiving entityliving = this.b.getGoalTarget();
+	@Override
+	public void e() {
+		EntityLiving entityliving = b.getGoalTarget();
 
-        this.b.getControllerLook().a(entityliving, 30.0F, 30.0F);
-        double d0 = this.b.e(entityliving.locX, entityliving.boundingBox.b, entityliving.locZ);
-        double d1 = (double) (this.b.width * 2.0F * this.b.width * 2.0F + entityliving.width);
+		b.getControllerLook().a(entityliving, 30.0F, 30.0F);
+		double d0 = b.e(entityliving.locX, entityliving.boundingBox.b, entityliving.locZ);
+		double d1 = b.width * 2.0F * b.width * 2.0F + entityliving.width;
 
-        --this.h;
-        if ((this.e || this.b.getEntitySenses().canSee(entityliving)) && this.h <= 0 && (this.i == 0.0D && this.j == 0.0D && this.k == 0.0D || entityliving.e(this.i, this.j, this.k) >= 1.0D || this.b.aI().nextFloat() < 0.05F)) {
-            this.i = entityliving.locX;
-            this.j = entityliving.boundingBox.b;
-            this.k = entityliving.locZ;
-            this.h = 4 + this.b.aI().nextInt(7);
-            if (d0 > 1024.0D) {
-                this.h += 10;
-            } else if (d0 > 256.0D) {
-                this.h += 5;
-            }
+		--h;
+		if ((e || b.getEntitySenses().canSee(entityliving)) && h <= 0 && (i == 0.0D && j == 0.0D && k == 0.0D || entityliving.e(i, j, k) >= 1.0D || b.aI().nextFloat() < 0.05F)) {
+			i = entityliving.locX;
+			j = entityliving.boundingBox.b;
+			k = entityliving.locZ;
+			h = 4 + b.aI().nextInt(7);
+			if (d0 > 1024.0D) {
+				h += 10;
+			} else if (d0 > 256.0D) {
+				h += 5;
+			}
 
-            if (!this.b.getNavigation().a((Entity) entityliving, this.d)) {
-                this.h += 15;
-            }
-        }
+			if (!b.getNavigation().a(entityliving, d)) {
+				h += 15;
+			}
+		}
 
-        this.c = Math.max(this.c - 1, 0);
-        if (d0 <= d1 && this.c <= 20) {
-            this.c = 20;
-            if (this.b.be() != null) {
-                this.b.ba();
-            }
+		c = Math.max(c - 1, 0);
+		if (d0 <= d1 && c <= 20) {
+			c = 20;
+			if (b.be() != null) {
+				b.ba();
+			}
 
-            this.b.n(entityliving);
-        }
-    }
+			b.n(entityliving);
+		}
+	}
 }

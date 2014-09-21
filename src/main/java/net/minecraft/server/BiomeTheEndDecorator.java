@@ -2,27 +2,28 @@ package net.minecraft.server;
 
 public class BiomeTheEndDecorator extends BiomeDecorator {
 
-    protected WorldGenerator J;
+	protected WorldGenerator J;
 
-    public BiomeTheEndDecorator() {
-        this.J = new WorldGenEnder(Blocks.WHITESTONE);
-    }
+	public BiomeTheEndDecorator() {
+		J = new WorldGenEnder(Blocks.WHITESTONE);
+	}
 
-    protected void a(BiomeBase biomebase) {
-        this.a();
-        if (this.b.nextInt(5) == 0) {
-            int i = this.c + this.b.nextInt(16) + 8;
-            int j = this.d + this.b.nextInt(16) + 8;
-            int k = this.a.i(i, j);
+	@Override
+	protected void a(BiomeBase biomebase) {
+		this.a();
+		if (b.nextInt(5) == 0) {
+			int i = c + b.nextInt(16) + 8;
+			int j = d + b.nextInt(16) + 8;
+			int k = a.i(i, j);
 
-            this.J.generate(this.a, this.b, i, k, j);
-        }
+			J.generate(a, b, i, k, j);
+		}
 
-        if (this.c == 0 && this.d == 0) {
-            EntityEnderDragon entityenderdragon = new EntityEnderDragon(this.a);
+		if (c == 0 && d == 0) {
+			EntityEnderDragon entityenderdragon = new EntityEnderDragon(a);
 
-            entityenderdragon.setPositionRotation(0.0D, 128.0D, 0.0D, this.b.nextFloat() * 360.0F, 0.0F);
-            this.a.addEntity(entityenderdragon, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CHUNK_GEN); // CraftBukkit - add SpawnReason
-        }
-    }
+			entityenderdragon.setPositionRotation(0.0D, 128.0D, 0.0D, b.nextFloat() * 360.0F, 0.0F);
+			a.addEntity(entityenderdragon, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CHUNK_GEN); // CraftBukkit - add SpawnReason
+		}
+	}
 }

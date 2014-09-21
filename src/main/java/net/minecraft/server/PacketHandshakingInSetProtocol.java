@@ -4,44 +4,49 @@ import java.io.IOException; // CraftBukkit
 
 public class PacketHandshakingInSetProtocol extends Packet {
 
-    private int a;
-    public String b; // CraftBukkit private -> public
-    public int c; // CraftBukkit private -> public
-    private EnumProtocol d;
+	private int a;
+	public String b; // CraftBukkit private -> public
+	public int c; // CraftBukkit private -> public
+	private EnumProtocol d;
 
-    public PacketHandshakingInSetProtocol() {}
+	public PacketHandshakingInSetProtocol() {
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) throws IOException { // CraftBukkit - added throws
-        this.a = packetdataserializer.a();
-        this.b = packetdataserializer.c(Short.MAX_VALUE); // Spigot
-        this.c = packetdataserializer.readUnsignedShort();
-        this.d = EnumProtocol.a(packetdataserializer.a());
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) throws IOException { // CraftBukkit - added throws
+		a = packetdataserializer.a();
+		b = packetdataserializer.c(Short.MAX_VALUE); // Spigot
+		c = packetdataserializer.readUnsignedShort();
+		d = EnumProtocol.a(packetdataserializer.a());
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) throws IOException { // CraftBukkit - added throws
-        packetdataserializer.b(this.a);
-        packetdataserializer.a(this.b);
-        packetdataserializer.writeShort(this.c);
-        packetdataserializer.b(this.d.c());
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) throws IOException { // CraftBukkit - added throws
+		packetdataserializer.b(a);
+		packetdataserializer.a(b);
+		packetdataserializer.writeShort(c);
+		packetdataserializer.b(d.c());
+	}
 
-    public void a(PacketHandshakingInListener packethandshakinginlistener) {
-        packethandshakinginlistener.a(this);
-    }
+	public void a(PacketHandshakingInListener packethandshakinginlistener) {
+		packethandshakinginlistener.a(this);
+	}
 
-    public boolean a() {
-        return true;
-    }
+	@Override
+	public boolean a() {
+		return true;
+	}
 
-    public EnumProtocol c() {
-        return this.d;
-    }
+	public EnumProtocol c() {
+		return d;
+	}
 
-    public int d() {
-        return this.a;
-    }
+	public int d() {
+		return a;
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketHandshakingInListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketHandshakingInListener) packetlistener);
+	}
 }

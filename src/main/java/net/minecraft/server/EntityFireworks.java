@@ -2,129 +2,134 @@ package net.minecraft.server;
 
 public class EntityFireworks extends Entity {
 
-    private int ticksFlown;
-    public int expectedLifespan; // CraftBukkit - private -> public
+	private int ticksFlown;
+	public int expectedLifespan; // CraftBukkit - private -> public
 
-    // Spigot Start
-    @Override
-    public void inactiveTick()
-    {
-        this.ticksFlown += 19;
-        super.inactiveTick();
-    }
-    // Spigot End
+	// Spigot Start
+	@Override
+	public void inactiveTick() {
+		ticksFlown += 19;
+		super.inactiveTick();
+	}
 
-    public EntityFireworks(World world) {
-        super(world);
-        this.a(0.25F, 0.25F);
-    }
+	// Spigot End
 
-    protected void c() {
-        this.datawatcher.add(8, 5);
-    }
+	public EntityFireworks(World world) {
+		super(world);
+		this.a(0.25F, 0.25F);
+	}
 
-    public EntityFireworks(World world, double d0, double d1, double d2, ItemStack itemstack) {
-        super(world);
-        this.ticksFlown = 0;
-        this.a(0.25F, 0.25F);
-        this.setPosition(d0, d1, d2);
-        this.height = 0.0F;
-        int i = 1;
+	@Override
+	protected void c() {
+		datawatcher.add(8, 5);
+	}
 
-        if (itemstack != null && itemstack.hasTag()) {
-            this.datawatcher.watch(8, itemstack);
-            NBTTagCompound nbttagcompound = itemstack.getTag();
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompound("Fireworks");
+	public EntityFireworks(World world, double d0, double d1, double d2, ItemStack itemstack) {
+		super(world);
+		ticksFlown = 0;
+		this.a(0.25F, 0.25F);
+		setPosition(d0, d1, d2);
+		height = 0.0F;
+		int i = 1;
 
-            if (nbttagcompound1 != null) {
-                i += nbttagcompound1.getByte("Flight");
-            }
-        }
+		if (itemstack != null && itemstack.hasTag()) {
+			datawatcher.watch(8, itemstack);
+			NBTTagCompound nbttagcompound = itemstack.getTag();
+			NBTTagCompound nbttagcompound1 = nbttagcompound.getCompound("Fireworks");
 
-        this.motX = this.random.nextGaussian() * 0.001D;
-        this.motZ = this.random.nextGaussian() * 0.001D;
-        this.motY = 0.05D;
-        this.expectedLifespan = 10 * i + this.random.nextInt(6) + this.random.nextInt(7);
-    }
+			if (nbttagcompound1 != null) {
+				i += nbttagcompound1.getByte("Flight");
+			}
+		}
 
-    public void h() {
-        this.S = this.locX;
-        this.T = this.locY;
-        this.U = this.locZ;
-        super.h();
-        this.motX *= 1.15D;
-        this.motZ *= 1.15D;
-        this.motY += 0.04D;
-        this.move(this.motX, this.motY, this.motZ);
-        float f = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ);
+		motX = random.nextGaussian() * 0.001D;
+		motZ = random.nextGaussian() * 0.001D;
+		motY = 0.05D;
+		expectedLifespan = 10 * i + random.nextInt(6) + random.nextInt(7);
+	}
 
-        this.yaw = (float) (Math.atan2(this.motX, this.motZ) * 180.0D / 3.1415927410125732D);
+	@Override
+	public void h() {
+		S = locX;
+		T = locY;
+		U = locZ;
+		super.h();
+		motX *= 1.15D;
+		motZ *= 1.15D;
+		motY += 0.04D;
+		move(motX, motY, motZ);
+		float f = MathHelper.sqrt(motX * motX + motZ * motZ);
 
-        for (this.pitch = (float) (Math.atan2(this.motY, (double) f) * 180.0D / 3.1415927410125732D); this.pitch - this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
-            ;
-        }
+		yaw = (float) (Math.atan2(motX, motZ) * 180.0D / 3.1415927410125732D);
 
-        while (this.pitch - this.lastPitch >= 180.0F) {
-            this.lastPitch += 360.0F;
-        }
+		for (pitch = (float) (Math.atan2(motY, f) * 180.0D / 3.1415927410125732D); pitch - lastPitch < -180.0F; lastPitch -= 360.0F) {
+			;
+		}
 
-        while (this.yaw - this.lastYaw < -180.0F) {
-            this.lastYaw -= 360.0F;
-        }
+		while (pitch - lastPitch >= 180.0F) {
+			lastPitch += 360.0F;
+		}
 
-        while (this.yaw - this.lastYaw >= 180.0F) {
-            this.lastYaw += 360.0F;
-        }
+		while (yaw - lastYaw < -180.0F) {
+			lastYaw -= 360.0F;
+		}
 
-        this.pitch = this.lastPitch + (this.pitch - this.lastPitch) * 0.2F;
-        this.yaw = this.lastYaw + (this.yaw - this.lastYaw) * 0.2F;
-        if (this.ticksFlown == 0) {
-            this.world.makeSound(this, "fireworks.launch", 3.0F, 1.0F);
-        }
+		while (yaw - lastYaw >= 180.0F) {
+			lastYaw += 360.0F;
+		}
 
-        ++this.ticksFlown;
-        if (this.world.isStatic && this.ticksFlown % 2 < 2) {
-            this.world.addParticle("fireworksSpark", this.locX, this.locY - 0.3D, this.locZ, this.random.nextGaussian() * 0.05D, -this.motY * 0.5D, this.random.nextGaussian() * 0.05D);
-        }
+		pitch = lastPitch + (pitch - lastPitch) * 0.2F;
+		yaw = lastYaw + (yaw - lastYaw) * 0.2F;
+		if (ticksFlown == 0) {
+			world.makeSound(this, "fireworks.launch", 3.0F, 1.0F);
+		}
 
-        if (!this.world.isStatic && this.ticksFlown > this.expectedLifespan) {
-            this.world.broadcastEntityEffect(this, (byte) 17);
-            this.die();
-        }
-    }
+		++ticksFlown;
+		if (world.isStatic && ticksFlown % 2 < 2) {
+			world.addParticle("fireworksSpark", locX, locY - 0.3D, locZ, random.nextGaussian() * 0.05D, -motY * 0.5D, random.nextGaussian() * 0.05D);
+		}
 
-    public void b(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setInt("Life", this.ticksFlown);
-        nbttagcompound.setInt("LifeTime", this.expectedLifespan);
-        ItemStack itemstack = this.datawatcher.getItemStack(8);
+		if (!world.isStatic && ticksFlown > expectedLifespan) {
+			world.broadcastEntityEffect(this, (byte) 17);
+			die();
+		}
+	}
 
-        if (itemstack != null) {
-            NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setInt("Life", ticksFlown);
+		nbttagcompound.setInt("LifeTime", expectedLifespan);
+		ItemStack itemstack = datawatcher.getItemStack(8);
 
-            itemstack.save(nbttagcompound1);
-            nbttagcompound.set("FireworksItem", nbttagcompound1);
-        }
-    }
+		if (itemstack != null) {
+			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-    public void a(NBTTagCompound nbttagcompound) {
-        this.ticksFlown = nbttagcompound.getInt("Life");
-        this.expectedLifespan = nbttagcompound.getInt("LifeTime");
-        NBTTagCompound nbttagcompound1 = nbttagcompound.getCompound("FireworksItem");
+			itemstack.save(nbttagcompound1);
+			nbttagcompound.set("FireworksItem", nbttagcompound1);
+		}
+	}
 
-        if (nbttagcompound1 != null) {
-            ItemStack itemstack = ItemStack.createStack(nbttagcompound1);
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		ticksFlown = nbttagcompound.getInt("Life");
+		expectedLifespan = nbttagcompound.getInt("LifeTime");
+		NBTTagCompound nbttagcompound1 = nbttagcompound.getCompound("FireworksItem");
 
-            if (itemstack != null) {
-                this.datawatcher.watch(8, itemstack);
-            }
-        }
-    }
+		if (nbttagcompound1 != null) {
+			ItemStack itemstack = ItemStack.createStack(nbttagcompound1);
 
-    public float d(float f) {
-        return super.d(f);
-    }
+			if (itemstack != null) {
+				datawatcher.watch(8, itemstack);
+			}
+		}
+	}
 
-    public boolean au() {
-        return false;
-    }
+	@Override
+	public float d(float f) {
+		return super.d(f);
+	}
+
+	public boolean au() {
+		return false;
+	}
 }

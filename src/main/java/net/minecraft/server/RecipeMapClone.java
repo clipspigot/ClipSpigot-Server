@@ -2,81 +2,81 @@ package net.minecraft.server;
 
 public class RecipeMapClone extends ShapelessRecipes implements IRecipe { // CraftBukkit - added extends
 
-    // CraftBukkit start - Delegate to new parent class
-    public RecipeMapClone() {
-        super(new ItemStack(Items.MAP, 0, -1), java.util.Arrays.asList(new ItemStack(Items.MAP_EMPTY, 0, 0)));
-    }
-    // CraftBukkit end
+	// CraftBukkit start - Delegate to new parent class
+	public RecipeMapClone() {
+		super(new ItemStack(Items.MAP, 0, -1), java.util.Arrays.asList(new ItemStack(Items.MAP_EMPTY, 0, 0)));
+	}
 
-    public boolean a(InventoryCrafting inventorycrafting, World world) {
-        int i = 0;
-        ItemStack itemstack = null;
+	// CraftBukkit end
 
-        for (int j = 0; j < inventorycrafting.getSize(); ++j) {
-            ItemStack itemstack1 = inventorycrafting.getItem(j);
+	@Override
+	public boolean a(InventoryCrafting inventorycrafting, World world) {
+		int i = 0;
+		ItemStack itemstack = null;
 
-            if (itemstack1 != null) {
-                if (itemstack1.getItem() == Items.MAP) {
-                    if (itemstack != null) {
-                        return false;
-                    }
+		for (int j = 0; j < inventorycrafting.getSize(); ++j) {
+			ItemStack itemstack1 = inventorycrafting.getItem(j);
 
-                    itemstack = itemstack1;
-                } else {
-                    if (itemstack1.getItem() != Items.MAP_EMPTY) {
-                        return false;
-                    }
+			if (itemstack1 != null) {
+				if (itemstack1.getItem() == Items.MAP) {
+					if (itemstack != null)
+						return false;
 
-                    ++i;
-                }
-            }
-        }
+					itemstack = itemstack1;
+				} else {
+					if (itemstack1.getItem() != Items.MAP_EMPTY)
+						return false;
 
-        return itemstack != null && i > 0;
-    }
+					++i;
+				}
+			}
+		}
 
-    public ItemStack a(InventoryCrafting inventorycrafting) {
-        int i = 0;
-        ItemStack itemstack = null;
+		return itemstack != null && i > 0;
+	}
 
-        for (int j = 0; j < inventorycrafting.getSize(); ++j) {
-            ItemStack itemstack1 = inventorycrafting.getItem(j);
+	@Override
+	public ItemStack a(InventoryCrafting inventorycrafting) {
+		int i = 0;
+		ItemStack itemstack = null;
 
-            if (itemstack1 != null) {
-                if (itemstack1.getItem() == Items.MAP) {
-                    if (itemstack != null) {
-                        return null;
-                    }
+		for (int j = 0; j < inventorycrafting.getSize(); ++j) {
+			ItemStack itemstack1 = inventorycrafting.getItem(j);
 
-                    itemstack = itemstack1;
-                } else {
-                    if (itemstack1.getItem() != Items.MAP_EMPTY) {
-                        return null;
-                    }
+			if (itemstack1 != null) {
+				if (itemstack1.getItem() == Items.MAP) {
+					if (itemstack != null)
+						return null;
 
-                    ++i;
-                }
-            }
-        }
+					itemstack = itemstack1;
+				} else {
+					if (itemstack1.getItem() != Items.MAP_EMPTY)
+						return null;
 
-        if (itemstack != null && i >= 1) {
-            ItemStack itemstack2 = new ItemStack(Items.MAP, i + 1, itemstack.getData());
+					++i;
+				}
+			}
+		}
 
-            if (itemstack.hasName()) {
-                itemstack2.c(itemstack.getName());
-            }
+		if (itemstack != null && i >= 1) {
+			ItemStack itemstack2 = new ItemStack(Items.MAP, i + 1, itemstack.getData());
 
-            return itemstack2;
-        } else {
-            return null;
-        }
-    }
+			if (itemstack.hasName()) {
+				itemstack2.c(itemstack.getName());
+			}
 
-    public int a() {
-        return 9;
-    }
+			return itemstack2;
+		} else
+			return null;
+	}
 
-    public ItemStack b() {
-        return null;
-    }
+	@Override
+	public int a() {
+		return 9;
+	}
+
+	@Override
+	public ItemStack b() {
+		return null;
+	}
 }

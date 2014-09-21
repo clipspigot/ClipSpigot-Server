@@ -2,50 +2,54 @@ package net.minecraft.server;
 
 public class PacketPlayOutSpawnPosition extends Packet {
 
-    public int x; // CraftBukkit - private -> public
-    public int y; // CraftBukkit - private -> public
-    public int z; // CraftBukkit - private -> public
+	public int x; // CraftBukkit - private -> public
+	public int y; // CraftBukkit - private -> public
+	public int z; // CraftBukkit - private -> public
 
-    public PacketPlayOutSpawnPosition() {}
+	public PacketPlayOutSpawnPosition() {
+	}
 
-    public PacketPlayOutSpawnPosition(int i, int j, int k) {
-        this.x = i;
-        this.y = j;
-        this.z = k;
-    }
+	public PacketPlayOutSpawnPosition(int i, int j, int k) {
+		x = i;
+		y = j;
+		z = k;
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.x = packetdataserializer.readInt();
-        this.y = packetdataserializer.readInt();
-        this.z = packetdataserializer.readInt();
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		x = packetdataserializer.readInt();
+		y = packetdataserializer.readInt();
+		z = packetdataserializer.readInt();
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        if ( packetdataserializer.version < 16 )
-        {
-            packetdataserializer.writeInt( this.x );
-            packetdataserializer.writeInt( this.y );
-            packetdataserializer.writeInt( this.z );
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		if (packetdataserializer.version < 16) {
+			packetdataserializer.writeInt(x);
+			packetdataserializer.writeInt(y);
+			packetdataserializer.writeInt(z);
 
-        } else
-        {
-            packetdataserializer.writePosition( x, y, z );
-        }
-    }
+		} else {
+			packetdataserializer.writePosition(x, y, z);
+		}
+	}
 
-    public void a(PacketPlayOutListener packetplayoutlistener) {
-        packetplayoutlistener.a(this);
-    }
+	public void a(PacketPlayOutListener packetplayoutlistener) {
+		packetplayoutlistener.a(this);
+	}
 
-    public boolean a() {
-        return false;
-    }
+	@Override
+	public boolean a() {
+		return false;
+	}
 
-    public String b() {
-        return String.format("x=%d, y=%d, z=%d", new Object[] { Integer.valueOf(this.x), Integer.valueOf(this.y), Integer.valueOf(this.z)});
-    }
+	@Override
+	public String b() {
+		return String.format("x=%d, y=%d, z=%d", new Object[] { Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(z) });
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayOutListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayOutListener) packetlistener);
+	}
 }

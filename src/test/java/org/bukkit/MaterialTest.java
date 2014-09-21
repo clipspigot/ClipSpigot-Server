@@ -19,32 +19,34 @@ import com.google.common.collect.Maps;
 
 public class MaterialTest extends AbstractTestingBase {
 
-    @Test
-    public void verifyMapping() {
-        Map<Integer, Material> materials = Maps.newHashMap();
-        for (Material material : Material.values()) {
-            if (INVALIDATED_MATERIALS.contains(material)) {
-                continue;
-            }
+	@Test
+	public void verifyMapping() {
+		Map<Integer, Material> materials = Maps.newHashMap();
+		for (Material material : Material.values()) {
+			if (INVALIDATED_MATERIALS.contains(material)) {
+				continue;
+			}
 
-            materials.put(material.getId(), material);
-        }
-        materials.remove(0); // Purge air.
+			materials.put(material.getId(), material);
+		}
+		materials.remove(0); // Purge air.
 
-        Iterator<Item> items = Item.REGISTRY.iterator();
+		Iterator<Item> items = Item.REGISTRY.iterator();
 
-        while (items.hasNext()) {
-            Item item = items.next();
-            if (item == null) continue;
+		while (items.hasNext()) {
+			Item item = items.next();
+			if (item == null) {
+				continue;
+			}
 
-            int id = CraftMagicNumbers.getId(item);
-            String name = item.getName();
+			int id = CraftMagicNumbers.getId(item);
+			String name = item.getName();
 
-            Material material = materials.remove(id);
+			Material material = materials.remove(id);
 
-            assertThat("Missing " + name + "(" + id + ")", material, is(not(nullValue())));
-        }
+			assertThat("Missing " + name + "(" + id + ")", material, is(not(nullValue())));
+		}
 
-        assertThat(materials, is(Collections.EMPTY_MAP));
-    }
+		assertThat(materials, is(Collections.EMPTY_MAP));
+	}
 }

@@ -10,36 +10,42 @@ import org.bukkit.command.BlockCommandSender;
  * Represents input from a command block
  */
 public class CraftBlockCommandSender extends ServerCommandSender implements BlockCommandSender {
-    private final TileEntityCommandListener commandBlock;
+	private final TileEntityCommandListener commandBlock;
 
-    public CraftBlockCommandSender(TileEntityCommandListener commandBlockListenerAbstract) {
-        super();
-        this.commandBlock = commandBlockListenerAbstract;
-    }
+	public CraftBlockCommandSender(TileEntityCommandListener commandBlockListenerAbstract) {
+		super();
+		commandBlock = commandBlockListenerAbstract;
+	}
 
-    public Block getBlock() {
-        return commandBlock.getWorld().getWorld().getBlockAt(commandBlock.getChunkCoordinates().x, commandBlock.getChunkCoordinates().y, commandBlock.getChunkCoordinates().z);
-    }
+	@Override
+	public Block getBlock() {
+		return commandBlock.getWorld().getWorld().getBlockAt(commandBlock.getChunkCoordinates().x, commandBlock.getChunkCoordinates().y, commandBlock.getChunkCoordinates().z);
+	}
 
-    public void sendMessage(String message) {
-    }
+	@Override
+	public void sendMessage(String message) {
+	}
 
-    public void sendMessage(String[] messages) {
-    }
+	@Override
+	public void sendMessage(String[] messages) {
+	}
 
-    public String getName() {
-        return commandBlock.getName();
-    }
+	@Override
+	public String getName() {
+		return commandBlock.getName();
+	}
 
-    public boolean isOp() {
-        return true;
-    }
+	@Override
+	public boolean isOp() {
+		return true;
+	}
 
-    public void setOp(boolean value) {
-        throw new UnsupportedOperationException("Cannot change operator status of a block");
-    }
+	@Override
+	public void setOp(boolean value) {
+		throw new UnsupportedOperationException("Cannot change operator status of a block");
+	}
 
-    public ICommandListener getTileEntity() {
-        return commandBlock;
-    }
+	public ICommandListener getTileEntity() {
+		return commandBlock;
+	}
 }

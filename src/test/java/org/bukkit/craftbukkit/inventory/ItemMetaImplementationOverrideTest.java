@@ -21,62 +21,56 @@ import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
 public class ItemMetaImplementationOverrideTest {
-    static final Class<CraftMetaItem> parent = CraftMetaItem.class;
+	static final Class<CraftMetaItem> parent = CraftMetaItem.class;
 
-    @Parameters(name="[{index}]:{1}")
-    public static List<Object[]> data() {
-        final List<Object[]> testData = new ArrayList<Object[]>();
-        List<Class<? extends CraftMetaItem>> classes = new ArrayList<Class<? extends CraftMetaItem>>();
+	@Parameters(name = "[{index}]:{1}")
+	public static List<Object[]> data() {
+		final List<Object[]> testData = new ArrayList<Object[]>();
+		List<Class<? extends CraftMetaItem>> classes = new ArrayList<Class<? extends CraftMetaItem>>();
 
-        for (Material material : ItemStackTest.COMPOUND_MATERIALS) {
-            Class<? extends CraftMetaItem> clazz = CraftItemFactory.instance().getItemMeta(material).getClass().asSubclass(parent);
-            if (clazz != parent) {
-                classes.add(clazz);
-            }
-        }
+		for (Material material : ItemStackTest.COMPOUND_MATERIALS) {
+			Class<? extends CraftMetaItem> clazz = CraftItemFactory.instance().getItemMeta(material).getClass().asSubclass(parent);
+			if (clazz != parent) {
+				classes.add(clazz);
+			}
+		}
 
-        List<Method> list = new ArrayList<Method>();
+		List<Method> list = new ArrayList<Method>();
 
-        for (Method method: parent.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(Overridden.class)) {
-                list.add(method);
-            }
-        }
+		for (Method method : parent.getDeclaredMethods()) {
+			if (method.isAnnotationPresent(Overridden.class)) {
+				list.add(method);
+			}
+		}
 
-        for (final Class<?> clazz : classes) {
-            for (final Method method : list) {
-                testData.add(
-                    new Object[] {
-                        new Callable<Method>() {
-                            public Method call() throws Exception {
-                                return clazz.getDeclaredMethod(method.getName(), method.getParameterTypes());
-                            }
-                        },
-                        clazz.getSimpleName() + " contains " + method.getName()
-                    }
-                );
-            }
+		for (final Class<?> clazz : classes) {
+			for (final Method method : list) {
+				testData.add(new Object[] { new Callable<Method>() {
+					@Override
+					public Method call() throws Exception {
+						return clazz.getDeclaredMethod(method.getName(), method.getParameterTypes());
+					}
+				}, clazz.getSimpleName() + " contains " + method.getName() });
+			}
 
-            testData.add(
-                new Object[] {
-                    new Callable<DelegateDeserialization>() {
-                        public DelegateDeserialization call() throws Exception {
-                            return clazz.getAnnotation(DelegateDeserialization.class);
-                        }
-                    },
-                    clazz.getSimpleName() + " contains annotation " + DelegateDeserialization.class
-                }
-            );
-        }
+			testData.add(new Object[] { new Callable<DelegateDeserialization>() {
+				@Override
+				public DelegateDeserialization call() throws Exception {
+					return clazz.getAnnotation(DelegateDeserialization.class);
+				}
+			}, clazz.getSimpleName() + " contains annotation " + DelegateDeserialization.class });
+		}
 
-        return testData;
-    }
+		return testData;
+	}
 
-    @Parameter(0) public Callable<?> test;
-    @Parameter(1) public String name;
+	@Parameter(0)
+	public Callable<?> test;
+	@Parameter(1)
+	public String name;
 
-    @Test
-    public void testClass() throws Throwable {
-        assertThat(name, test.call(), is(not(nullValue())));
-    }
+	@Test
+	public void testClass() throws Throwable {
+		assertThat(name, test.call(), is(not(nullValue())));
+	}
 }

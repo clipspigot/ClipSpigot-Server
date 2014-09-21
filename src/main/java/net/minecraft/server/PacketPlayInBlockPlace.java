@@ -2,87 +2,89 @@ package net.minecraft.server;
 
 public class PacketPlayInBlockPlace extends Packet {
 
-    private int a;
-    private int b;
-    private int c;
-    private int d;
-    private ItemStack e;
-    private float f;
-    private float g;
-    private float h;
+	private int a;
+	private int b;
+	private int c;
+	private int d;
+	private ItemStack e;
+	private float f;
+	private float g;
+	private float h;
 
-    public PacketPlayInBlockPlace() {}
+	public PacketPlayInBlockPlace() {
+	}
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        // Spigot start - protocol patch
-        if ( packetdataserializer.version < 16 )
-        {
-            this.a = packetdataserializer.readInt();
-            this.b = packetdataserializer.readUnsignedByte();
-            this.c = packetdataserializer.readInt();
-        } else
-        {
-            long position = packetdataserializer.readLong();
-            a = packetdataserializer.readPositionX( position );
-            b = packetdataserializer.readPositionY( position );
-            c = packetdataserializer.readPositionZ( position );
-        }
-        // Spigot end
-        this.d = packetdataserializer.readUnsignedByte();
-        this.e = packetdataserializer.c();
-        this.f = (float) packetdataserializer.readUnsignedByte() / 16.0F;
-        this.g = (float) packetdataserializer.readUnsignedByte() / 16.0F;
-        this.h = (float) packetdataserializer.readUnsignedByte() / 16.0F;
-    }
+	@Override
+	public void a(PacketDataSerializer packetdataserializer) {
+		// Spigot start - protocol patch
+		if (packetdataserializer.version < 16) {
+			a = packetdataserializer.readInt();
+			b = packetdataserializer.readUnsignedByte();
+			c = packetdataserializer.readInt();
+		} else {
+			long position = packetdataserializer.readLong();
+			a = packetdataserializer.readPositionX(position);
+			b = packetdataserializer.readPositionY(position);
+			c = packetdataserializer.readPositionZ(position);
+		}
+		// Spigot end
+		d = packetdataserializer.readUnsignedByte();
+		e = packetdataserializer.c();
+		f = packetdataserializer.readUnsignedByte() / 16.0F;
+		g = packetdataserializer.readUnsignedByte() / 16.0F;
+		h = packetdataserializer.readUnsignedByte() / 16.0F;
+	}
 
-    public void b(PacketDataSerializer packetdataserializer) {
-        packetdataserializer.writeInt(this.a);
-        packetdataserializer.writeByte(this.b);
-        packetdataserializer.writeInt(this.c);
-        packetdataserializer.writeByte(this.d);
-        packetdataserializer.a(this.e);
-        packetdataserializer.writeByte((int) (this.f * 16.0F));
-        packetdataserializer.writeByte((int) (this.g * 16.0F));
-        packetdataserializer.writeByte((int) (this.h * 16.0F));
-    }
+	@Override
+	public void b(PacketDataSerializer packetdataserializer) {
+		packetdataserializer.writeInt(a);
+		packetdataserializer.writeByte(b);
+		packetdataserializer.writeInt(c);
+		packetdataserializer.writeByte(d);
+		packetdataserializer.a(e);
+		packetdataserializer.writeByte((int) (f * 16.0F));
+		packetdataserializer.writeByte((int) (g * 16.0F));
+		packetdataserializer.writeByte((int) (h * 16.0F));
+	}
 
-    public void a(PacketPlayInListener packetplayinlistener) {
-        packetplayinlistener.a(this);
-    }
+	public void a(PacketPlayInListener packetplayinlistener) {
+		packetplayinlistener.a(this);
+	}
 
-    public int c() {
-        return this.a;
-    }
+	public int c() {
+		return a;
+	}
 
-    public int d() {
-        return this.b;
-    }
+	public int d() {
+		return b;
+	}
 
-    public int e() {
-        return this.c;
-    }
+	public int e() {
+		return c;
+	}
 
-    public int getFace() {
-        return this.d;
-    }
+	public int getFace() {
+		return d;
+	}
 
-    public ItemStack getItemStack() {
-        return this.e;
-    }
+	public ItemStack getItemStack() {
+		return e;
+	}
 
-    public float h() {
-        return this.f;
-    }
+	public float h() {
+		return f;
+	}
 
-    public float i() {
-        return this.g;
-    }
+	public float i() {
+		return g;
+	}
 
-    public float j() {
-        return this.h;
-    }
+	public float j() {
+		return h;
+	}
 
-    public void handle(PacketListener packetlistener) {
-        this.a((PacketPlayInListener) packetlistener);
-    }
+	@Override
+	public void handle(PacketListener packetlistener) {
+		this.a((PacketPlayInListener) packetlistener);
+	}
 }

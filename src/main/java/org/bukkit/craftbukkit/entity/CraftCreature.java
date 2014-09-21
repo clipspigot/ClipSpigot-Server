@@ -8,36 +8,40 @@ import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 
 public class CraftCreature extends CraftLivingEntity implements Creature {
-    public CraftCreature(CraftServer server, EntityCreature entity) {
-        super(server, entity);
-    }
+	public CraftCreature(CraftServer server, EntityCreature entity) {
+		super(server, entity);
+	}
 
-    public void setTarget(LivingEntity target) {
-        EntityCreature entity = getHandle();
-        if (target == null) {
-            entity.target = null;
-            entity.setGoalTarget(null);
-        } else if (target instanceof CraftLivingEntity) {
-            entity.target = ((CraftLivingEntity) target).getHandle();
-            entity.pathEntity = entity.world.findPath(entity, entity.target, 16.0F, true, false, false, true);
-            entity.setGoalTarget(((CraftLivingEntity) target).getHandle());
-        }
-    }
+	@Override
+	public void setTarget(LivingEntity target) {
+		EntityCreature entity = getHandle();
+		if (target == null) {
+			entity.target = null;
+			entity.setGoalTarget(null);
+		} else if (target instanceof CraftLivingEntity) {
+			entity.target = ((CraftLivingEntity) target).getHandle();
+			entity.pathEntity = entity.world.findPath(entity, entity.target, 16.0F, true, false, false, true);
+			entity.setGoalTarget(((CraftLivingEntity) target).getHandle());
+		}
+	}
 
-    public CraftLivingEntity getTarget() {
-        if (getHandle().target == null) return null;
-        if (!(getHandle().target instanceof EntityLiving)) return null;
+	@Override
+	public CraftLivingEntity getTarget() {
+		if (getHandle().target == null)
+			return null;
+		if (!(getHandle().target instanceof EntityLiving))
+			return null;
 
-        return (CraftLivingEntity) getHandle().target.getBukkitEntity();
-    }
+		return (CraftLivingEntity) getHandle().target.getBukkitEntity();
+	}
 
-    @Override
-    public EntityCreature getHandle() {
-        return (EntityCreature) entity;
-    }
+	@Override
+	public EntityCreature getHandle() {
+		return (EntityCreature) entity;
+	}
 
-    @Override
-    public String toString() {
-        return "CraftCreature";
-    }
+	@Override
+	public String toString() {
+		return "CraftCreature";
+	}
 }
