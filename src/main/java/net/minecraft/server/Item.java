@@ -290,6 +290,16 @@ public class Item {
 			} else if (block == Blocks.MOB_SPAWNER || block == Blocks.BIG_MUSHROOM_1 || block == Blocks.BIG_MUSHROOM_2) {
 				object = new ItemWithAuxData(block, true);
 				// CraftBukkit end
+				// ClipSpigot start
+			} else if (block == Blocks.STONE) {
+				object = new ItemMultiTexture(Blocks.STONE, Blocks.STONE, BlockStone.types).b("stone");
+			} else if (block == Blocks.SPONGE) {
+				object = new ItemMultiTexture(Blocks.SPONGE, Blocks.SPONGE, Block18.types_sponge).b("sponge");
+			} else if (block == Blocks.PRISMARINE) {
+				object = new ItemMultiTexture(Blocks.PRISMARINE, Blocks.PRISMARINE, Block18.types_prismarine).b("prismarine");
+			} else if (block == Blocks.RED_SANDSTONE) {
+				object = new ItemMultiTexture(Blocks.RED_SANDSTONE, Blocks.RED_SANDSTONE, BlockSandStone.a).b("redSandStone");
+				// ClipSpigot end
 			} else {
 				if (hashset.contains(block)) {
 					continue;

@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import net.minecraft.server.MinecraftServer;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -81,6 +82,16 @@ public class ClipSpigotConfig {
 		}
 	}
 
+	private static String transform(String s) {
+		return ChatColor.translateAlternateColorCodes('&', s).replaceAll("\\n", "\n");
+	}
+	
+	public static String only18ClientAllowedMessage = "Please use Minecraft 1.8 to join this server!";
+	
+	private static void messages() {
+		only18ClientAllowedMessage = transform(getString("messages.outdated-client", only18ClientAllowedMessage));
+	}
+	
 	private static void set(String path, Object val) {
 		config.set(path, val);
 	}
@@ -146,5 +157,13 @@ public class ClipSpigotConfig {
 	private static void effectModifiers() {
 		strengthEffectModifier = getDouble("effect-modifiers.strength", 1.3D);
 		weaknessEffectModifier = getDouble("effect-modifiers.weakness", -0.5D);
+	}
+	
+	public static boolean allow18clientsOnly;
+
+	private static void onlyAllow18ClientsJoin() {
+		allow18clientsOnly = getBoolean("settings.allow-only-1-8-clients", false);
+		if (!allow18clientsOnly)
+			Bukkit.getLogger().log(Level.INFO, "1.7x clients are allowed to join, new blocks/features will not work for them!");
 	}
 }

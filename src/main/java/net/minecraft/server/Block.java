@@ -116,7 +116,7 @@ public class Block {
 		REGISTRY.a(16, "coal_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreCoal").d("coal_ore"));
 		REGISTRY.a(17, "log", new BlockLog1().c("log").d("log"));
 		REGISTRY.a(18, "leaves", new BlockLeaves1().c("leaves").d("leaves"));
-		REGISTRY.a(19, "sponge", new BlockSponge().c(0.6F).a(h).c("sponge").d("sponge"));
+		REGISTRY.a(19, "sponge", new Block18(Material.SPONGE).c(0.6F).a(h).c("sponge").d("sponge"));
 		REGISTRY.a(20, "glass", new BlockGlass(Material.SHATTERABLE, false).c(0.3F).a(k).c("glass").d("glass"));
 		REGISTRY.a(21, "lapis_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreLapis").d("lapis_ore"));
 		REGISTRY.a(22, "lapis_block", new BlockOreBlock(MaterialMapColor.H).c(3.0F).b(5.0F).a(i).c("blockLapis").a(CreativeModeTab.b).d("lapis_block"));
@@ -284,6 +284,11 @@ public class Block {
 		REGISTRY.a(173, "coal_block", new Block(Material.STONE).c(5.0F).b(10.0F).a(i).c("blockCoal").a(CreativeModeTab.b).d("coal_block"));
 		REGISTRY.a(174, "packed_ice", new BlockPackedIce().c(0.5F).a(k).c("icePacked").d("ice_packed"));
 		REGISTRY.a(175, "double_plant", new BlockTallPlant());
+		
+		REGISTRY.a(165, "slime_block", new Block18(Material.SPONGE).c(0.6F).a(h).c("slimeBlock").d("slime_block")); // ClipSpigot
+		REGISTRY.a(168, "prismarine", new Block18(Material.STONE).c(1.5F).b(10.0F).a(i).c("prismarine").d("prismarine")); // ClipSpigot
+		REGISTRY.a(179, "red_sandstone", new BlockSandStone().a(i).c(0.8F).c("redSandstone").d("red_sandstone")); // ClipSpigot
+		
 		Iterator iterator = REGISTRY.iterator();
 
 		while (iterator.hasNext()) {
