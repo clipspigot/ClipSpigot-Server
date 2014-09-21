@@ -17,7 +17,6 @@ import org.bukkit.craftbukkit.LoggerOutputStream;
 import org.bukkit.craftbukkit.SpigotTimings; // Spigot
 import org.bukkit.event.server.ServerCommandEvent;
 // CraftBukkit end
-// PaperSpigot
 
 public class DedicatedServer extends MinecraftServer implements IMinecraftServer {
 
@@ -116,8 +115,8 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 		org.spigotmc.SpigotConfig.registerCommands();
 		// Spigot end
 		// PaperSpigot start
-		org.github.paperspigot.PaperSpigotConfig.init();
-		org.github.paperspigot.PaperSpigotConfig.registerCommands();
+		org.clipspigot.ClipSpigotConfig.init();
+		org.clipspigot.ClipSpigotConfig.registerCommands();
 		// PaperSpigot stop
 
 		i.info("Generating keypair");

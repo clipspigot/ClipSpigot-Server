@@ -1,6 +1,5 @@
 package net.minecraft.server;
 
-import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 // CraftBukkit start
@@ -987,7 +986,7 @@ public abstract class MinecraftServer implements ICommandListener, Runnable {
 	}
 
 	public String getServerModName() {
-		return "PaperSpigot"; // PaperSpigot - PaperSpigot > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
+		return "ClipSpigot"; // ClipSpigot - ClipSpigot > // PaperSpigot - PaperSpigot > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
 	}
 
 	public CrashReport b(CrashReport crashreport) {

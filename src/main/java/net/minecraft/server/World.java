@@ -185,7 +185,7 @@ public abstract class World implements IBlockAccess {
 	public boolean keepSpawnInMemory = true;
 	public ChunkGenerator generator;
 	public final org.spigotmc.SpigotWorldConfig spigotConfig; // Spigot
-	public final org.github.paperspigot.PaperSpigotWorldConfig paperSpigotConfig; // PaperSpigot
+	public final org.clipspigot.ClipSpigotWorldConfig paperSpigotConfig; // PaperSpigot
 
 	public final SpigotTimings.WorldTimingsHandler timings; // Spigot
 
@@ -204,7 +204,7 @@ public abstract class World implements IBlockAccess {
 	// Changed signature - added gen and env
 	public World(IDataManager idatamanager, String s, WorldSettings worldsettings, WorldProvider worldprovider, MethodProfiler methodprofiler, ChunkGenerator gen, org.bukkit.World.Environment env) {
 		spigotConfig = new org.spigotmc.SpigotWorldConfig(s); // Spigot
-		paperSpigotConfig = new org.github.paperspigot.PaperSpigotWorldConfig(s); // PaperSpigot
+		paperSpigotConfig = new org.clipspigot.ClipSpigotWorldConfig(s); // PaperSpigot
 		generator = gen;
 		world = new CraftWorld((WorldServer) this, gen, env);
 		ticksPerAnimalSpawns = getServer().getTicksPerAnimalSpawns(); // CraftBukkit

@@ -16,7 +16,7 @@ public class EntityZombie extends EntityMonster {
 	protected static final IAttribute bp = new AttributeRanged("zombie.spawnReinforcements", 0.0D, 0.0D, 1.0D).a("Spawn Reinforcements Chance");
 	private static final UUID bq = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	// PaperSpigot - Configurable baby zombie movement speed
-	private static final AttributeModifier br = new AttributeModifier(bq, "Baby speed boost", org.github.paperspigot.PaperSpigotConfig.babyZombieMovementSpeed, 1);
+	private static final AttributeModifier br = new AttributeModifier(bq, "Baby speed boost", org.clipspigot.ClipSpigotConfig.babyZombieMovementSpeed, 1);
 	private final PathfinderGoalBreakDoor bs = new PathfinderGoalBreakDoor(this);
 	private int bt;
 	private boolean bu = false;

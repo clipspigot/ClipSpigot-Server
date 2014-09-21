@@ -1,6 +1,6 @@
 package net.minecraft.server;
 
-import org.github.paperspigot.PaperSpigotConfig;
+import org.clipspigot.ClipSpigotConfig;
 
 public class MobEffectAttackDamage extends MobEffectList {
 
@@ -11,6 +11,6 @@ public class MobEffectAttackDamage extends MobEffectList {
 	@Override
 	public double a(int i, AttributeModifier attributemodifier) {
 		// PaperSpigot - Configurable modifiers for strength and weakness effects
-		return id == MobEffectList.WEAKNESS.id ? (double) (PaperSpigotConfig.weaknessEffectModifier * (i + 1)) : PaperSpigotConfig.strengthEffectModifier * (i + 1);
+		return id == MobEffectList.WEAKNESS.id ? (double) (ClipSpigotConfig.weaknessEffectModifier * (i + 1)) : ClipSpigotConfig.strengthEffectModifier * (i + 1);
 	}
 }

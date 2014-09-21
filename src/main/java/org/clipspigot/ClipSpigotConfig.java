@@ -1,4 +1,4 @@
-package org.github.paperspigot;
+package org.clipspigot;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,11 +19,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.google.common.base.Throwables;
 
-public class PaperSpigotConfig {
+@SuppressWarnings("unused")
+public class ClipSpigotConfig {
 
-	private static final File CONFIG_FILE = new File("paper.yml");
-	private static final String HEADER = "This is the main configuration file for PaperSpigot.\n" + "As you can see, there's tons to configure. Some options may impact gameplay, so use\n" + "with caution, and make sure you know what each option does before configuring.\n" + "\n" + "If you need help with the configuration or have any questions related to PaperSpigot,\n" + "join us at the IRC.\n"
-			+ "\n" + "IRC: #paperspigot @ irc.spi.gt ( http://irc.spi.gt/iris/?channels=PaperSpigot )\n";
+	private static final File CONFIG_FILE = new File("clip.yml");
+	private static final String HEADER = "This is the main configuration file for ClipSpigot.\n" 
+	+ "As you can see, there's tons to configure. Some options may impact gameplay, so use\n" 
+			+ "with caution, and make sure you know what each option does before configuring.\n\n";
 	/*========================================================================*/
 	static YamlConfiguration config;
 	static int version;
@@ -37,7 +39,7 @@ public class PaperSpigotConfig {
 			config.load(CONFIG_FILE);
 		} catch (IOException ex) {
 		} catch (InvalidConfigurationException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Could not load paper.yml, please correct your syntax errors", ex);
+			Bukkit.getLogger().log(Level.SEVERE, "Could not load clip.yml, please correct your syntax errors", ex);
 			throw Throwables.propagate(ex);
 		}
 		config.options().header(HEADER);
@@ -47,12 +49,12 @@ public class PaperSpigotConfig {
 
 		version = getInt("config-version", 6);
 		set("config-version", 6);
-		readConfig(PaperSpigotConfig.class, null);
+		readConfig(ClipSpigotConfig.class, null);
 	}
 
 	public static void registerCommands() {
 		for (Map.Entry<String, Command> entry : commands.entrySet()) {
-			MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "PaperSpigot", entry.getValue());
+			MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "ClipSpigot", entry.getValue());
 		}
 	}
 
@@ -103,6 +105,7 @@ public class PaperSpigotConfig {
 		return config.getInt(path, config.getInt(path));
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static <T> List getList(String path, T def) {
 		config.addDefault(path, def);
 		return config.getList(path, config.getList(path));

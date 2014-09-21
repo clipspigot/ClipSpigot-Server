@@ -798,7 +798,7 @@ public final class CraftServer implements Server {
 		}
 
 		org.spigotmc.SpigotConfig.init(); // Spigot
-		org.github.paperspigot.PaperSpigotConfig.init(); // PaperSpigot
+		org.clipspigot.ClipSpigotConfig.init(); // PaperSpigot
 		for (WorldServer world : console.worlds) {
 			world.difficulty = difficulty;
 			world.setSpawnFlags(monsters, animals);
@@ -821,7 +821,7 @@ public final class CraftServer implements Server {
 		commandMap.clearCommands();
 		resetRecipes();
 		org.spigotmc.SpigotConfig.registerCommands(); // Spigot
-		org.github.paperspigot.PaperSpigotConfig.registerCommands(); // PaperSpigot
+		org.clipspigot.ClipSpigotConfig.registerCommands(); // PaperSpigot
 
 		overrideAllCommandBlockCommands = commandsConfiguration.getStringList("command-block-overrides").contains("*");
 

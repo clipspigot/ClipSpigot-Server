@@ -1,19 +1,20 @@
-package org.github.paperspigot;
+package org.clipspigot;
 
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class PaperSpigotWorldConfig {
+@SuppressWarnings("unused")
+public class ClipSpigotWorldConfig {
 
 	private final String worldName;
 	private final YamlConfiguration config;
 	private boolean verbose;
 
-	public PaperSpigotWorldConfig(String worldName) {
+	public ClipSpigotWorldConfig(String worldName) {
 		this.worldName = worldName;
-		config = PaperSpigotConfig.config;
+		config = ClipSpigotConfig.config;
 		init();
 	}
 
@@ -21,7 +22,7 @@ public class PaperSpigotWorldConfig {
 		verbose = getBoolean("verbose", true);
 
 		log("-------- World Settings For [" + worldName + "] --------");
-		PaperSpigotConfig.readConfig(PaperSpigotWorldConfig.class, this);
+		ClipSpigotConfig.readConfig(ClipSpigotWorldConfig.class, this);
 	}
 
 	private void log(String s) {
@@ -54,6 +55,7 @@ public class PaperSpigotWorldConfig {
 		return config.getFloat("world-settings." + worldName + "." + path, config.getFloat("world-settings.default." + path));
 	}
 
+	@SuppressWarnings("rawtypes")
 	private <T> List getList(String path, T def) {
 		config.addDefault("world-settings.default." + path, def);
 		return config.getList("world-settings." + worldName + "." + path, config.getList("world-settings.default." + path));
