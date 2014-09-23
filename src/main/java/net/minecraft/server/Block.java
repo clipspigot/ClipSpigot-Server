@@ -329,7 +329,7 @@ public class Block {
 		REGISTRY.a(175, "double_plant", new BlockTallPlant());
 		
 		// ClipSpigot start - hardcode 1.8
-		REGISTRY.a(165, "slime_block", new BlockHalfTransparent("slime", Material.SHATTERABLE, true).setHardness(0.6F).setSound(slimeStepSound).setName("slimeBlock").setTextureName("slime_block"));
+		REGISTRY.a(165, "slime_block", new Block18(Material.TNT).setHardness(0.6F).setSound(slimeStepSound).setName("slimeBlock").setTextureName("slime_block"));
 		REGISTRY.a(166, "barrier", new Block(Material.STONE).s().setResistance(6000000.0F).setSound(i).setName("barrier").H().setTextureName("barrier"));
 		REGISTRY.a(167, "iron_trapdoor", new BlockTrapdoor(Material.ORE).setHardness(5.0F).setSound(f).setName("ironTrapdoor").H().setTextureName("ironTrapdoor"));
 		REGISTRY.a(168, "prismarine", new Block18(Material.STONE).setHardness(1.5F).setResistance(10.0F).setSound(i).setName("prismarine").setTextureName("prismarine"));
@@ -356,7 +356,6 @@ public class Block {
 		REGISTRY.a(195, "jungle_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorJungle"));
 		REGISTRY.a(196, "acacia_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorAcacia"));
 		REGISTRY.a(197, "dark_oak_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorDarkOak"));
-		
 		// ClipSpigot end
 		
 		Iterator registryIterator = REGISTRY.iterator();

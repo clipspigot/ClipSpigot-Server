@@ -10,8 +10,12 @@ public class BlockStone extends Block {
 	}
 
 	@Override
-	public Item getDropType(int paramInt1, Random paramRandom, int paramInt2) {
-		return Item.getItemOf(Blocks.COBBLESTONE);
+	public Item getDropType(int data, Random rand, int arg2) {
+		// ClipSpigot start - correct 1.8 stone data
+		if(data == 0)
+			return Item.getItemOf(Blocks.COBBLESTONE);		
+		return super.getDropType(data, rand, arg2);
+		// ClipSpigot end
 	}
 
 	@Override
