@@ -33,7 +33,7 @@ public class RecipesFurnace {
 		this.registerRecipe(Blocks.EMERALD_ORE, new ItemStack(Items.EMERALD), 1.0F);
 		this.a(Items.POTATO, new ItemStack(Items.POTATO_BAKED), 0.35F);
 		this.registerRecipe(Blocks.NETHERRACK, new ItemStack(Items.NETHER_BRICK), 0.1F);
-		//this.registerRecipe(Blocks.SMOOTH_BRICK, new ItemStack(Blocks.SMOOTH_BRICK, 1, 2), 0.5F); // PaperSpigot - Register cracked stone brick recipe
+		this.registerRecipe(Blocks.SMOOTH_BRICK, new ItemStack(Blocks.SMOOTH_BRICK, 1, 2), 0.5F); // PaperSpigot - Register cracked stone brick recipe
 		EnumFish[] aenumfish = EnumFish.values();
 		int i = aenumfish.length;
 

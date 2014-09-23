@@ -150,9 +150,9 @@ public class CraftingManager {
 		registerShapedRecipe(new ItemStack(Blocks.DAYLIGHT_DETECTOR), new Object[] { "GGG", "QQQ", "WWW", Character.valueOf('G'), Blocks.GLASS, Character.valueOf('Q'), Items.QUARTZ, Character.valueOf('W'), Blocks.WOOD_STEP });
 		registerShapedRecipe(new ItemStack(Blocks.HOPPER), new Object[] { "I I", "ICI", " I ", Character.valueOf('I'), Items.IRON_INGOT, Character.valueOf('C'), Blocks.CHEST });
 		// PaperSpigot start - Register moss stone and mossy and chiseled stone brick recipes
-		//this.registerShapelessRecipe(new ItemStack(Blocks.MOSSY_COBBLESTONE), new Object[] { Blocks.VINE, Blocks.COBBLESTONE});
-		//this.registerShapelessRecipe(new ItemStack(Blocks.SMOOTH_BRICK, 1, 1), new Object[] { Blocks.VINE, Blocks.SMOOTH_BRICK});
-		//this.registerShapelessRecipe(new ItemStack(Blocks.SMOOTH_BRICK, 1, 3), new Object[] { new ItemStack(Blocks.STEP, 1, 5), new ItemStack(Blocks.STEP, 1, 5)});
+		registerShapelessRecipe(new ItemStack(Blocks.MOSSY_COBBLESTONE), new Object[] { Blocks.VINE, Blocks.COBBLESTONE});
+		registerShapelessRecipe(new ItemStack(Blocks.SMOOTH_BRICK, 1, 1), new Object[] { Blocks.VINE, Blocks.SMOOTH_BRICK});
+		registerShapelessRecipe(new ItemStack(Blocks.SMOOTH_BRICK, 1, 3), new Object[] { new ItemStack(Blocks.STEP, 1, 5), new ItemStack(Blocks.STEP, 1, 5)});
 		// PaperSpigot end
 		// Collections.sort(this.recipes, new RecipeSorter(this)); // CraftBukkit - moved below
 		sort(); // CraftBukkit - call new sort method
