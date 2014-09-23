@@ -9,6 +9,7 @@ public class PacketPlayOutEntityTeleport extends Packet {
 	private byte e;
 	private byte f;
 	private boolean onGround; // Spigot - protocol patch
+	private boolean heightCorrection; // Spigot Update - 20140916a
 
 	public PacketPlayOutEntityTeleport() {
 	}
@@ -22,7 +23,8 @@ public class PacketPlayOutEntityTeleport extends Packet {
 		f = (byte) (int) (entity.pitch * 256.0F / 360.0F);
 	}
 
-	public PacketPlayOutEntityTeleport(int i, int j, int k, int l, byte b0, byte b1, boolean onGround) { // Spigot - protocol patch
+	public PacketPlayOutEntityTeleport(int i, int j, int k, int l, byte b0, byte b1, boolean onGround, boolean heightCorrection) { // Spigot - protocol patch // Spigot Update - 20140916a
+		this.heightCorrection = heightCorrection; // Spigot Update - 20140916a
 		a = i;
 		b = j;
 		c = k;
@@ -52,7 +54,7 @@ public class PacketPlayOutEntityTeleport extends Packet {
 		}
 		// Spigot end
 		packetdataserializer.writeInt(b);
-		packetdataserializer.writeInt(c);
+		packetdataserializer.writeInt((packetdataserializer.version >= 16 && heightCorrection) ? (this.c - 16) : this.c); // Spigot Update - 20140916a
 		packetdataserializer.writeInt(d);
 		packetdataserializer.writeByte(e);
 		packetdataserializer.writeByte(f);

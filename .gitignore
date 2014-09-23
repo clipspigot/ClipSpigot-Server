@@ -35,3 +35,17 @@
 /src/main/resources/achievement
 /src/main/resources/lang
 dependency-reduced-pom.xml
+bukkit.yml
+.update-lock
+banned-ips.json
+banned-players.json
+clip.yml
+commands.yml
+help.yml
+/logs
+ops.json
+permissions.yml
+server.properties
+spigot.yml
+usercache.json
+whitelist.json
