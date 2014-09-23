@@ -20,7 +20,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 	protected BlockSapling() {
 		float f = 0.4F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
 		this.a(CreativeModeTab.c);
 	}
 

@@ -7,8 +7,8 @@ public class BlockPistonExtension extends Block {
 
 	public BlockPistonExtension() {
 		super(Material.PISTON);
-		this.a(i);
-		this.c(0.5F);
+		this.setSound(i);
+		this.setHardness(0.5F);
 	}
 
 	@Override
@@ -87,48 +87,48 @@ public class BlockPistonExtension extends Block {
 
 		switch (b(l)) {
 		case 0:
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
-			this.a(0.375F, 0.25F, 0.375F, 0.625F, 1.0F, 0.625F);
+			this.setBounds(0.375F, 0.25F, 0.375F, 0.625F, 1.0F, 0.625F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
 			break;
 
 		case 1:
-			this.a(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
-			this.a(0.375F, 0.0F, 0.375F, 0.625F, 0.75F, 0.625F);
+			this.setBounds(0.375F, 0.0F, 0.375F, 0.625F, 0.75F, 0.625F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
 			break;
 
 		case 2:
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
-			this.a(0.25F, 0.375F, 0.25F, 0.75F, 0.625F, 1.0F);
+			this.setBounds(0.25F, 0.375F, 0.25F, 0.75F, 0.625F, 1.0F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
 			break;
 
 		case 3:
-			this.a(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
-			this.a(0.25F, 0.375F, 0.0F, 0.75F, 0.625F, 0.75F);
+			this.setBounds(0.25F, 0.375F, 0.0F, 0.75F, 0.625F, 0.75F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
 			break;
 
 		case 4:
-			this.a(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
-			this.a(0.375F, 0.25F, 0.25F, 0.625F, 0.75F, 1.0F);
+			this.setBounds(0.375F, 0.25F, 0.25F, 0.625F, 0.75F, 1.0F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
 			break;
 
 		case 5:
-			this.a(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
-			this.a(0.0F, 0.375F, 0.25F, 0.75F, 0.625F, 0.75F);
+			this.setBounds(0.0F, 0.375F, 0.25F, 0.75F, 0.625F, 0.75F);
 			super.a(world, i, j, k, axisalignedbb, list, entity);
 		}
 
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -138,27 +138,27 @@ public class BlockPistonExtension extends Block {
 
 		switch (b(l)) {
 		case 0:
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
 			break;
 
 		case 1:
-			this.a(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 0.75F, 0.0F, 1.0F, 1.0F, 1.0F);
 			break;
 
 		case 2:
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.25F);
 			break;
 
 		case 3:
-			this.a(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.75F, 1.0F, 1.0F, 1.0F);
 			break;
 
 		case 4:
-			this.a(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 0.25F, 1.0F, 1.0F);
 			break;
 
 		case 5:
-			this.a(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.75F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		}
 	}
 

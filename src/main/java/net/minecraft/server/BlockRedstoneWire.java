@@ -14,7 +14,7 @@ public class BlockRedstoneWire extends Block {
 
 	public BlockRedstoneWire() {
 		super(Material.ORIENTABLE);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 	}
 
 	@Override

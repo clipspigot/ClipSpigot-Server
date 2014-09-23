@@ -11,7 +11,7 @@ public abstract class BlockDiodeAbstract extends BlockDirectional {
 	protected BlockDiodeAbstract(boolean flag) {
 		super(Material.ORIENTABLE);
 		a = flag;
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 	}
 
 	@Override

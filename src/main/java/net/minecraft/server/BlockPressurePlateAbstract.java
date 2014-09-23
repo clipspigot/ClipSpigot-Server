@@ -26,9 +26,9 @@ public abstract class BlockPressurePlateAbstract extends Block {
 		float f = 0.0625F;
 
 		if (flag) {
-			this.a(f, 0.0F, f, 1.0F - f, 0.03125F, 1.0F - f);
+			this.setBounds(f, 0.0F, f, 1.0F - f, 0.03125F, 1.0F - f);
 		} else {
-			this.a(f, 0.0F, f, 1.0F - f, 0.0625F, 1.0F - f);
+			this.setBounds(f, 0.0F, f, 1.0F - f, 0.0625F, 1.0F - f);
 		}
 	}
 
@@ -174,7 +174,7 @@ public abstract class BlockPressurePlateAbstract extends Block {
 		float f1 = 0.125F;
 		float f2 = 0.5F;
 
-		this.a(0.5F - f, 0.5F - f1, 0.5F - f2, 0.5F + f, 0.5F + f1, 0.5F + f2);
+		this.setBounds(0.5F - f, 0.5F - f1, 0.5F - f2, 0.5F + f, 0.5F + f1, 0.5F + f2);
 	}
 
 	@Override

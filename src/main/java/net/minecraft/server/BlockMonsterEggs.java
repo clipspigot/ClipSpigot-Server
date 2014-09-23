@@ -12,7 +12,7 @@ public class BlockMonsterEggs extends Block {
 
 	public BlockMonsterEggs() {
 		super(Material.CLAY);
-		this.c(0.0F);
+		this.setHardness(0.0F);
 		this.a(CreativeModeTab.c);
 	}
 

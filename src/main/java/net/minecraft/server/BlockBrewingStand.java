@@ -33,7 +33,7 @@ public class BlockBrewingStand extends BlockContainer {
 
 	@Override
 	public void a(World world, int i, int j, int k, AxisAlignedBB axisalignedbb, List list, Entity entity) {
-		this.a(0.4375F, 0.0F, 0.4375F, 0.5625F, 0.875F, 0.5625F);
+		this.setBounds(0.4375F, 0.0F, 0.4375F, 0.5625F, 0.875F, 0.5625F);
 		super.a(world, i, j, k, axisalignedbb, list, entity);
 		this.g();
 		super.a(world, i, j, k, axisalignedbb, list, entity);
@@ -41,7 +41,7 @@ public class BlockBrewingStand extends BlockContainer {
 
 	@Override
 	public void g() {
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 	}
 
 	@Override

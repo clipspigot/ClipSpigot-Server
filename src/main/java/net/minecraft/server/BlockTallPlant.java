@@ -8,9 +8,9 @@ public class BlockTallPlant extends BlockPlant implements IBlockFragilePlantElem
 
 	public BlockTallPlant() {
 		super(Material.PLANT);
-		this.c(0.0F);
-		this.a(h);
-		this.c("doublePlant");
+		this.setHardness(0.0F);
+		this.setSound(h);
+		this.setName("doublePlant");
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class BlockTallPlant extends BlockPlant implements IBlockFragilePlantElem
 
 	@Override
 	public void updateShape(IBlockAccess iblockaccess, int i, int j, int k) {
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	public int e(IBlockAccess iblockaccess, int i, int j, int k) {

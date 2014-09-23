@@ -16,7 +16,7 @@ public class BlockCake extends Block {
 		float f1 = (1 + l * 2) / 16.0F;
 		float f2 = 0.5F;
 
-		this.a(f1, 0.0F, f, 1.0F - f, f2, 1.0F - f);
+		this.setBounds(f1, 0.0F, f, 1.0F - f, f2, 1.0F - f);
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class BlockCake extends Block {
 		float f = 0.0625F;
 		float f1 = 0.5F;
 
-		this.a(f, 0.0F, f, 1.0F - f, f1, 1.0F - f);
+		this.setBounds(f, 0.0F, f, 1.0F - f, f1, 1.0F - f);
 	}
 
 	@Override

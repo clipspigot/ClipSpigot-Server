@@ -66,7 +66,7 @@ public class BlockPortal extends BlockHalfTransparent {
 			f1 = 0.5F;
 		}
 
-		this.a(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class BlockVine extends Block {
 
 	@Override
 	public void g() {
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class BlockVine extends Block {
 			f6 = 1.0F;
 		}
 
-		this.a(f1, f2, f3, f4, f5, f6);
+		this.setBounds(f1, f2, f3, f4, f5, f6);
 	}
 
 	@Override

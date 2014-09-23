@@ -8,7 +8,7 @@ public class BlockReed extends Block {
 		super(Material.PLANT);
 		float f = 0.375F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
 		this.a(true);
 	}
 

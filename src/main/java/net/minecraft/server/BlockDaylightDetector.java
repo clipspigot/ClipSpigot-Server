@@ -8,13 +8,13 @@ public class BlockDaylightDetector extends BlockContainer {
 
 	public BlockDaylightDetector() {
 		super(Material.WOOD);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 		this.a(CreativeModeTab.d);
 	}
 
 	@Override
 	public void updateShape(IBlockAccess iblockaccess, int i, int j, int k) {
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 	}
 
 	@Override

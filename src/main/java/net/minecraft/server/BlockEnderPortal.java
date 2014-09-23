@@ -23,7 +23,7 @@ public class BlockEnderPortal extends BlockContainer {
 	public void updateShape(IBlockAccess iblockaccess, int i, int j, int k) {
 		float f = 0.0625F;
 
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 	}
 
 	@Override

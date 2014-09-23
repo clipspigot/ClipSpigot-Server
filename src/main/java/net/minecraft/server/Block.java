@@ -21,6 +21,7 @@ public class Block {
 	public static final StepSound n = new StepSound("snow", 1.0F, 1.0F);
 	public static final StepSound o = new StepSoundLadder("ladder", 1.0F, 1.0F);
 	public static final StepSound p = new StepSoundAnvil("anvil", 0.3F, 1.0F);
+	public static final StepSound slimeStepSound = new StepSoundSlime("slime", 1.0F, 1.0F); // Slime step sound
 	protected boolean q;
 	protected int r;
 	protected boolean s;
@@ -93,201 +94,201 @@ public class Block {
 	}
 
 	public static void p() {
-		REGISTRY.a(0, "air", new BlockAir().c("air"));
-		REGISTRY.a(1, "stone", new BlockStone().c(1.5F).b(10.0F).a(i).c("stone").d("stone"));
-		REGISTRY.a(2, "grass", new BlockGrass().c(0.6F).a(h).c("grass").d("grass"));
-		REGISTRY.a(3, "dirt", new BlockDirt().c(0.5F).a(g).c("dirt").d("dirt"));
-		Block block = new Block(Material.STONE).c(2.0F).b(10.0F).a(i).c("stonebrick").a(CreativeModeTab.b).d("cobblestone");
+		REGISTRY.a(0, "air", new BlockAir().setName("air"));
+		REGISTRY.a(1, "stone", new BlockStone().setHardness(1.5F).setResistance(10.0F).setSound(i).setName("stone").setTextureName("stone"));
+		REGISTRY.a(2, "grass", new BlockGrass().setHardness(0.6F).setSound(h).setName("grass").setTextureName("grass"));
+		REGISTRY.a(3, "dirt", new BlockDirt().setHardness(0.5F).setSound(g).setName("dirt").setTextureName("dirt"));
+		Block block = new Block(Material.STONE).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("stonebrick").a(CreativeModeTab.b).setTextureName("cobblestone");
 
 		REGISTRY.a(4, "cobblestone", block);
-		Block block1 = new BlockWood().c(2.0F).b(5.0F).a(f).c("wood").d("planks");
+		Block block1 = new BlockWood().setHardness(2.0F).setResistance(5.0F).setSound(f).setName("wood").setTextureName("planks");
 
 		REGISTRY.a(5, "planks", block1);
-		REGISTRY.a(6, "sapling", new BlockSapling().c(0.0F).a(h).c("sapling").d("sapling"));
-		REGISTRY.a(7, "bedrock", new Block(Material.STONE).s().b(6000000.0F).a(i).c("bedrock").H().a(CreativeModeTab.b).d("bedrock"));
-		REGISTRY.a(8, "flowing_water", new BlockFlowing(Material.WATER).c(100.0F).g(3).c("water").H().d("water_flow"));
-		REGISTRY.a(9, "water", new BlockStationary(Material.WATER).c(100.0F).g(3).c("water").H().d("water_still"));
-		REGISTRY.a(10, "flowing_lava", new BlockFlowing(Material.LAVA).c(100.0F).a(1.0F).c("lava").H().d("lava_flow"));
-		REGISTRY.a(11, "lava", new BlockStationary(Material.LAVA).c(100.0F).a(1.0F).c("lava").H().d("lava_still"));
-		REGISTRY.a(12, "sand", new BlockSand().c(0.5F).a(m).c("sand").d("sand"));
-		REGISTRY.a(13, "gravel", new BlockGravel().c(0.6F).a(g).c("gravel").d("gravel"));
-		REGISTRY.a(14, "gold_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreGold").d("gold_ore"));
-		REGISTRY.a(15, "iron_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreIron").d("iron_ore"));
-		REGISTRY.a(16, "coal_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreCoal").d("coal_ore"));
-		REGISTRY.a(17, "log", new BlockLog1().c("log").d("log"));
-		REGISTRY.a(18, "leaves", new BlockLeaves1().c("leaves").d("leaves"));
-		REGISTRY.a(19, "sponge", new Block18(Material.SPONGE).c(0.6F).a(h).c("sponge").d("sponge"));
-		REGISTRY.a(20, "glass", new BlockGlass(Material.SHATTERABLE, false).c(0.3F).a(k).c("glass").d("glass"));
-		REGISTRY.a(21, "lapis_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreLapis").d("lapis_ore"));
-		REGISTRY.a(22, "lapis_block", new BlockOreBlock(MaterialMapColor.H).c(3.0F).b(5.0F).a(i).c("blockLapis").a(CreativeModeTab.b).d("lapis_block"));
-		REGISTRY.a(23, "dispenser", new BlockDispenser().c(3.5F).a(i).c("dispenser").d("dispenser"));
-		Block block2 = new BlockSandStone().a(i).c(0.8F).c("sandStone").d("sandstone");
+		REGISTRY.a(6, "sapling", new BlockSapling().setHardness(0.0F).setSound(h).setName("sapling").setTextureName("sapling"));
+		REGISTRY.a(7, "bedrock", new Block(Material.STONE).s().setResistance(6000000.0F).setSound(i).setName("bedrock").H().a(CreativeModeTab.b).setTextureName("bedrock"));
+		REGISTRY.a(8, "flowing_water", new BlockFlowing(Material.WATER).setHardness(100.0F).g(3).setName("water").H().setTextureName("water_flow"));
+		REGISTRY.a(9, "water", new BlockStationary(Material.WATER).setHardness(100.0F).g(3).setName("water").H().setTextureName("water_still"));
+		REGISTRY.a(10, "flowing_lava", new BlockFlowing(Material.LAVA).setHardness(100.0F).a(1.0F).setName("lava").H().setTextureName("lava_flow"));
+		REGISTRY.a(11, "lava", new BlockStationary(Material.LAVA).setHardness(100.0F).a(1.0F).setName("lava").H().setTextureName("lava_still"));
+		REGISTRY.a(12, "sand", new BlockSand().setHardness(0.5F).setSound(m).setName("sand").setTextureName("sand"));
+		REGISTRY.a(13, "gravel", new BlockGravel().setHardness(0.6F).setSound(g).setName("gravel").setTextureName("gravel"));
+		REGISTRY.a(14, "gold_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreGold").setTextureName("gold_ore"));
+		REGISTRY.a(15, "iron_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreIron").setTextureName("iron_ore"));
+		REGISTRY.a(16, "coal_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreCoal").setTextureName("coal_ore"));
+		REGISTRY.a(17, "log", new BlockLog1().setName("log").setTextureName("log"));
+		REGISTRY.a(18, "leaves", new BlockLeaves1().setName("leaves").setTextureName("leaves"));
+		REGISTRY.a(19, "sponge", new Block18(Material.SPONGE).setHardness(0.6F).setSound(h).setName("sponge").setTextureName("sponge"));
+		REGISTRY.a(20, "glass", new BlockGlass(Material.SHATTERABLE, false).setHardness(0.3F).setSound(k).setName("glass").setTextureName("glass"));
+		REGISTRY.a(21, "lapis_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreLapis").setTextureName("lapis_ore"));
+		REGISTRY.a(22, "lapis_block", new BlockOreBlock(MaterialMapColor.H).setHardness(3.0F).setResistance(5.0F).setSound(i).setName("blockLapis").a(CreativeModeTab.b).setTextureName("lapis_block"));
+		REGISTRY.a(23, "dispenser", new BlockDispenser().setHardness(3.5F).setSound(i).setName("dispenser").setTextureName("dispenser"));
+		Block block2 = new BlockSandStone().setSound(i).setHardness(0.8F).setName("sandStone").setTextureName("sandstone");
 
 		REGISTRY.a(24, "sandstone", block2);
-		REGISTRY.a(25, "noteblock", new BlockNote().c(0.8F).c("musicBlock").d("noteblock"));
-		REGISTRY.a(26, "bed", new BlockBed().c(0.2F).c("bed").H().d("bed"));
-		REGISTRY.a(27, "golden_rail", new BlockPoweredRail().c(0.7F).a(j).c("goldenRail").d("rail_golden"));
-		REGISTRY.a(28, "detector_rail", new BlockMinecartDetector().c(0.7F).a(j).c("detectorRail").d("rail_detector"));
-		REGISTRY.a(29, "sticky_piston", new BlockPiston(true).c("pistonStickyBase"));
-		REGISTRY.a(30, "web", new BlockWeb().g(1).c(4.0F).c("web").d("web"));
-		REGISTRY.a(31, "tallgrass", new BlockLongGrass().c(0.0F).a(h).c("tallgrass"));
-		REGISTRY.a(32, "deadbush", new BlockDeadBush().c(0.0F).a(h).c("deadbush").d("deadbush"));
-		REGISTRY.a(33, "piston", new BlockPiston(false).c("pistonBase"));
+		REGISTRY.a(25, "noteblock", new BlockNote().setHardness(0.8F).setName("musicBlock").setTextureName("noteblock"));
+		REGISTRY.a(26, "bed", new BlockBed().setHardness(0.2F).setName("bed").H().setTextureName("bed"));
+		REGISTRY.a(27, "golden_rail", new BlockPoweredRail().setHardness(0.7F).setSound(j).setName("goldenRail").setTextureName("rail_golden"));
+		REGISTRY.a(28, "detector_rail", new BlockMinecartDetector().setHardness(0.7F).setSound(j).setName("detectorRail").setTextureName("rail_detector"));
+		REGISTRY.a(29, "sticky_piston", new BlockPiston(true).setName("pistonStickyBase"));
+		REGISTRY.a(30, "web", new BlockWeb().g(1).setHardness(4.0F).setName("web").setTextureName("web"));
+		REGISTRY.a(31, "tallgrass", new BlockLongGrass().setHardness(0.0F).setSound(h).setName("tallgrass"));
+		REGISTRY.a(32, "deadbush", new BlockDeadBush().setHardness(0.0F).setSound(h).setName("deadbush").setTextureName("deadbush"));
+		REGISTRY.a(33, "piston", new BlockPiston(false).setName("pistonBase"));
 		REGISTRY.a(34, "piston_head", new BlockPistonExtension());
-		REGISTRY.a(35, "wool", new BlockCloth(Material.CLOTH).c(0.8F).a(l).c("cloth").d("wool_colored"));
+		REGISTRY.a(35, "wool", new BlockCloth(Material.CLOTH).setHardness(0.8F).setSound(l).setName("cloth").setTextureName("wool_colored"));
 		REGISTRY.a(36, "piston_extension", new BlockPistonMoving());
-		REGISTRY.a(37, "yellow_flower", new BlockFlowers(0).c(0.0F).a(h).c("flower1").d("flower_dandelion"));
-		REGISTRY.a(38, "red_flower", new BlockFlowers(1).c(0.0F).a(h).c("flower2").d("flower_rose"));
-		REGISTRY.a(39, "brown_mushroom", new BlockMushroom().c(0.0F).a(h).a(0.125F).c("mushroom").d("mushroom_brown"));
-		REGISTRY.a(40, "red_mushroom", new BlockMushroom().c(0.0F).a(h).c("mushroom").d("mushroom_red"));
-		REGISTRY.a(41, "gold_block", new BlockOreBlock(MaterialMapColor.F).c(3.0F).b(10.0F).a(j).c("blockGold").d("gold_block"));
-		REGISTRY.a(42, "iron_block", new BlockOreBlock(MaterialMapColor.h).c(5.0F).b(10.0F).a(j).c("blockIron").d("iron_block"));
-		REGISTRY.a(43, "double_stone_slab", new BlockStep(true).c(2.0F).b(10.0F).a(i).c("stoneSlab"));
-		REGISTRY.a(44, "stone_slab", new BlockStep(false).c(2.0F).b(10.0F).a(i).c("stoneSlab"));
-		Block block3 = new Block(Material.STONE).c(2.0F).b(10.0F).a(i).c("brick").a(CreativeModeTab.b).d("brick");
+		REGISTRY.a(37, "yellow_flower", new BlockFlowers(0).setHardness(0.0F).setSound(h).setName("flower1").setTextureName("flower_dandelion"));
+		REGISTRY.a(38, "red_flower", new BlockFlowers(1).setHardness(0.0F).setSound(h).setName("flower2").setTextureName("flower_rose"));
+		REGISTRY.a(39, "brown_mushroom", new BlockMushroom().setHardness(0.0F).setSound(h).a(0.125F).setName("mushroom").setTextureName("mushroom_brown"));
+		REGISTRY.a(40, "red_mushroom", new BlockMushroom().setHardness(0.0F).setSound(h).setName("mushroom").setTextureName("mushroom_red"));
+		REGISTRY.a(41, "gold_block", new BlockOreBlock(MaterialMapColor.F).setHardness(3.0F).setResistance(10.0F).setSound(j).setName("blockGold").setTextureName("gold_block"));
+		REGISTRY.a(42, "iron_block", new BlockOreBlock(MaterialMapColor.h).setHardness(5.0F).setResistance(10.0F).setSound(j).setName("blockIron").setTextureName("iron_block"));
+		REGISTRY.a(43, "double_stone_slab", new BlockStep(true).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("stoneSlab"));
+		REGISTRY.a(44, "stone_slab", new BlockStep(false).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("stoneSlab"));
+		Block block3 = new Block(Material.STONE).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("brick").a(CreativeModeTab.b).setTextureName("brick");
 
 		REGISTRY.a(45, "brick_block", block3);
-		REGISTRY.a(46, "tnt", new BlockTNT().c(0.0F).a(h).c("tnt").d("tnt"));
-		REGISTRY.a(47, "bookshelf", new BlockBookshelf().c(1.5F).a(f).c("bookshelf").d("bookshelf"));
-		REGISTRY.a(48, "mossy_cobblestone", new Block(Material.STONE).c(2.0F).b(10.0F).a(i).c("stoneMoss").a(CreativeModeTab.b).d("cobblestone_mossy"));
-		REGISTRY.a(49, "obsidian", new BlockObsidian().c(50.0F).b(2000.0F).a(i).c("obsidian").d("obsidian"));
-		REGISTRY.a(50, "torch", new BlockTorch().c(0.0F).a(0.9375F).a(f).c("torch").d("torch_on"));
-		REGISTRY.a(51, "fire", new BlockFire().c(0.0F).a(1.0F).a(f).c("fire").H().d("fire"));
-		REGISTRY.a(52, "mob_spawner", new BlockMobSpawner().c(5.0F).a(j).c("mobSpawner").H().d("mob_spawner"));
-		REGISTRY.a(53, "oak_stairs", new BlockStairs(block1, 0).c("stairsWood"));
-		REGISTRY.a(54, "chest", new BlockChest(0).c(2.5F).a(f).c("chest"));
-		REGISTRY.a(55, "redstone_wire", new BlockRedstoneWire().c(0.0F).a(e).c("redstoneDust").H().d("redstone_dust"));
-		REGISTRY.a(56, "diamond_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreDiamond").d("diamond_ore"));
-		REGISTRY.a(57, "diamond_block", new BlockOreBlock(MaterialMapColor.G).c(5.0F).b(10.0F).a(j).c("blockDiamond").d("diamond_block"));
-		REGISTRY.a(58, "crafting_table", new BlockWorkbench().c(2.5F).a(f).c("workbench").d("crafting_table"));
-		REGISTRY.a(59, "wheat", new BlockCrops().c("crops").d("wheat"));
-		Block block4 = new BlockSoil().c(0.6F).a(g).c("farmland").d("farmland");
+		REGISTRY.a(46, "tnt", new BlockTNT().setHardness(0.0F).setSound(h).setName("tnt").setTextureName("tnt"));
+		REGISTRY.a(47, "bookshelf", new BlockBookshelf().setHardness(1.5F).setSound(f).setName("bookshelf").setTextureName("bookshelf"));
+		REGISTRY.a(48, "mossy_cobblestone", new Block(Material.STONE).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("stoneMoss").a(CreativeModeTab.b).setTextureName("cobblestone_mossy"));
+		REGISTRY.a(49, "obsidian", new BlockObsidian().setHardness(50.0F).setResistance(2000.0F).setSound(i).setName("obsidian").setTextureName("obsidian"));
+		REGISTRY.a(50, "torch", new BlockTorch().setHardness(0.0F).a(0.9375F).setSound(f).setName("torch").setTextureName("torch_on"));
+		REGISTRY.a(51, "fire", new BlockFire().setHardness(0.0F).a(1.0F).setSound(f).setName("fire").H().setTextureName("fire"));
+		REGISTRY.a(52, "mob_spawner", new BlockMobSpawner().setHardness(5.0F).setSound(j).setName("mobSpawner").H().setTextureName("mob_spawner"));
+		REGISTRY.a(53, "oak_stairs", new BlockStairs(block1, 0).setName("stairsWood"));
+		REGISTRY.a(54, "chest", new BlockChest(0).setHardness(2.5F).setSound(f).setName("chest"));
+		REGISTRY.a(55, "redstone_wire", new BlockRedstoneWire().setHardness(0.0F).setSound(e).setName("redstoneDust").H().setTextureName("redstone_dust"));
+		REGISTRY.a(56, "diamond_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreDiamond").setTextureName("diamond_ore"));
+		REGISTRY.a(57, "diamond_block", new BlockOreBlock(MaterialMapColor.G).setHardness(5.0F).setResistance(10.0F).setSound(j).setName("blockDiamond").setTextureName("diamond_block"));
+		REGISTRY.a(58, "crafting_table", new BlockWorkbench().setHardness(2.5F).setSound(f).setName("workbench").setTextureName("crafting_table"));
+		REGISTRY.a(59, "wheat", new BlockCrops().setName("crops").setTextureName("wheat"));
+		Block block4 = new BlockSoil().setHardness(0.6F).setSound(g).setName("farmland").setTextureName("farmland");
 
 		REGISTRY.a(60, "farmland", block4);
-		REGISTRY.a(61, "furnace", new BlockFurnace(false).c(3.5F).a(i).c("furnace").a(CreativeModeTab.c));
-		REGISTRY.a(62, "lit_furnace", new BlockFurnace(true).c(3.5F).a(i).a(0.875F).c("furnace"));
-		REGISTRY.a(63, "standing_sign", new BlockSign(TileEntitySign.class, true).c(1.0F).a(f).c("sign").H());
-		REGISTRY.a(64, "wooden_door", new BlockDoor(Material.WOOD).c(3.0F).a(f).c("doorWood").H().d("door_wood"));
-		REGISTRY.a(65, "ladder", new BlockLadder().c(0.4F).a(o).c("ladder").d("ladder"));
-		REGISTRY.a(66, "rail", new BlockMinecartTrack().c(0.7F).a(j).c("rail").d("rail_normal"));
-		REGISTRY.a(67, "stone_stairs", new BlockStairs(block, 0).c("stairsStone"));
-		REGISTRY.a(68, "wall_sign", new BlockSign(TileEntitySign.class, false).c(1.0F).a(f).c("sign").H());
-		REGISTRY.a(69, "lever", new BlockLever().c(0.5F).a(f).c("lever").d("lever"));
-		REGISTRY.a(70, "stone_pressure_plate", new BlockPressurePlateBinary("stone", Material.STONE, EnumMobType.MOBS).c(0.5F).a(i).c("pressurePlate"));
-		REGISTRY.a(71, "iron_door", new BlockDoor(Material.ORE).c(5.0F).a(j).c("doorIron").H().d("door_iron"));
-		REGISTRY.a(72, "wooden_pressure_plate", new BlockPressurePlateBinary("planks_oak", Material.WOOD, EnumMobType.EVERYTHING).c(0.5F).a(f).c("pressurePlate"));
-		REGISTRY.a(73, "redstone_ore", new BlockRedstoneOre(false).c(3.0F).b(5.0F).a(i).c("oreRedstone").a(CreativeModeTab.b).d("redstone_ore"));
-		REGISTRY.a(74, "lit_redstone_ore", new BlockRedstoneOre(true).a(0.625F).c(3.0F).b(5.0F).a(i).c("oreRedstone").d("redstone_ore"));
-		REGISTRY.a(75, "unlit_redstone_torch", new BlockRedstoneTorch(false).c(0.0F).a(f).c("notGate").d("redstone_torch_off"));
-		REGISTRY.a(76, "redstone_torch", new BlockRedstoneTorch(true).c(0.0F).a(0.5F).a(f).c("notGate").a(CreativeModeTab.d).d("redstone_torch_on"));
-		REGISTRY.a(77, "stone_button", new BlockStoneButton().c(0.5F).a(i).c("button"));
-		REGISTRY.a(78, "snow_layer", new BlockSnow().c(0.1F).a(n).c("snow").g(0).d("snow"));
-		REGISTRY.a(79, "ice", new BlockIce().c(0.5F).g(3).a(k).c("ice").d("ice"));
-		REGISTRY.a(80, "snow", new BlockSnowBlock().c(0.2F).a(n).c("snow").d("snow"));
-		REGISTRY.a(81, "cactus", new BlockCactus().c(0.4F).a(l).c("cactus").d("cactus"));
-		REGISTRY.a(82, "clay", new BlockClay().c(0.6F).a(g).c("clay").d("clay"));
-		REGISTRY.a(83, "reeds", new BlockReed().c(0.0F).a(h).c("reeds").H().d("reeds"));
-		REGISTRY.a(84, "jukebox", new BlockJukeBox().c(2.0F).b(10.0F).a(i).c("jukebox").d("jukebox"));
-		REGISTRY.a(85, "fence", new BlockFence("planks_oak", Material.WOOD).c(2.0F).b(5.0F).a(f).c("fence"));
-		Block block5 = new BlockPumpkin(false).c(1.0F).a(f).c("pumpkin").d("pumpkin");
+		REGISTRY.a(61, "furnace", new BlockFurnace(false).setHardness(3.5F).setSound(i).setName("furnace").a(CreativeModeTab.c));
+		REGISTRY.a(62, "lit_furnace", new BlockFurnace(true).setHardness(3.5F).setSound(i).a(0.875F).setName("furnace"));
+		REGISTRY.a(63, "standing_sign", new BlockSign(TileEntitySign.class, true).setHardness(1.0F).setSound(f).setName("sign").H());
+		REGISTRY.a(64, "wooden_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorWood").H().setTextureName("door_wood"));
+		REGISTRY.a(65, "ladder", new BlockLadder().setHardness(0.4F).setSound(o).setName("ladder").setTextureName("ladder"));
+		REGISTRY.a(66, "rail", new BlockMinecartTrack().setHardness(0.7F).setSound(j).setName("rail").setTextureName("rail_normal"));
+		REGISTRY.a(67, "stone_stairs", new BlockStairs(block, 0).setName("stairsStone"));
+		REGISTRY.a(68, "wall_sign", new BlockSign(TileEntitySign.class, false).setHardness(1.0F).setSound(f).setName("sign").H());
+		REGISTRY.a(69, "lever", new BlockLever().setHardness(0.5F).setSound(f).setName("lever").setTextureName("lever"));
+		REGISTRY.a(70, "stone_pressure_plate", new BlockPressurePlateBinary("stone", Material.STONE, EnumMobType.MOBS).setHardness(0.5F).setSound(i).setName("pressurePlate"));
+		REGISTRY.a(71, "iron_door", new BlockDoor(Material.ORE).setHardness(5.0F).setSound(j).setName("doorIron").H().setTextureName("door_iron"));
+		REGISTRY.a(72, "wooden_pressure_plate", new BlockPressurePlateBinary("planks_oak", Material.WOOD, EnumMobType.EVERYTHING).setHardness(0.5F).setSound(f).setName("pressurePlate"));
+		REGISTRY.a(73, "redstone_ore", new BlockRedstoneOre(false).setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreRedstone").a(CreativeModeTab.b).setTextureName("redstone_ore"));
+		REGISTRY.a(74, "lit_redstone_ore", new BlockRedstoneOre(true).a(0.625F).setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreRedstone").setTextureName("redstone_ore"));
+		REGISTRY.a(75, "unlit_redstone_torch", new BlockRedstoneTorch(false).setHardness(0.0F).setSound(f).setName("notGate").setTextureName("redstone_torch_off"));
+		REGISTRY.a(76, "redstone_torch", new BlockRedstoneTorch(true).setHardness(0.0F).a(0.5F).setSound(f).setName("notGate").a(CreativeModeTab.d).setTextureName("redstone_torch_on"));
+		REGISTRY.a(77, "stone_button", new BlockStoneButton().setHardness(0.5F).setSound(i).setName("button"));
+		REGISTRY.a(78, "snow_layer", new BlockSnow().setHardness(0.1F).setSound(n).setName("snow").g(0).setTextureName("snow"));
+		REGISTRY.a(79, "ice", new BlockIce().setHardness(0.5F).g(3).setSound(k).setName("ice").setTextureName("ice"));
+		REGISTRY.a(80, "snow", new BlockSnowBlock().setHardness(0.2F).setSound(n).setName("snow").setTextureName("snow"));
+		REGISTRY.a(81, "cactus", new BlockCactus().setHardness(0.4F).setSound(l).setName("cactus").setTextureName("cactus"));
+		REGISTRY.a(82, "clay", new BlockClay().setHardness(0.6F).setSound(g).setName("clay").setTextureName("clay"));
+		REGISTRY.a(83, "reeds", new BlockReed().setHardness(0.0F).setSound(h).setName("reeds").H().setTextureName("reeds"));
+		REGISTRY.a(84, "jukebox", new BlockJukeBox().setHardness(2.0F).setResistance(10.0F).setSound(i).setName("jukebox").setTextureName("jukebox"));
+		REGISTRY.a(85, "fence", new BlockFence("planks_oak", Material.WOOD).setHardness(2.0F).setResistance(5.0F).setSound(f).setName("fence"));
+		Block block5 = new BlockPumpkin(false).setHardness(1.0F).setSound(f).setName("pumpkin").setTextureName("pumpkin");
 
 		REGISTRY.a(86, "pumpkin", block5);
-		REGISTRY.a(87, "netherrack", new BlockBloodStone().c(0.4F).a(i).c("hellrock").d("netherrack"));
-		REGISTRY.a(88, "soul_sand", new BlockSlowSand().c(0.5F).a(m).c("hellsand").d("soul_sand"));
-		REGISTRY.a(89, "glowstone", new BlockLightStone(Material.SHATTERABLE).c(0.3F).a(k).a(1.0F).c("lightgem").d("glowstone"));
-		REGISTRY.a(90, "portal", new BlockPortal().c(-1.0F).a(k).a(0.75F).c("portal").d("portal"));
-		REGISTRY.a(91, "lit_pumpkin", new BlockPumpkin(true).c(1.0F).a(f).a(1.0F).c("litpumpkin").d("pumpkin"));
-		REGISTRY.a(92, "cake", new BlockCake().c(0.5F).a(l).c("cake").H().d("cake"));
-		REGISTRY.a(93, "unpowered_repeater", new BlockRepeater(false).c(0.0F).a(f).c("diode").H().d("repeater_off"));
-		REGISTRY.a(94, "powered_repeater", new BlockRepeater(true).c(0.0F).a(0.625F).a(f).c("diode").H().d("repeater_on"));
-		REGISTRY.a(95, "stained_glass", new BlockStainedGlass(Material.SHATTERABLE).c(0.3F).a(k).c("stainedGlass").d("glass"));
-		REGISTRY.a(96, "trapdoor", new BlockTrapdoor(Material.WOOD).c(3.0F).a(f).c("trapdoor").H().d("trapdoor"));
-		REGISTRY.a(97, "monster_egg", new BlockMonsterEggs().c(0.75F).c("monsterStoneEgg"));
-		Block block6 = new BlockSmoothBrick().c(1.5F).b(10.0F).a(i).c("stonebricksmooth").d("stonebrick");
+		REGISTRY.a(87, "netherrack", new BlockBloodStone().setHardness(0.4F).setSound(i).setName("hellrock").setTextureName("netherrack"));
+		REGISTRY.a(88, "soul_sand", new BlockSlowSand().setHardness(0.5F).setSound(m).setName("hellsand").setTextureName("soul_sand"));
+		REGISTRY.a(89, "glowstone", new BlockLightStone(Material.SHATTERABLE).setHardness(0.3F).setSound(k).a(1.0F).setName("lightgem").setTextureName("glowstone"));
+		REGISTRY.a(90, "portal", new BlockPortal().setHardness(-1.0F).setSound(k).a(0.75F).setName("portal").setTextureName("portal"));
+		REGISTRY.a(91, "lit_pumpkin", new BlockPumpkin(true).setHardness(1.0F).setSound(f).a(1.0F).setName("litpumpkin").setTextureName("pumpkin"));
+		REGISTRY.a(92, "cake", new BlockCake().setHardness(0.5F).setSound(l).setName("cake").H().setTextureName("cake"));
+		REGISTRY.a(93, "unpowered_repeater", new BlockRepeater(false).setHardness(0.0F).setSound(f).setName("diode").H().setTextureName("repeater_off"));
+		REGISTRY.a(94, "powered_repeater", new BlockRepeater(true).setHardness(0.0F).a(0.625F).setSound(f).setName("diode").H().setTextureName("repeater_on"));
+		REGISTRY.a(95, "stained_glass", new BlockStainedGlass(Material.SHATTERABLE).setHardness(0.3F).setSound(k).setName("stainedGlass").setTextureName("glass"));
+		REGISTRY.a(96, "trapdoor", new BlockTrapdoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("trapdoor").H().setTextureName("trapdoor"));
+		REGISTRY.a(97, "monster_egg", new BlockMonsterEggs().setHardness(0.75F).setName("monsterStoneEgg"));
+		Block block6 = new BlockSmoothBrick().setHardness(1.5F).setResistance(10.0F).setSound(i).setName("stonebricksmooth").setTextureName("stonebrick");
 
 		REGISTRY.a(98, "stonebrick", block6);
-		REGISTRY.a(99, "brown_mushroom_block", new BlockHugeMushroom(Material.WOOD, 0).c(0.2F).a(f).c("mushroom").d("mushroom_block"));
-		REGISTRY.a(100, "red_mushroom_block", new BlockHugeMushroom(Material.WOOD, 1).c(0.2F).a(f).c("mushroom").d("mushroom_block"));
-		REGISTRY.a(101, "iron_bars", new BlockThin("iron_bars", "iron_bars", Material.ORE, true).c(5.0F).b(10.0F).a(j).c("fenceIron"));
-		REGISTRY.a(102, "glass_pane", new BlockThin("glass", "glass_pane_top", Material.SHATTERABLE, false).c(0.3F).a(k).c("thinGlass"));
-		Block block7 = new BlockMelon().c(1.0F).a(f).c("melon").d("melon");
+		REGISTRY.a(99, "brown_mushroom_block", new BlockHugeMushroom(Material.WOOD, 0).setHardness(0.2F).setSound(f).setName("mushroom").setTextureName("mushroom_block"));
+		REGISTRY.a(100, "red_mushroom_block", new BlockHugeMushroom(Material.WOOD, 1).setHardness(0.2F).setSound(f).setName("mushroom").setTextureName("mushroom_block"));
+		REGISTRY.a(101, "iron_bars", new BlockThin("iron_bars", "iron_bars", Material.ORE, true).setHardness(5.0F).setResistance(10.0F).setSound(j).setName("fenceIron"));
+		REGISTRY.a(102, "glass_pane", new BlockThin("glass", "glass_pane_top", Material.SHATTERABLE, false).setHardness(0.3F).setSound(k).setName("thinGlass"));
+		Block block7 = new BlockMelon().setHardness(1.0F).setSound(f).setName("melon").setTextureName("melon");
 
 		REGISTRY.a(103, "melon_block", block7);
-		REGISTRY.a(104, "pumpkin_stem", new BlockStem(block5).c(0.0F).a(f).c("pumpkinStem").d("pumpkin_stem"));
-		REGISTRY.a(105, "melon_stem", new BlockStem(block7).c(0.0F).a(f).c("pumpkinStem").d("melon_stem"));
-		REGISTRY.a(106, "vine", new BlockVine().c(0.2F).a(h).c("vine").d("vine"));
-		REGISTRY.a(107, "fence_gate", new BlockFenceGate().c(2.0F).b(5.0F).a(f).c("fenceGate"));
-		REGISTRY.a(108, "brick_stairs", new BlockStairs(block3, 0).c("stairsBrick"));
-		REGISTRY.a(109, "stone_brick_stairs", new BlockStairs(block6, 0).c("stairsStoneBrickSmooth"));
-		REGISTRY.a(110, "mycelium", new BlockMycel().c(0.6F).a(h).c("mycel").d("mycelium"));
-		REGISTRY.a(111, "waterlily", new BlockWaterLily().c(0.0F).a(h).c("waterlily").d("waterlily"));
-		Block block8 = new Block(Material.STONE).c(2.0F).b(10.0F).a(i).c("netherBrick").a(CreativeModeTab.b).d("nether_brick");
+		REGISTRY.a(104, "pumpkin_stem", new BlockStem(block5).setHardness(0.0F).setSound(f).setName("pumpkinStem").setTextureName("pumpkin_stem"));
+		REGISTRY.a(105, "melon_stem", new BlockStem(block7).setHardness(0.0F).setSound(f).setName("pumpkinStem").setTextureName("melon_stem"));
+		REGISTRY.a(106, "vine", new BlockVine().setHardness(0.2F).setSound(h).setName("vine").setTextureName("vine"));
+		REGISTRY.a(107, "fence_gate", new BlockFenceGate().setHardness(2.0F).setResistance(5.0F).setSound(f).setName("fenceGate"));
+		REGISTRY.a(108, "brick_stairs", new BlockStairs(block3, 0).setName("stairsBrick"));
+		REGISTRY.a(109, "stone_brick_stairs", new BlockStairs(block6, 0).setName("stairsStoneBrickSmooth"));
+		REGISTRY.a(110, "mycelium", new BlockMycel().setHardness(0.6F).setSound(h).setName("mycel").setTextureName("mycelium"));
+		REGISTRY.a(111, "waterlily", new BlockWaterLily().setHardness(0.0F).setSound(h).setName("waterlily").setTextureName("waterlily"));
+		Block block8 = new Block(Material.STONE).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("netherBrick").a(CreativeModeTab.b).setTextureName("nether_brick");
 
 		REGISTRY.a(112, "nether_brick", block8);
-		REGISTRY.a(113, "nether_brick_fence", new BlockFence("nether_brick", Material.STONE).c(2.0F).b(10.0F).a(i).c("netherFence"));
-		REGISTRY.a(114, "nether_brick_stairs", new BlockStairs(block8, 0).c("stairsNetherBrick"));
-		REGISTRY.a(115, "nether_wart", new BlockNetherWart().c("netherStalk").d("nether_wart"));
-		REGISTRY.a(116, "enchanting_table", new BlockEnchantmentTable().c(5.0F).b(2000.0F).c("enchantmentTable").d("enchanting_table"));
-		REGISTRY.a(117, "brewing_stand", new BlockBrewingStand().c(0.5F).a(0.125F).c("brewingStand").d("brewing_stand"));
-		REGISTRY.a(118, "cauldron", new BlockCauldron().c(2.0F).c("cauldron").d("cauldron"));
-		REGISTRY.a(119, "end_portal", new BlockEnderPortal(Material.PORTAL).c(-1.0F).b(6000000.0F));
-		REGISTRY.a(120, "end_portal_frame", new BlockEnderPortalFrame().a(k).a(0.125F).c(-1.0F).c("endPortalFrame").b(6000000.0F).a(CreativeModeTab.c).d("endframe"));
-		REGISTRY.a(121, "end_stone", new Block(Material.STONE).c(3.0F).b(15.0F).a(i).c("whiteStone").a(CreativeModeTab.b).d("end_stone"));
-		REGISTRY.a(122, "dragon_egg", new BlockDragonEgg().c(3.0F).b(15.0F).a(i).a(0.125F).c("dragonEgg").d("dragon_egg"));
-		REGISTRY.a(123, "redstone_lamp", new BlockRedstoneLamp(false).c(0.3F).a(k).c("redstoneLight").a(CreativeModeTab.d).d("redstone_lamp_off"));
-		REGISTRY.a(124, "lit_redstone_lamp", new BlockRedstoneLamp(true).c(0.3F).a(k).c("redstoneLight").d("redstone_lamp_on"));
-		REGISTRY.a(125, "double_wooden_slab", new BlockWoodStep(true).c(2.0F).b(5.0F).a(f).c("woodSlab"));
-		REGISTRY.a(126, "wooden_slab", new BlockWoodStep(false).c(2.0F).b(5.0F).a(f).c("woodSlab"));
-		REGISTRY.a(127, "cocoa", new BlockCocoa().c(0.2F).b(5.0F).a(f).c("cocoa").d("cocoa"));
-		REGISTRY.a(128, "sandstone_stairs", new BlockStairs(block2, 0).c("stairsSandStone"));
-		REGISTRY.a(129, "emerald_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("oreEmerald").d("emerald_ore"));
-		REGISTRY.a(130, "ender_chest", new BlockEnderChest().c(22.5F).b(1000.0F).a(i).c("enderChest").a(0.5F));
-		REGISTRY.a(131, "tripwire_hook", new BlockTripwireHook().c("tripWireSource").d("trip_wire_source"));
-		REGISTRY.a(132, "tripwire", new BlockTripwire().c("tripWire").d("trip_wire"));
-		REGISTRY.a(133, "emerald_block", new BlockOreBlock(MaterialMapColor.I).c(5.0F).b(10.0F).a(j).c("blockEmerald").d("emerald_block"));
-		REGISTRY.a(134, "spruce_stairs", new BlockStairs(block1, 1).c("stairsWoodSpruce"));
-		REGISTRY.a(135, "birch_stairs", new BlockStairs(block1, 2).c("stairsWoodBirch"));
-		REGISTRY.a(136, "jungle_stairs", new BlockStairs(block1, 3).c("stairsWoodJungle"));
-		REGISTRY.a(137, "command_block", new BlockCommand().s().b(6000000.0F).c("commandBlock").d("command_block"));
-		REGISTRY.a(138, "beacon", new BlockBeacon().c("beacon").a(1.0F).d("beacon"));
-		REGISTRY.a(139, "cobblestone_wall", new BlockCobbleWall(block).c("cobbleWall"));
-		REGISTRY.a(140, "flower_pot", new BlockFlowerPot().c(0.0F).a(e).c("flowerPot").d("flower_pot"));
-		REGISTRY.a(141, "carrots", new BlockCarrots().c("carrots").d("carrots"));
-		REGISTRY.a(142, "potatoes", new BlockPotatoes().c("potatoes").d("potatoes"));
-		REGISTRY.a(143, "wooden_button", new BlockWoodButton().c(0.5F).a(f).c("button"));
-		REGISTRY.a(144, "skull", new BlockSkull().c(1.0F).a(i).c("skull").d("skull"));
-		REGISTRY.a(145, "anvil", new BlockAnvil().c(5.0F).a(p).b(2000.0F).c("anvil"));
-		REGISTRY.a(146, "trapped_chest", new BlockChest(1).c(2.5F).a(f).c("chestTrap"));
-		REGISTRY.a(147, "light_weighted_pressure_plate", new BlockPressurePlateWeighted("gold_block", Material.ORE, 15).c(0.5F).a(f).c("weightedPlate_light"));
-		REGISTRY.a(148, "heavy_weighted_pressure_plate", new BlockPressurePlateWeighted("iron_block", Material.ORE, 150).c(0.5F).a(f).c("weightedPlate_heavy"));
-		REGISTRY.a(149, "unpowered_comparator", new BlockRedstoneComparator(false).c(0.0F).a(f).c("comparator").H().d("comparator_off"));
-		REGISTRY.a(150, "powered_comparator", new BlockRedstoneComparator(true).c(0.0F).a(0.625F).a(f).c("comparator").H().d("comparator_on"));
-		REGISTRY.a(151, "daylight_detector", new BlockDaylightDetector().c(0.2F).a(f).c("daylightDetector").d("daylight_detector"));
-		REGISTRY.a(152, "redstone_block", new BlockRedstone(MaterialMapColor.f).c(5.0F).b(10.0F).a(j).c("blockRedstone").d("redstone_block"));
-		REGISTRY.a(153, "quartz_ore", new BlockOre().c(3.0F).b(5.0F).a(i).c("netherquartz").d("quartz_ore"));
-		REGISTRY.a(154, "hopper", new BlockHopper().c(3.0F).b(8.0F).a(f).c("hopper").d("hopper"));
-		Block block9 = new BlockQuartz().a(i).c(0.8F).c("quartzBlock").d("quartz_block");
+		REGISTRY.a(113, "nether_brick_fence", new BlockFence("nether_brick", Material.STONE).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("netherFence"));
+		REGISTRY.a(114, "nether_brick_stairs", new BlockStairs(block8, 0).setName("stairsNetherBrick"));
+		REGISTRY.a(115, "nether_wart", new BlockNetherWart().setName("netherStalk").setTextureName("nether_wart"));
+		REGISTRY.a(116, "enchanting_table", new BlockEnchantmentTable().setHardness(5.0F).setResistance(2000.0F).setName("enchantmentTable").setTextureName("enchanting_table"));
+		REGISTRY.a(117, "brewing_stand", new BlockBrewingStand().setHardness(0.5F).a(0.125F).setName("brewingStand").setTextureName("brewing_stand"));
+		REGISTRY.a(118, "cauldron", new BlockCauldron().setHardness(2.0F).setName("cauldron").setTextureName("cauldron"));
+		REGISTRY.a(119, "end_portal", new BlockEnderPortal(Material.PORTAL).setHardness(-1.0F).setResistance(6000000.0F));
+		REGISTRY.a(120, "end_portal_frame", new BlockEnderPortalFrame().setSound(k).a(0.125F).setHardness(-1.0F).setName("endPortalFrame").setResistance(6000000.0F).a(CreativeModeTab.c).setTextureName("endframe"));
+		REGISTRY.a(121, "end_stone", new Block(Material.STONE).setHardness(3.0F).setResistance(15.0F).setSound(i).setName("whiteStone").a(CreativeModeTab.b).setTextureName("end_stone"));
+		REGISTRY.a(122, "dragon_egg", new BlockDragonEgg().setHardness(3.0F).setResistance(15.0F).setSound(i).a(0.125F).setName("dragonEgg").setTextureName("dragon_egg"));
+		REGISTRY.a(123, "redstone_lamp", new BlockRedstoneLamp(false).setHardness(0.3F).setSound(k).setName("redstoneLight").a(CreativeModeTab.d).setTextureName("redstone_lamp_off"));
+		REGISTRY.a(124, "lit_redstone_lamp", new BlockRedstoneLamp(true).setHardness(0.3F).setSound(k).setName("redstoneLight").setTextureName("redstone_lamp_on"));
+		REGISTRY.a(125, "double_wooden_slab", new BlockWoodStep(true).setHardness(2.0F).setResistance(5.0F).setSound(f).setName("woodSlab"));
+		REGISTRY.a(126, "wooden_slab", new BlockWoodStep(false).setHardness(2.0F).setResistance(5.0F).setSound(f).setName("woodSlab"));
+		REGISTRY.a(127, "cocoa", new BlockCocoa().setHardness(0.2F).setResistance(5.0F).setSound(f).setName("cocoa").setTextureName("cocoa"));
+		REGISTRY.a(128, "sandstone_stairs", new BlockStairs(block2, 0).setName("stairsSandStone"));
+		REGISTRY.a(129, "emerald_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setSound(i).setName("oreEmerald").setTextureName("emerald_ore"));
+		REGISTRY.a(130, "ender_chest", new BlockEnderChest().setHardness(22.5F).setResistance(1000.0F).setSound(i).setName("enderChest").a(0.5F));
+		REGISTRY.a(131, "tripwire_hook", new BlockTripwireHook().setName("tripWireSource").setTextureName("trip_wire_source"));
+		REGISTRY.a(132, "tripwire", new BlockTripwire().setName("tripWire").setTextureName("trip_wire"));
+		REGISTRY.a(133, "emerald_block", new BlockOreBlock(MaterialMapColor.I).setHardness(5.0F).setResistance(10.0F).setSound(j).setName("blockEmerald").setTextureName("emerald_block"));
+		REGISTRY.a(134, "spruce_stairs", new BlockStairs(block1, 1).setName("stairsWoodSpruce"));
+		REGISTRY.a(135, "birch_stairs", new BlockStairs(block1, 2).setName("stairsWoodBirch"));
+		REGISTRY.a(136, "jungle_stairs", new BlockStairs(block1, 3).setName("stairsWoodJungle"));
+		REGISTRY.a(137, "command_block", new BlockCommand().s().setResistance(6000000.0F).setName("commandBlock").setTextureName("command_block"));
+		REGISTRY.a(138, "beacon", new BlockBeacon().setName("beacon").a(1.0F).setTextureName("beacon"));
+		REGISTRY.a(139, "cobblestone_wall", new BlockCobbleWall(block).setName("cobbleWall"));
+		REGISTRY.a(140, "flower_pot", new BlockFlowerPot().setHardness(0.0F).setSound(e).setName("flowerPot").setTextureName("flower_pot"));
+		REGISTRY.a(141, "carrots", new BlockCarrots().setName("carrots").setTextureName("carrots"));
+		REGISTRY.a(142, "potatoes", new BlockPotatoes().setName("potatoes").setTextureName("potatoes"));
+		REGISTRY.a(143, "wooden_button", new BlockWoodButton().setHardness(0.5F).setSound(f).setName("button"));
+		REGISTRY.a(144, "skull", new BlockSkull().setHardness(1.0F).setSound(i).setName("skull").setTextureName("skull"));
+		REGISTRY.a(145, "anvil", new BlockAnvil().setHardness(5.0F).setSound(p).setResistance(2000.0F).setName("anvil"));
+		REGISTRY.a(146, "trapped_chest", new BlockChest(1).setHardness(2.5F).setSound(f).setName("chestTrap"));
+		REGISTRY.a(147, "light_weighted_pressure_plate", new BlockPressurePlateWeighted("gold_block", Material.ORE, 15).setHardness(0.5F).setSound(f).setName("weightedPlate_light"));
+		REGISTRY.a(148, "heavy_weighted_pressure_plate", new BlockPressurePlateWeighted("iron_block", Material.ORE, 150).setHardness(0.5F).setSound(f).setName("weightedPlate_heavy"));
+		REGISTRY.a(149, "unpowered_comparator", new BlockRedstoneComparator(false).setHardness(0.0F).setSound(f).setName("comparator").H().setTextureName("comparator_off"));
+		REGISTRY.a(150, "powered_comparator", new BlockRedstoneComparator(true).setHardness(0.0F).a(0.625F).setSound(f).setName("comparator").H().setTextureName("comparator_on"));
+		REGISTRY.a(151, "daylight_detector", new BlockDaylightDetector().setHardness(0.2F).setSound(f).setName("daylightDetector").setTextureName("daylight_detector"));
+		REGISTRY.a(152, "redstone_block", new BlockRedstone(MaterialMapColor.f).setHardness(5.0F).setResistance(10.0F).setSound(j).setName("blockRedstone").setTextureName("redstone_block"));
+		REGISTRY.a(153, "quartz_ore", new BlockOre().setHardness(3.0F).setResistance(5.0F).setSound(i).setName("netherquartz").setTextureName("quartz_ore"));
+		REGISTRY.a(154, "hopper", new BlockHopper().setHardness(3.0F).setResistance(8.0F).setSound(f).setName("hopper").setTextureName("hopper"));
+		Block block9 = new BlockQuartz().setSound(i).setHardness(0.8F).setName("quartzBlock").setTextureName("quartz_block");
 
 		REGISTRY.a(155, "quartz_block", block9);
-		REGISTRY.a(156, "quartz_stairs", new BlockStairs(block9, 0).c("stairsQuartz"));
-		REGISTRY.a(157, "activator_rail", new BlockPoweredRail().c(0.7F).a(j).c("activatorRail").d("rail_activator"));
-		REGISTRY.a(158, "dropper", new BlockDropper().c(3.5F).a(i).c("dropper").d("dropper"));
-		REGISTRY.a(159, "stained_hardened_clay", new BlockCloth(Material.STONE).c(1.25F).b(7.0F).a(i).c("clayHardenedStained").d("hardened_clay_stained"));
-		REGISTRY.a(160, "stained_glass_pane", new BlockStainedGlassPane().c(0.3F).a(k).c("thinStainedGlass").d("glass"));
-		REGISTRY.a(161, "leaves2", new BlockLeaves2().c("leaves").d("leaves"));
-		REGISTRY.a(162, "log2", new BlockLog2().c("log").d("log"));
-		REGISTRY.a(163, "acacia_stairs", new BlockStairs(block1, 4).c("stairsWoodAcacia"));
-		REGISTRY.a(164, "dark_oak_stairs", new BlockStairs(block1, 5).c("stairsWoodDarkOak"));
-		REGISTRY.a(170, "hay_block", new BlockHay().c(0.5F).a(h).c("hayBlock").a(CreativeModeTab.b).d("hay_block"));
-		REGISTRY.a(171, "carpet", new BlockCarpet().c(0.1F).a(l).c("woolCarpet").g(0));
-		REGISTRY.a(172, "hardened_clay", new BlockHardenedClay().c(1.25F).b(7.0F).a(i).c("clayHardened").d("hardened_clay"));
-		REGISTRY.a(173, "coal_block", new Block(Material.STONE).c(5.0F).b(10.0F).a(i).c("blockCoal").a(CreativeModeTab.b).d("coal_block"));
-		REGISTRY.a(174, "packed_ice", new BlockPackedIce().c(0.5F).a(k).c("icePacked").d("ice_packed"));
+		REGISTRY.a(156, "quartz_stairs", new BlockStairs(block9, 0).setName("stairsQuartz"));
+		REGISTRY.a(157, "activator_rail", new BlockPoweredRail().setHardness(0.7F).setSound(j).setName("activatorRail").setTextureName("rail_activator"));
+		REGISTRY.a(158, "dropper", new BlockDropper().setHardness(3.5F).setSound(i).setName("dropper").setTextureName("dropper"));
+		REGISTRY.a(159, "stained_hardened_clay", new BlockCloth(Material.STONE).setHardness(1.25F).setResistance(7.0F).setSound(i).setName("clayHardenedStained").setTextureName("hardened_clay_stained"));
+		REGISTRY.a(160, "stained_glass_pane", new BlockStainedGlassPane().setHardness(0.3F).setSound(k).setName("thinStainedGlass").setTextureName("glass"));
+		REGISTRY.a(161, "leaves2", new BlockLeaves2().setName("leaves").setTextureName("leaves"));
+		REGISTRY.a(162, "log2", new BlockLog2().setName("log").setTextureName("log"));
+		REGISTRY.a(163, "acacia_stairs", new BlockStairs(block1, 4).setName("stairsWoodAcacia"));
+		REGISTRY.a(164, "dark_oak_stairs", new BlockStairs(block1, 5).setName("stairsWoodDarkOak"));
+		REGISTRY.a(170, "hay_block", new BlockHay().setHardness(0.5F).setSound(h).setName("hayBlock").a(CreativeModeTab.b).setTextureName("hay_block"));
+		REGISTRY.a(171, "carpet", new BlockCarpet().setHardness(0.1F).setSound(l).setName("woolCarpet").g(0));
+		REGISTRY.a(172, "hardened_clay", new BlockHardenedClay().setHardness(1.25F).setResistance(7.0F).setSound(i).setName("clayHardened").setTextureName("hardened_clay"));
+		REGISTRY.a(173, "coal_block", new Block(Material.STONE).setHardness(5.0F).setResistance(10.0F).setSound(i).setName("blockCoal").a(CreativeModeTab.b).setTextureName("coal_block"));
+		REGISTRY.a(174, "packed_ice", new BlockPackedIce().setHardness(0.5F).setSound(k).setName("icePacked").setTextureName("ice_packed"));
 		REGISTRY.a(175, "double_plant", new BlockTallPlant());
 		
-		REGISTRY.a(165, "slime_block", new Block18(Material.SPONGE).c(0.6F).a(h).c("slimeBlock").d("slime_block")); // ClipSpigot
-		REGISTRY.a(168, "prismarine", new Block18(Material.STONE).c(1.5F).b(10.0F).a(i).c("prismarine").d("prismarine")); // ClipSpigot
-		REGISTRY.a(179, "red_sandstone", new BlockSandStone().a(i).c(0.8F).c("redSandstone").d("red_sandstone")); // ClipSpigot
+		REGISTRY.a(165, "slime_block", new Block18(Material.SPONGE).setHardness(0.6F).setSound(slimeStepSound).setName("slimeBlock").setTextureName("slime_block")); // ClipSpigot
+		REGISTRY.a(168, "prismarine", new Block18(Material.STONE).setHardness(1.5F).setResistance(10.0F).setSound(i).setName("prismarine").setTextureName("prismarine")); // ClipSpigot
+		REGISTRY.a(179, "red_sandstone", new BlockSandStone().setSound(i).setHardness(0.8F).setName("redSandstone").setTextureName("red_sandstone")); // ClipSpigot
 		
 		Iterator iterator = REGISTRY.iterator();
 
@@ -318,13 +319,13 @@ public class Block {
 		I = 1.0F;
 		frictionFactor = 0.6F;
 		this.material = material;
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		q = this.c();
 		r = this.c() ? 255 : 0;
 		s = !material.blocksLight();
 	}
 
-	protected Block a(StepSound stepsound) {
+	protected Block setSound(StepSound stepsound) {
 		stepSound = stepsound;
 		return this;
 	}
@@ -339,7 +340,7 @@ public class Block {
 		return this;
 	}
 
-	protected Block b(float f) {
+	protected Block setResistance(float f) {
 		durability = f * 3.0F;
 		return this;
 	}
@@ -360,7 +361,7 @@ public class Block {
 		return 0;
 	}
 
-	protected Block c(float f) {
+	protected Block setHardness(float f) {
 		strength = f;
 		if (durability < f * 5.0F) {
 			durability = f * 5.0F;
@@ -370,7 +371,7 @@ public class Block {
 	}
 
 	protected Block s() {
-		this.c(-1.0F);
+		this.setHardness(-1.0F);
 		return this;
 	}
 
@@ -391,7 +392,7 @@ public class Block {
 		return isTileEntity;
 	}
 
-	protected final void a(float f, float f1, float f2, float f3, float f4, float f5) {
+	protected final void setBounds(float f, float f1, float f2, float f3, float f4, float f5) {
 		minX = f;
 		minY = f1;
 		minZ = f2;
@@ -744,7 +745,7 @@ public class Block {
 	public void postPlace(World world, int i, int j, int k, int l) {
 	}
 
-	public Block c(String s) {
+	public Block setName(String s) {
 		name = s;
 		return this;
 	}
@@ -819,7 +820,7 @@ public class Block {
 		return 0;
 	}
 
-	protected Block d(String s) {
+	protected Block setTextureName(String s) {
 		d = s;
 		return this;
 	}

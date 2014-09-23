@@ -133,13 +133,13 @@ public abstract class BlockButtonAbstract extends Block {
 		}
 
 		if (j == 1) {
-			this.a(0.0F, f, 0.5F - f2, f3, f1, 0.5F + f2);
+			this.setBounds(0.0F, f, 0.5F - f2, f3, f1, 0.5F + f2);
 		} else if (j == 2) {
-			this.a(1.0F - f3, f, 0.5F - f2, 1.0F, f1, 0.5F + f2);
+			this.setBounds(1.0F - f3, f, 0.5F - f2, 1.0F, f1, 0.5F + f2);
 		} else if (j == 3) {
-			this.a(0.5F - f2, f, 0.0F, 0.5F + f2, f1, f3);
+			this.setBounds(0.5F - f2, f, 0.0F, 0.5F + f2, f1, f3);
 		} else if (j == 4) {
-			this.a(0.5F - f2, f, 1.0F - f3, 0.5F + f2, f1, 1.0F);
+			this.setBounds(0.5F - f2, f, 1.0F - f3, 0.5F + f2, f1, 1.0F);
 		}
 	}
 
@@ -245,7 +245,7 @@ public abstract class BlockButtonAbstract extends Block {
 		float f1 = 0.125F;
 		float f2 = 0.125F;
 
-		this.a(0.5F - f, 0.5F - f1, 0.5F - f2, 0.5F + f, 0.5F + f1, 0.5F + f2);
+		this.setBounds(0.5F - f, 0.5F - f1, 0.5F - f2, 0.5F + f, 0.5F + f1, 0.5F + f2);
 	}
 
 	@Override

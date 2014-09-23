@@ -11,7 +11,7 @@ public class BlockDoor extends Block {
 		float f = 0.5F;
 		float f1 = 1.0F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class BlockDoor extends Block {
 	private void b(int i) {
 		float f = 0.1875F;
 
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
 		int j = i & 3;
 		boolean flag = (i & 4) != 0;
 		boolean flag1 = (i & 16) != 0;
@@ -66,42 +66,42 @@ public class BlockDoor extends Block {
 		if (j == 0) {
 			if (flag) {
 				if (!flag1) {
-					this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+					this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
 				} else {
-					this.a(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+					this.setBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
 				}
 			} else {
-				this.a(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+				this.setBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
 			}
 		} else if (j == 1) {
 			if (flag) {
 				if (!flag1) {
-					this.a(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+					this.setBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 				} else {
-					this.a(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+					this.setBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
 				}
 			} else {
-				this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+				this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
 			}
 		} else if (j == 2) {
 			if (flag) {
 				if (!flag1) {
-					this.a(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+					this.setBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
 				} else {
-					this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+					this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
 				}
 			} else {
-				this.a(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				this.setBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			}
 		} else if (j == 3) {
 			if (flag) {
 				if (!flag1) {
-					this.a(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+					this.setBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
 				} else {
-					this.a(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+					this.setBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 				}
 			} else {
-				this.a(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+				this.setBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
 			}
 		}
 	}

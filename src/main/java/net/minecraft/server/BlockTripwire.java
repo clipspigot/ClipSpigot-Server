@@ -10,7 +10,7 @@ public class BlockTripwire extends Block {
 
 	public BlockTripwire() {
 		super(Material.ORIENTABLE);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.15625F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.15625F, 1.0F);
 		this.a(true);
 	}
 
@@ -63,11 +63,11 @@ public class BlockTripwire extends Block {
 		boolean flag1 = (l & 2) == 2;
 
 		if (!flag1) {
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.09375F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.09375F, 1.0F);
 		} else if (!flag) {
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
 		} else {
-			this.a(0.0F, 0.0625F, 0.0F, 1.0F, 0.15625F, 1.0F);
+			this.setBounds(0.0F, 0.0625F, 0.0F, 1.0F, 0.15625F, 1.0F);
 		}
 	}
 

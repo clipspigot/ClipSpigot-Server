@@ -17,7 +17,7 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 	protected BlockMinecartTrackAbstract(boolean flag) {
 		super(Material.ORIENTABLE);
 		a = flag;
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		this.a(CreativeModeTab.e);
 	}
 
@@ -46,9 +46,9 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 		int l = iblockaccess.getData(i, j, k);
 
 		if (l >= 2 && l <= 5) {
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
 		} else {
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		}
 	}
 

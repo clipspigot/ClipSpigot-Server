@@ -8,7 +8,7 @@ public class BlockNetherWart extends BlockPlant {
 		this.a(true);
 		float f = 0.5F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
 		this.a((CreativeModeTab) null);
 	}
 

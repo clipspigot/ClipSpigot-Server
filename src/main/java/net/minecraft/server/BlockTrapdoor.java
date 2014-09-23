@@ -9,7 +9,7 @@ public class BlockTrapdoor extends Block {
 		float f = 0.5F;
 		float f1 = 1.0F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
 		this.a(CreativeModeTab.d);
 	}
 
@@ -48,33 +48,33 @@ public class BlockTrapdoor extends Block {
 	public void g() {
 		float f = 0.1875F;
 
-		this.a(0.0F, 0.5F - f / 2.0F, 0.0F, 1.0F, 0.5F + f / 2.0F, 1.0F);
+		this.setBounds(0.0F, 0.5F - f / 2.0F, 0.0F, 1.0F, 0.5F + f / 2.0F, 1.0F);
 	}
 
 	public void b(int i) {
 		float f = 0.1875F;
 
 		if ((i & 8) != 0) {
-			this.a(0.0F, 1.0F - f, 0.0F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 1.0F - f, 0.0F, 1.0F, 1.0F, 1.0F);
 		} else {
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 		}
 
 		if (d(i)) {
 			if ((i & 3) == 0) {
-				this.a(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+				this.setBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
 			}
 
 			if ((i & 3) == 1) {
-				this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+				this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
 			}
 
 			if ((i & 3) == 2) {
-				this.a(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				this.setBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			}
 
 			if ((i & 3) == 3) {
-				this.a(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+				this.setBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
 			}
 		}
 	}

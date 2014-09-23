@@ -79,9 +79,9 @@ public class BlockAnvil extends BlockFalling {
 		int l = iblockaccess.getData(i, j, k) & 3;
 
 		if (l != 3 && l != 1) {
-			this.a(0.125F, 0.0F, 0.0F, 0.875F, 1.0F, 1.0F);
+			this.setBounds(0.125F, 0.0F, 0.0F, 0.875F, 1.0F, 1.0F);
 		} else {
-			this.a(0.0F, 0.0F, 0.125F, 1.0F, 1.0F, 0.875F);
+			this.setBounds(0.0F, 0.0F, 0.125F, 1.0F, 1.0F, 0.875F);
 		}
 	}
 

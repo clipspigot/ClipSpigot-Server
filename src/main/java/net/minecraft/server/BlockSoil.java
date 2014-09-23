@@ -12,7 +12,7 @@ public class BlockSoil extends Block {
 	protected BlockSoil() {
 		super(Material.EARTH);
 		this.a(true);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
 		this.g(255);
 	}
 

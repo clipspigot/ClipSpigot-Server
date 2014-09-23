@@ -10,29 +10,29 @@ public class BlockHopper extends BlockContainer {
 	public BlockHopper() {
 		super(Material.ORE);
 		this.a(CreativeModeTab.d);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override
 	public void updateShape(IBlockAccess iblockaccess, int i, int j, int k) {
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override
 	public void a(World world, int i, int j, int k, AxisAlignedBB axisalignedbb, List list, Entity entity) {
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
 		super.a(world, i, j, k, axisalignedbb, list, entity);
 		float f = 0.125F;
 
-		this.a(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, f, 1.0F, 1.0F);
 		super.a(world, i, j, k, axisalignedbb, list, entity);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, f);
 		super.a(world, i, j, k, axisalignedbb, list, entity);
-		this.a(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(1.0F - f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		super.a(world, i, j, k, axisalignedbb, list, entity);
-		this.a(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 1.0F - f, 1.0F, 1.0F, 1.0F);
 		super.a(world, i, j, k, axisalignedbb, list, entity);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	@Override

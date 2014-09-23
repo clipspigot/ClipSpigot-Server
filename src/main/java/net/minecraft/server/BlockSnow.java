@@ -6,7 +6,7 @@ public class BlockSnow extends Block {
 
 	protected BlockSnow() {
 		super(Material.PACKED_ICE);
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		this.a(true);
 		this.a(CreativeModeTab.c);
 		this.b(0);
@@ -44,7 +44,7 @@ public class BlockSnow extends Block {
 		int j = i & 7;
 		float f = 2 * (1 + j) / 16.0F;
 
-		this.a(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
+		this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
 	}
 
 	@Override

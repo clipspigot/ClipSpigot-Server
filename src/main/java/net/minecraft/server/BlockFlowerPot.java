@@ -14,7 +14,7 @@ public class BlockFlowerPot extends BlockContainer {
 		float f = 0.375F;
 		float f1 = f / 2.0F;
 
-		this.a(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, f, 0.5F + f1);
+		this.setBounds(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, f, 0.5F + f1);
 	}
 
 	@Override

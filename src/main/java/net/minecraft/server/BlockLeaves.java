@@ -13,9 +13,9 @@ public abstract class BlockLeaves extends BlockTransparent {
 		super(Material.LEAVES, false);
 		this.a(true);
 		this.a(CreativeModeTab.c);
-		this.c(0.2F);
+		this.setHardness(0.2F);
 		this.g(1);
-		this.a(h);
+		this.setSound(h);
 	}
 
 	@Override

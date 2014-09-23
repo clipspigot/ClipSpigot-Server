@@ -13,7 +13,7 @@ public class BlockSkull extends BlockContainer {
 
 	protected BlockSkull() {
 		super(Material.ORIENTABLE);
-		this.a(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
+		this.setBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
 	}
 
 	@Override
@@ -38,23 +38,23 @@ public class BlockSkull extends BlockContainer {
 		switch (l) {
 		case 1:
 		default:
-			this.a(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
+			this.setBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
 			break;
 
 		case 2:
-			this.a(0.25F, 0.25F, 0.5F, 0.75F, 0.75F, 1.0F);
+			this.setBounds(0.25F, 0.25F, 0.5F, 0.75F, 0.75F, 1.0F);
 			break;
 
 		case 3:
-			this.a(0.25F, 0.25F, 0.0F, 0.75F, 0.75F, 0.5F);
+			this.setBounds(0.25F, 0.25F, 0.0F, 0.75F, 0.75F, 0.5F);
 			break;
 
 		case 4:
-			this.a(0.5F, 0.25F, 0.25F, 1.0F, 0.75F, 0.75F);
+			this.setBounds(0.5F, 0.25F, 0.25F, 1.0F, 0.75F, 0.75F);
 			break;
 
 		case 5:
-			this.a(0.0F, 0.25F, 0.25F, 0.5F, 0.75F, 0.75F);
+			this.setBounds(0.0F, 0.25F, 0.25F, 0.5F, 0.75F, 0.75F);
 		}
 	}
 

@@ -13,7 +13,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 		this.a(true);
 		float f = 0.125F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
 		this.a((CreativeModeTab) null);
 	}
 
@@ -132,7 +132,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 	public void g() {
 		float f = 0.125F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 		maxY = (iblockaccess.getData(i, j, k) * 2 + 2) / 16.0F;
 		float f = 0.125F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, (float) maxY, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, (float) maxY, 0.5F + f);
 	}
 
 	@Override

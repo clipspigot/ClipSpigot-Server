@@ -8,7 +8,7 @@ public class BlockDragonEgg extends Block {
 
 	public BlockDragonEgg() {
 		super(Material.DRAGON_EGG);
-		this.a(0.0625F, 0.0F, 0.0625F, 0.9375F, 1.0F, 0.9375F);
+		this.setBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 1.0F, 0.9375F);
 	}
 
 	@Override

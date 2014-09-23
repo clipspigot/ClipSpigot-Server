@@ -71,19 +71,19 @@ public class BlockCocoa extends BlockDirectional implements IBlockFragilePlantEl
 
 		switch (i1) {
 		case 0:
-			this.a((8.0F - f) / 16.0F, (12.0F - l1) / 16.0F, (15.0F - k1) / 16.0F, (8.0F + f) / 16.0F, 0.75F, 0.9375F);
+			this.setBounds((8.0F - f) / 16.0F, (12.0F - l1) / 16.0F, (15.0F - k1) / 16.0F, (8.0F + f) / 16.0F, 0.75F, 0.9375F);
 			break;
 
 		case 1:
-			this.a(0.0625F, (12.0F - l1) / 16.0F, (8.0F - f) / 16.0F, (1.0F + k1) / 16.0F, 0.75F, (8.0F + f) / 16.0F);
+			this.setBounds(0.0625F, (12.0F - l1) / 16.0F, (8.0F - f) / 16.0F, (1.0F + k1) / 16.0F, 0.75F, (8.0F + f) / 16.0F);
 			break;
 
 		case 2:
-			this.a((8.0F - f) / 16.0F, (12.0F - l1) / 16.0F, 0.0625F, (8.0F + f) / 16.0F, 0.75F, (1.0F + k1) / 16.0F);
+			this.setBounds((8.0F - f) / 16.0F, (12.0F - l1) / 16.0F, 0.0625F, (8.0F + f) / 16.0F, 0.75F, (1.0F + k1) / 16.0F);
 			break;
 
 		case 3:
-			this.a((15.0F - k1) / 16.0F, (12.0F - l1) / 16.0F, (8.0F - f) / 16.0F, 0.9375F, 0.75F, (8.0F + f) / 16.0F);
+			this.setBounds((15.0F - k1) / 16.0F, (12.0F - l1) / 16.0F, (8.0F - f) / 16.0F, 0.9375F, 0.75F, (8.0F + f) / 16.0F);
 		}
 	}
 

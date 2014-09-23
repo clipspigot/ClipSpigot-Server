@@ -16,7 +16,7 @@ public class BlockSign extends BlockContainer {
 		float f = 0.25F;
 		float f1 = 1.0F;
 
-		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
+		this.setBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
 	}
 
 	@Override
@@ -34,21 +34,21 @@ public class BlockSign extends BlockContainer {
 			float f3 = 1.0F;
 			float f4 = 0.125F;
 
-			this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			this.setBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			if (l == 2) {
-				this.a(f2, f, 1.0F - f4, f3, f1, 1.0F);
+				this.setBounds(f2, f, 1.0F - f4, f3, f1, 1.0F);
 			}
 
 			if (l == 3) {
-				this.a(f2, f, 0.0F, f3, f1, f4);
+				this.setBounds(f2, f, 0.0F, f3, f1, f4);
 			}
 
 			if (l == 4) {
-				this.a(1.0F - f4, f, f2, 1.0F, f1, f3);
+				this.setBounds(1.0F - f4, f, f2, 1.0F, f1, f3);
 			}
 
 			if (l == 5) {
-				this.a(0.0F, f, f2, f4, f1, f3);
+				this.setBounds(0.0F, f, f2, f4, f1, f3);
 			}
 		}
 	}
