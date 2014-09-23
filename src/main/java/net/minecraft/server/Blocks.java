@@ -174,8 +174,23 @@ public class Blocks {
     public static final BlockStainedGlass STAINED_GLASS = (BlockStainedGlass) Block.REGISTRY.get("stained_glass");
     public static final BlockStainedGlassPane STAINED_GLASS_PANE = (BlockStainedGlassPane) Block.REGISTRY.get("stained_glass_pane");
     
-    public static final Block SLIME_BLOCK = (Block) Block.REGISTRY.get("slime_block"); // ClipSpigot
-    public static final Block PRISMARINE = (Block) Block.REGISTRY.get("prismarine"); // ClipSpigot
-    public static final Block RED_SANDSTONE = (Block) Block.REGISTRY.get("red_sandstone"); // ClipSpigot
-
+    // ClipSpigot - add 1.8 blocks
+    public static final Block PRISMARINE = (Block) Block.REGISTRY.get("prismarine");
+    public static final Block CERVENY_SANDSTONE = (Block) Block.REGISTRY.get("red_sandstone");
+    public static final Block SPRUCE_DOOR_BLOCK = (Block) Block.REGISTRY.get("spruce_door");
+    public static final Block BIRCH_DOOR_BLOCK = (Block) Block.REGISTRY.get("birch_door");
+    public static final Block JUNGLE_DOOR_BLOCK = (Block) Block.REGISTRY.get("jungle_door");
+    public static final Block ACACIA_DOOR_BLOCK = (Block) Block.REGISTRY.get("acacia_door");
+    public static final Block DARK_OAK_DOOR_BLOCK = (Block) Block.REGISTRY.get("dark_oak_door");
+    public static final Block SLIME_BLOCK = (Block) Block.REGISTRY.get("slime");
+    public static final Block SPRUCE_FENCE = (Block) Block.REGISTRY.get("spruce_fence");
+    public static final Block BIRCH_FENCE = (Block) Block.REGISTRY.get("birch_fence");
+    public static final Block JUNGLE_FENCE = (Block) Block.REGISTRY.get("jungle_fence");
+    public static final Block DARK_OAK_FENCE = (Block) Block.REGISTRY.get("dark_oak_fence");
+    public static final Block ACACIA_FENCE = (Block) Block.REGISTRY.get("acacia_fence");
+    public static final Block SPRUCE_FENCE_GATE = (Block) Block.REGISTRY.get("spruce_fence_gate");
+    public static final Block BIRCH_FENCE_GATE = (Block) Block.REGISTRY.get("birch_fence_gate");
+    public static final Block JUNGLE_FENCE_GATE = (Block) Block.REGISTRY.get("jungle_fence_gate");
+    public static final Block DARK_OAK_FENCE_GATE = (Block) Block.REGISTRY.get("dark_oak_fence_gate");
+    public static final Block ACACIA_FENCE_GATE = (Block) Block.REGISTRY.get("acacia_fence_gate");
 }

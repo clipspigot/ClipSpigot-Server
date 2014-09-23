@@ -580,7 +580,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 						f = 7.0F;
 						short1 = 180;
 						b1 = 3;
-					} else if (Block.a(itemstack.getItem()) == Blocks.HAY_BLOCK) {
+					} else if (Block.setSound(itemstack.getItem()) == Blocks.HAY_BLOCK) {
 						f = 20.0F;
 						short1 = 180;
 					} else if (itemstack.getItem() == Items.APPLE) {

@@ -3,8 +3,6 @@ package net.minecraft.server;
 import java.util.Random;
 
 public class BlockStone extends Block {
-
-	public static final String[] types = { "stone", "granite", "polished_granite", "diorite", "polished_diorite", "andesite", "polished_andesite" };
 	
 	public BlockStone() {
 		super(Material.STONE);

@@ -53,11 +53,11 @@ public class Block {
 		return (Block) REGISTRY.a(i);
 	}
 
-	public static Block a(Item item) {
+	public static Block setSound(Item item) {
 		return getById(Item.getId(item));
 	}
 
-	public static Block b(String s) {
+	public static Block setResistance(String s) {
 		if (REGISTRY.b(s))
 			return (Block) REGISTRY.get(s);
 		else {
@@ -93,6 +93,48 @@ public class Block {
 		return getMaterial().r();
 	}
 
+	/**
+	 * @deprecated Compatibility class.
+	 */
+	public Block c(String name) {
+		return setName(name);
+	}
+	
+	/**
+	 * @deprecated Compatibility class.
+	 */
+	public Block c(float hardness) {
+		return setHardness(hardness);
+	}
+	
+	/**
+	 * @deprecated Compatibility class.
+	 */
+	public Block b(float resistance) {
+		return setResistance(resistance);
+	}
+	
+	/**
+	 * @deprecated Compatibility class.
+	 */
+	public Block d(String name) {
+		return setTextureName(name);
+	}
+	
+	/**
+	 * @deprecated compatibility reasons
+	 */
+	protected final void a(float f, float f1, float f2, float f3, float f4, float f5) {
+		setBounds(f, f1, f2, f3, f4, f5);
+	}
+	
+	/**
+	 * @deprecated compatibility reasons
+	 */
+	protected Block a(StepSound sound) {
+		return setSound(sound);
+	}
+	
 	public static void p() {
 		REGISTRY.a(0, "air", new BlockAir().setName("air"));
 		REGISTRY.a(1, "stone", new BlockStone().setHardness(1.5F).setResistance(10.0F).setSound(i).setName("stone").setTextureName("stone"));
@@ -286,9 +328,36 @@ public class Block {
 		REGISTRY.a(174, "packed_ice", new BlockPackedIce().setHardness(0.5F).setSound(k).setName("icePacked").setTextureName("ice_packed"));
 		REGISTRY.a(175, "double_plant", new BlockTallPlant());
 		
-		REGISTRY.a(165, "slime_block", new Block18(Material.SPONGE).setHardness(0.6F).setSound(slimeStepSound).setName("slimeBlock").setTextureName("slime_block")); // ClipSpigot
-		REGISTRY.a(168, "prismarine", new Block18(Material.STONE).setHardness(1.5F).setResistance(10.0F).setSound(i).setName("prismarine").setTextureName("prismarine")); // ClipSpigot
-		REGISTRY.a(179, "red_sandstone", new BlockSandStone().setSound(i).setHardness(0.8F).setName("redSandstone").setTextureName("red_sandstone")); // ClipSpigot
+		// ClipSpigot start - hardcode 1.8
+		REGISTRY.a(165, "slime_block", new BlockHalfTransparent("slime", Material.SHATTERABLE, true).setHardness(0.6F).setSound(slimeStepSound).setName("slimeBlock").setTextureName("slime_block"));
+		REGISTRY.a(166, "barrier", new Block(Material.STONE).s().setResistance(6000000.0F).setSound(i).setName("barrier").H().setTextureName("barrier"));
+		REGISTRY.a(167, "iron_trapdoor", new BlockTrapdoor(Material.ORE).setHardness(5.0F).setSound(f).setName("ironTrapdoor").H().setTextureName("ironTrapdoor"));
+		REGISTRY.a(168, "prismarine", new Block18(Material.STONE).setHardness(1.5F).setResistance(10.0F).setSound(i).setName("prismarine").setTextureName("prismarine"));
+		REGISTRY.a(169, "sea_lantern", new BlockLightStone(Material.SHATTERABLE).setHardness(0.3F).setSound(k).setResistance(1.0F).setName("seaLantern").setTextureName("sea_lantern"));
+		REGISTRY.a(179, "red_sandstone", new BlockSandStone().setSound(i).setHardness(0.8F).setName("redSandstone").setTextureName("red_sandstone"));
+		
+		Block resSandstone = new BlockSandStone().setSound(i).setHardness(0.8F).setName("redSandStone");
+		REGISTRY.a(179, "red_sandstone", resSandstone);
+		REGISTRY.a(180, "red_sandstone_stairs", new BlockStairs(resSandstone, 0).setName("stairsRedSandStone"));
+		REGISTRY.a(181, "double_stone_slab2", new BlockStep(true).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("stoneSlab2"));
+		REGISTRY.a(182, "stone_slab2", new BlockStep(false).setHardness(2.0F).setResistance(10.0F).setSound(i).setName("stoneSlab2"));
+		REGISTRY.a(183, "spruce_fence_gate", new BlockFenceGate().setHardness(2.0F).setResistance(5.0F).setSound(f).setName("spruceFenceGate"));
+		REGISTRY.a(184, "birch_fence_gate", new BlockFenceGate().setHardness(2.0F).setResistance(5.0F).setSound(f).setName("birchFenceGate"));
+		REGISTRY.a(185, "jungle_fence_gate", new BlockFenceGate().setHardness(2.0F).setResistance(5.0F).setSound(f).setName("jungleFenceGate"));
+		REGISTRY.a(186, "dark_oak_fence_gate", new BlockFenceGate().setHardness(2.0F).setResistance(5.0F).setSound(f).setName("darkOakFenceGate"));
+		REGISTRY.a(187, "acacia_fence_gate", new BlockFenceGate().setHardness(2.0F).setResistance(5.0F).setSound(f).setName("acaciaFenceGate"));
+		REGISTRY.a(188, "spruce_fence", new BlockFence("planks_spruce", Material.WOOD).setHardness(2.0F).setResistance(5.0F).setSound(f).setName("spruceFence"));
+		REGISTRY.a(189, "birch_fence", new BlockFence("planks_birch", Material.WOOD).setHardness(2.0F).setResistance(5.0F).setSound(f).setName("birchFence"));
+		REGISTRY.a(190, "jungle_fence", new BlockFence("planks_jungle", Material.WOOD).setHardness(2.0F).setResistance(5.0F).setSound(f).setName("jungleFence"));
+		REGISTRY.a(191, "dark_oak_fence", new BlockFence("planks_dark_oak", Material.WOOD).setHardness(2.0F).setResistance(5.0F).a(5).setName("darkOakFence"));
+		REGISTRY.a(192, "acacia_fence", new BlockFence("planks_acacia", Material.WOOD).setHardness(2.0F).setResistance(5.0F).a(5).setName("acaciaFence"));
+		REGISTRY.a(193, "spruce_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorSpruce"));
+		REGISTRY.a(194, "birch_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorBirch"));
+		REGISTRY.a(195, "jungle_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorJungle"));
+		REGISTRY.a(196, "acacia_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorAcacia"));
+		REGISTRY.a(197, "dark_oak_door", new BlockDoor(Material.WOOD).setHardness(3.0F).setSound(f).setName("doorDarkOak"));
+		
+		// ClipSpigot end
 		
 		Iterator registryIterator = REGISTRY.iterator();
 
@@ -391,7 +460,7 @@ public class Block {
 	public boolean isTileEntity() {
 		return isTileEntity;
 	}
-
+	
 	protected final void setBounds(float f, float f1, float f2, float f3, float f4, float f5) {
 		minX = f;
 		minY = f1;
@@ -544,11 +613,11 @@ public class Block {
 			vec3d5 = null;
 		}
 
-		if (!this.c(vec3d6)) {
+		if (!this.setHardness(vec3d6)) {
 			vec3d6 = null;
 		}
 
-		if (!this.c(vec3d7)) {
+		if (!this.setHardness(vec3d7)) {
 			vec3d7 = null;
 		}
 
@@ -619,7 +688,7 @@ public class Block {
 		return vec3d == null ? false : vec3d.a >= minX && vec3d.a <= maxX && vec3d.c >= minZ && vec3d.c <= maxZ;
 	}
 
-	private boolean c(Vec3D vec3d) {
+	private boolean setHardness(Vec3D vec3d) {
 		return vec3d == null ? false : vec3d.a >= minX && vec3d.a <= maxX && vec3d.b >= minY && vec3d.b <= maxY;
 	}
 

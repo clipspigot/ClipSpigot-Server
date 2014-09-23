@@ -149,11 +149,34 @@ public class CraftingManager {
 		registerShapelessRecipe(new ItemStack(Items.FIREBALL, 3), new Object[] { Items.SULPHUR, Items.BLAZE_POWDER, new ItemStack(Items.COAL, 1, 1) });
 		registerShapedRecipe(new ItemStack(Blocks.DAYLIGHT_DETECTOR), new Object[] { "GGG", "QQQ", "WWW", Character.valueOf('G'), Blocks.GLASS, Character.valueOf('Q'), Items.QUARTZ, Character.valueOf('W'), Blocks.WOOD_STEP });
 		registerShapedRecipe(new ItemStack(Blocks.HOPPER), new Object[] { "I I", "ICI", " I ", Character.valueOf('I'), Items.IRON_INGOT, Character.valueOf('C'), Blocks.CHEST });
-		// PaperSpigot start - Register moss stone and mossy and chiseled stone brick recipes
+		// ClipSpigot start - Register 1.8 recipes
 		registerShapelessRecipe(new ItemStack(Blocks.MOSSY_COBBLESTONE), new Object[] { Blocks.VINE, Blocks.COBBLESTONE});
 		registerShapelessRecipe(new ItemStack(Blocks.SMOOTH_BRICK, 1, 1), new Object[] { Blocks.VINE, Blocks.SMOOTH_BRICK});
 		registerShapelessRecipe(new ItemStack(Blocks.SMOOTH_BRICK, 1, 3), new Object[] { new ItemStack(Blocks.STEP, 1, 5), new ItemStack(Blocks.STEP, 1, 5)});
-		// PaperSpigot end
+		registerShapelessRecipe(new ItemStack(Blocks.STONE, 1, 1), new Object[] { new ItemStack(Blocks.STONE, 1, 3), Items.QUARTZ }); // Granite
+		registerShapedRecipe(new ItemStack(Blocks.STONE, 4, 2), new Object[] { "##", "##", Character.valueOf('#'), new ItemStack(Blocks.STONE, 1, 1) }); // Polished Granite
+		registerShapedRecipe(new ItemStack(Blocks.STONE, 2, 3), new Object[] { "CQ", "QC", Character.valueOf('C'), Blocks.COBBLESTONE, Character.valueOf('Q'), Items.QUARTZ }); // Diorite
+		registerShapedRecipe(new ItemStack(Blocks.STONE, 4, 4), new Object[] { "##", "##", Character.valueOf('#'), new ItemStack(Blocks.STONE, 1, 3) }); // Polished Diorite
+		registerShapelessRecipe(new ItemStack(Blocks.STONE, 2, 5), new Object[] { new ItemStack(Blocks.STONE, 1, 3), Blocks.COBBLESTONE }); // Andesite
+		registerShapedRecipe(new ItemStack(Blocks.STONE, 4, 6), new Object[] { "##", "##", Character.valueOf('#'), new ItemStack(Blocks.STONE, 1, 5) }); // Polished Andesite
+		registerShapedRecipe(new ItemStack(Blocks.SLIME_BLOCK), new Object[] { "###", "###", "###", Character.valueOf('#'), Items.SLIME_BALL }); // Slime Ball -> Slime Block
+		registerShapedRecipe(new ItemStack(Items.SLIME_BALL, 9), new Object[] { "#", Character.valueOf('#'), new ItemStack(Blocks.SLIME_BLOCK, 1) }); // Slime Block -> Slime Ball
+		registerShapedRecipe(new ItemStack(Blocks.SPRUCE_FENCE, 3), new Object[] { "#S#", "#S#", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 1), Character.valueOf('S'), Items.STICK }); // Spruce fence
+		registerShapedRecipe(new ItemStack(Blocks.BIRCH_FENCE, 3), new Object[] { "#S#", "#S#", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 2), Character.valueOf('S'), Items.STICK }); // Birch fence
+		registerShapedRecipe(new ItemStack(Blocks.JUNGLE_FENCE, 3), new Object[] { "#S#", "#S#", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 3), Character.valueOf('S'), Items.STICK }); // Jungle fence
+		registerShapedRecipe(new ItemStack(Blocks.ACACIA_FENCE, 3), new Object[] { "#S#", "#S#", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 4), Character.valueOf('S'), Items.STICK }); // Acacia fence
+		registerShapedRecipe(new ItemStack(Blocks.DARK_OAK_FENCE, 3), new Object[] { "#S#", "#S#", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 5), Character.valueOf('S'), Items.STICK }); // Dark Oak fence
+		registerShapedRecipe(new ItemStack(Blocks.SPRUCE_FENCE_GATE, 1), new Object[] { "#W#", "#W#", Character.valueOf('#'), Items.STICK, Character.valueOf('W'), new ItemStack(Blocks.WOOD, 1, 1) }); // Spruce fence gate
+		registerShapedRecipe(new ItemStack(Blocks.BIRCH_FENCE_GATE, 1), new Object[] { "#W#", "#W#", Character.valueOf('#'), Items.STICK, Character.valueOf('W'), new ItemStack(Blocks.WOOD, 1, 2) }); // Birch fence gate
+		registerShapedRecipe(new ItemStack(Blocks.JUNGLE_FENCE_GATE, 1), new Object[] { "#W#", "#W#", Character.valueOf('#'), Items.STICK, Character.valueOf('W'), new ItemStack(Blocks.WOOD, 1, 3) }); // Jungle fence gate
+		registerShapedRecipe(new ItemStack(Blocks.ACACIA_FENCE_GATE, 1), new Object[] { "#W#", "#W#", Character.valueOf('#'), Items.STICK, Character.valueOf('W'), new ItemStack(Blocks.WOOD, 1, 4) }); // Acacia fence gate
+		registerShapedRecipe(new ItemStack(Blocks.DARK_OAK_FENCE_GATE, 1), new Object[] { "#W#", "#W#", Character.valueOf('#'), Items.STICK, Character.valueOf('W'), new ItemStack(Blocks.WOOD, 1, 5) }); // Dark Oak fence gate
+		registerShapedRecipe(new ItemStack(Items.SPRUCE_DOOR, 3), new Object[] { "##", "##", "##", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 1) }); // Spruce door
+		registerShapedRecipe(new ItemStack(Items.BIRCH_DOOR, 3), new Object[] { "##", "##", "##", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 2) }); // Birch door
+		registerShapedRecipe(new ItemStack(Items.JUNGLE_DOOR, 3), new Object[] { "##", "##", "##", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 3) }); // Jungle door
+		registerShapedRecipe(new ItemStack(Items.ACACIA_DOOR, 3), new Object[] { "##", "##", "##", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 4) }); // Acacia door
+		registerShapedRecipe(new ItemStack(Items.DARK_OAK_DOOR, 3), new Object[] { "##", "##", "##", Character.valueOf('#'), new ItemStack(Blocks.WOOD, 1, 5) }); // Dark Oak door
+		// ClipSpigot end
 		// Collections.sort(this.recipes, new RecipeSorter(this)); // CraftBukkit - moved below
 		sort(); // CraftBukkit - call new sort method
 	}

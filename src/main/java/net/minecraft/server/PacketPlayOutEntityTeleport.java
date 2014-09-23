@@ -14,6 +14,14 @@ public class PacketPlayOutEntityTeleport extends Packet {
 	public PacketPlayOutEntityTeleport() {
 	}
 
+	public PacketPlayOutEntityTeleport(int i, int j, int k, int l, byte b0, byte b1, boolean onGround) {
+		this(i, j, k, l, b0, b1, onGround, false);
+	}
+
+	public PacketPlayOutEntityTeleport(int i, int j, int k, int l, byte b0, byte b1) {
+		this(i, j, k, l, b0, b1, false, false);
+	}
+
 	public PacketPlayOutEntityTeleport(Entity entity) {
 		a = entity.getId();
 		b = MathHelper.floor(entity.locX * 32.0D);

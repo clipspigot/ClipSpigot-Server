@@ -43,7 +43,7 @@ public class BlockFlowerPot extends BlockContainer {
 				if (tileentityflowerpot.a() != null)
 					return false;
 				else {
-					Block block = Block.a(itemstack.getItem());
+					Block block = Block.setSound(itemstack.getItem());
 
 					if (!this.a(block, itemstack.getData()))
 						return false;

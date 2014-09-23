@@ -306,8 +306,8 @@ public class TileEntityFurnace extends TileEntity implements IWorldInventory {
 		else {
 			Item item = itemstack.getItem();
 
-			if (item instanceof ItemBlock && Block.a(item) != Blocks.AIR) {
-				Block block = Block.a(item);
+			if (item instanceof ItemBlock && Block.setSound(item) != Blocks.AIR) {
+				Block block = Block.setSound(item);
 
 				if (block == Blocks.WOOD_STEP)
 					return 150;

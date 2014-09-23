@@ -210,7 +210,8 @@ public class BlockDoor extends Block {
 
 	@Override
 	public Item getDropType(int i, Random random, int j) {
-		return (i & 8) != 0 ? null : material == Material.ORE ? Items.IRON_DOOR : Items.WOOD_DOOR;
+		// ClipSpigot - 1.8 update
+		return this == Blocks.IRON_DOOR_BLOCK ? Items.IRON_DOOR : (this == Blocks.SPRUCE_DOOR_BLOCK ? Items.SPRUCE_DOOR : (this == Blocks.BIRCH_DOOR_BLOCK ? Items.BIRCH_DOOR : (this == Blocks.JUNGLE_DOOR_BLOCK ? Items.JUNGLE_DOOR : (this == Blocks.ACACIA_DOOR_BLOCK ? Items.ACACIA_DOOR : (this == Blocks.DARK_OAK_DOOR_BLOCK ? Items.DARK_OAK_DOOR : Items.WOOD_DOOR)))));
 	}
 
 	@Override

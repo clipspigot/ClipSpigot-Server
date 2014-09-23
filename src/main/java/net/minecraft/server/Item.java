@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.UUID;
 
+import net.minecraft.server.ItemDoor.DoorType;
 import net.minecraft.util.com.google.common.collect.HashMultimap;
 import net.minecraft.util.com.google.common.collect.Multimap;
 import net.minecraft.util.com.google.common.collect.Sets;
@@ -108,7 +109,7 @@ public class Item {
 		REGISTRY.a(321, "painting", new ItemHanging(EntityPainting.class).c("painting").f("painting"));
 		REGISTRY.a(322, "golden_apple", new ItemGoldenApple(4, 1.2F, false).j().a(MobEffectList.REGENERATION.id, 5, 1, 1.0F).c("appleGold").f("apple_golden"));
 		REGISTRY.a(323, "sign", new ItemSign().c("sign").f("sign"));
-		REGISTRY.a(324, "wooden_door", new ItemDoor(Material.WOOD).c("doorWood").f("door_wood"));
+		REGISTRY.a(324, "wooden_door", new ItemDoor(Material.WOOD, DoorType.DEFAULT_OAK).c("doorWood").f("door_wood"));
 		Item item = new ItemBucket(Blocks.AIR).c("bucket").e(16).f("bucket_empty");
 
 		REGISTRY.a(325, "bucket", item);
@@ -116,7 +117,7 @@ public class Item {
 		REGISTRY.a(327, "lava_bucket", new ItemBucket(Blocks.LAVA).c("bucketLava").c(item).f("bucket_lava"));
 		REGISTRY.a(328, "minecart", new ItemMinecart(0).c("minecart").f("minecart_normal"));
 		REGISTRY.a(329, "saddle", new ItemSaddle().c("saddle").f("saddle"));
-		REGISTRY.a(330, "iron_door", new ItemDoor(Material.ORE).c("doorIron").f("door_iron"));
+		REGISTRY.a(330, "iron_door", new ItemDoor(Material.ORE, DoorType.IRON).c("doorIron").f("door_iron"));
 		REGISTRY.a(331, "redstone", new ItemRedstone().c("redstone").e(PotionBrewer.i).f("redstone_dust"));
 		REGISTRY.a(332, "snowball", new ItemSnowball().c("snowball").f("snowball"));
 		REGISTRY.a(333, "boat", new ItemBoat().c("boat").f("boat"));
@@ -213,8 +214,18 @@ public class Item {
 		REGISTRY.a(2265, "record_ward", new ItemRecord("ward").c("record").f("record_ward"));
 		REGISTRY.a(2266, "record_11", new ItemRecord("11").c("record").f("record_11"));
 		REGISTRY.a(2267, "record_wait", new ItemRecord("wait").c("record").f("record_wait"));
-		HashSet hashset = Sets.newHashSet(new Block[] { Blocks.AIR, Blocks.BREWING_STAND, Blocks.BED, Blocks.NETHER_WART, Blocks.CAULDRON, Blocks.FLOWER_POT, Blocks.CROPS, Blocks.SUGAR_CANE_BLOCK, Blocks.CAKE_BLOCK, Blocks.SKULL, Blocks.PISTON_EXTENSION, Blocks.PISTON_MOVING, Blocks.GLOWING_REDSTONE_ORE, Blocks.DIODE_ON, Blocks.PUMPKIN_STEM, Blocks.SIGN_POST, Blocks.REDSTONE_COMPARATOR_ON,
-				Blocks.TRIPWIRE, Blocks.REDSTONE_LAMP_ON, Blocks.MELON_STEM, Blocks.REDSTONE_TORCH_OFF, Blocks.REDSTONE_COMPARATOR_OFF, Blocks.REDSTONE_WIRE, Blocks.WALL_SIGN, Blocks.DIODE_OFF, Blocks.IRON_DOOR_BLOCK, Blocks.WOODEN_DOOR });
+		
+		// ClipSpigot start - Add 1.8 items
+		REGISTRY.a(423, "mutton", (new ItemFood(2, 0.3F, true)).c("muttonRaw"));
+		REGISTRY.a(424, "cooked_mutton", (new ItemFood(6, 0.8F, true)).c("muttonCooked"));
+		REGISTRY.a(427, "spruce_door", new ItemDoor(Material.WOOD, DoorType.SPRUCE).c("doorSpruce").f("spruce_door"));
+		REGISTRY.a(428, "birch_door", new ItemDoor(Material.WOOD, DoorType.BIRCH).c("doorBirch").f("birch_door"));
+		REGISTRY.a(429, "jungle_door", new ItemDoor(Material.WOOD, DoorType.JUNGLE).c("doorJungle").f("jungle_door"));
+		REGISTRY.a(430, "acacia_door", new ItemDoor(Material.WOOD, DoorType.ACACIA).c("doorAcacia").f("acacia_door"));
+		REGISTRY.a(431, "dark_oak_door", new ItemDoor(Material.WOOD, DoorType.DARK_OAK).c("doorDarkOak").f("dark_oak_door"));
+		// ClipSpigot end
+		
+		HashSet hashset = Sets.newHashSet(new Block[] { Blocks.AIR, Blocks.BREWING_STAND, Blocks.BED, Blocks.NETHER_WART, Blocks.CAULDRON, Blocks.FLOWER_POT, Blocks.CROPS, Blocks.SUGAR_CANE_BLOCK, Blocks.CAKE_BLOCK, Blocks.SKULL, Blocks.PISTON_EXTENSION, Blocks.PISTON_MOVING, Blocks.GLOWING_REDSTONE_ORE, Blocks.DIODE_ON, Blocks.PUMPKIN_STEM, Blocks.SIGN_POST, Blocks.REDSTONE_COMPARATOR_ON, Blocks.TRIPWIRE, Blocks.REDSTONE_LAMP_ON, Blocks.MELON_STEM, Blocks.REDSTONE_TORCH_OFF, Blocks.REDSTONE_COMPARATOR_OFF, Blocks.REDSTONE_WIRE, Blocks.WALL_SIGN, Blocks.DIODE_OFF, Blocks.IRON_DOOR_BLOCK, Blocks.WOODEN_DOOR, Blocks.SPRUCE_DOOR_BLOCK, Blocks.BIRCH_DOOR_BLOCK, Blocks.ACACIA_DOOR_BLOCK, Blocks.DARK_OAK_DOOR_BLOCK});
 		Iterator iterator = Block.REGISTRY.keySet().iterator();
 
 		while (iterator.hasNext()) {
@@ -290,15 +301,15 @@ public class Item {
 			} else if (block == Blocks.MOB_SPAWNER || block == Blocks.BIG_MUSHROOM_1 || block == Blocks.BIG_MUSHROOM_2) {
 				object = new ItemWithAuxData(block, true);
 				// CraftBukkit end
-				// ClipSpigot start
+				// ClipSpigot start - hardcore 1.8 blocks
 			} else if (block == Blocks.STONE) {
-				object = new ItemMultiTexture(Blocks.STONE, Blocks.STONE, BlockStone.types).b("stone");
+				object = new ItemMultiTexture(Blocks.STONE, Blocks.STONE, Block18.types_stone).b("stone");
 			} else if (block == Blocks.SPONGE) {
 				object = new ItemMultiTexture(Blocks.SPONGE, Blocks.SPONGE, Block18.types_sponge).b("sponge");
 			} else if (block == Blocks.PRISMARINE) {
 				object = new ItemMultiTexture(Blocks.PRISMARINE, Blocks.PRISMARINE, Block18.types_prismarine).b("prismarine");
-			} else if (block == Blocks.RED_SANDSTONE) {
-				object = new ItemMultiTexture(Blocks.RED_SANDSTONE, Blocks.RED_SANDSTONE, BlockSandStone.a).b("redSandStone");
+			} else if (block == Blocks.CERVENY_SANDSTONE) {
+				object = new ItemMultiTexture(Blocks.CERVENY_SANDSTONE, Blocks.CERVENY_SANDSTONE, BlockSandStone.a).b("redSandStone");
 				// ClipSpigot end
 			} else {
 				if (hashset.contains(block)) {
