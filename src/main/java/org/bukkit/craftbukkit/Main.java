@@ -84,6 +84,8 @@ public class Main {
 				acceptsAll(asList("v", "version"), "Show the CraftBukkit Version");
 
 				acceptsAll(asList("demo"), "Demo mode");
+				
+				acceptsAll(asList("eclipseConsole"), "Eclipse console fix"); // ClipSpigot
 			}
 		};
 

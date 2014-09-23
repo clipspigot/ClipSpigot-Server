@@ -39,7 +39,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 	}
 
 	@Override
-	protected boolean init() throws java.net.UnknownHostException { // CraftBukkit - throws UnknownHostException
+	protected boolean init(boolean fullConsole) throws java.net.UnknownHostException { // ClipSpigot - full console // CraftBukkit - throws UnknownHostException
 		ThreadCommandReader threadcommandreader = new ThreadCommandReader(this, "Server console handler");
 
 		threadcommandreader.setDaemon(true);
@@ -54,16 +54,23 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 		global.addHandler(new org.bukkit.craftbukkit.util.ForwardLogHandler());
 
 		final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) LogManager.getRootLogger();
-		for (org.apache.logging.log4j.core.Appender appender : logger.getAppenders().values()) {
-			if (appender instanceof org.apache.logging.log4j.core.appender.ConsoleAppender) {
-				logger.removeAppender(appender);
+		
+		// ClipSpigot - full console
+		if(fullConsole) {
+			for (org.apache.logging.log4j.core.Appender appender : logger.getAppenders().values()) {
+				if (appender instanceof org.apache.logging.log4j.core.appender.ConsoleAppender) {
+					logger.removeAppender(appender);
+				}
 			}
 		}
 
 		new Thread(new org.bukkit.craftbukkit.util.TerminalConsoleWriterThread(System.out, reader)).start();
 
-		System.setOut(new PrintStream(new LoggerOutputStream(logger, Level.INFO), true));
-		System.setErr(new PrintStream(new LoggerOutputStream(logger, Level.WARN), true));
+		// ClipSpigot - full console
+		if(fullConsole) {
+			System.setOut(new PrintStream(new LoggerOutputStream(logger, Level.INFO), true));
+			System.setErr(new PrintStream(new LoggerOutputStream(logger, Level.WARN), true));
+		}
 		// CraftBukkit end
 
 		i.info("Starting minecraft server version 1.7.10");

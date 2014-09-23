@@ -110,6 +110,8 @@ public abstract class MinecraftServer implements ICommandListener, Runnable {
 	public final double[] recentTps = new double[3];
 
 	// Spigot end
+	
+	private boolean fullConsole = true; // ClipSpigot
 
 	public MinecraftServer(OptionSet options, Proxy proxy) { // CraftBukkit - signature file -> OptionSet
 		net.minecraft.util.io.netty.util.ResourceLeakDetector.setEnabled(false); // Spigot - disable
@@ -125,6 +127,12 @@ public abstract class MinecraftServer implements ICommandListener, Runnable {
 		W = T.createProfileRepository();
 		// CraftBukkit start
 		this.options = options;
+ 
+		// ClipSpigot start
+		if (options.has("eclipseConsole"))
+			fullConsole = false;
+		// ClipSpigot end
+		
 		// Try to see if we're actually running in a terminal, disable jline if not
 		if (System.console() == null) {
 			System.setProperty("jline.terminal", "jline.UnsupportedTerminal");
@@ -155,7 +163,7 @@ public abstract class MinecraftServer implements ICommandListener, Runnable {
 
 	// CraftBukkit end
 
-	protected abstract boolean init() throws java.net.UnknownHostException; // CraftBukkit - throws UnknownHostException
+	protected abstract boolean init(boolean fullConsole) throws java.net.UnknownHostException; // ClipSpigot - full console // CraftBukkit - throws UnknownHostException
 
 	protected void a(String s) {
 		if (getConvertable().isConvertable(s)) {
@@ -450,7 +458,7 @@ public abstract class MinecraftServer implements ICommandListener, Runnable {
 	@Override
 	public void run() {
 		try {
-			if (init()) {
+			if (init(fullConsole)) {
 				long i = ar();
 				long j = 0L;
 
